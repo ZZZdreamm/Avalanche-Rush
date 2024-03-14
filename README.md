@@ -4,12 +4,11 @@ Avalanche rush is an endless runner game, where the player has to flee from an a
 
 ## Contributors
 <li>
-  Nico Hannoun
-Kacper Multan
-Alicja Jonczyk
-Arianna Moser
-Margaux Xu
-Gagan Gupta
-Nicolò Costa
-
+<ul>Kacper Multan</ul>
+<ul>Alicja Jonczyk</ul>
+<ul>Arianna Moser</ul>
+<ul>Margaux Xu</ul>
+<ul>Gagan Gupta</ul>
+<ul>Nicolò Costa</ul>
+<ul>Nico Hannoun</ul>
 </li>
