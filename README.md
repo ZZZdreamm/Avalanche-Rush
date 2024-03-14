@@ -11,4 +11,5 @@ Avalanche rush is an endless runner game, where the player has to flee from an a
 * Nicolò Costa
 * Nico Hannoun
 
-
+## License
+This project is available under a closed license. All rights reserved.
