@@ -32,13 +32,14 @@ public class MenuView extends ScreenAdapter {
     private Texture backGroundTexture;
     private Texture profileButtonTexture;
     private Texture settingsButtonTexture;
+    private Texture logo;
     private Rectangle singlePlayerButton;
     private Rectangle multiPlayerButton;
     private Rectangle profileButton;
     private Rectangle settingsButton;
 
 
-    private BitmapFont fontAvalancheGame;
+
     private BitmapFont fontButton;
 
     public MenuView(OrthographicCamera orthographicCamera) {
@@ -46,6 +47,7 @@ public class MenuView extends ScreenAdapter {
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
         this.texture = new Texture((Gdx.files.internal("buttonWood.png")));
+        this.logo = new Texture((Gdx.files.internal("logo.png")));
         this.backGroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.profileButtonTexture = new Texture(Gdx.files.internal("buttonProfile.png"));
         this.settingsButtonTexture = new Texture(Gdx.files.internal("buttonSettings.png"));
@@ -60,10 +62,8 @@ public class MenuView extends ScreenAdapter {
         // Adjust the position of the settings button to the bottom right corner
         this.settingsButton = new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() - settingsButtonTexture.getWidth() - 50, 50, settingsButtonTexture.getWidth(), settingsButtonTexture.getHeight());
 
-        this.fontAvalancheGame = new BitmapFont();
+
         this.fontButton = new BitmapFont();
-        this.fontAvalancheGame.setColor(Color.BLACK);
-        this.fontAvalancheGame.getData().setScale(5);
         this.fontButton.getData().setScale(2);
         this.fontButton.setColor(Color.BLACK);
     }
@@ -80,7 +80,7 @@ public class MenuView extends ScreenAdapter {
 
         batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        fontAvalancheGame.draw(batch,"Avalanche Rush",((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - 525) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 20);
+        batch.draw(logo, ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - logo.getWidth()) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - logo.getHeight() - 20);
 
         batch.draw(texture, singlePlayerButton.x, singlePlayerButton.y);
         GlyphLayout firstButtonLayout = new GlyphLayout(fontButton,"Single Player");
@@ -123,7 +123,6 @@ public class MenuView extends ScreenAdapter {
     public void dispose() {
         batch.dispose();
         texture.dispose();
-        fontAvalancheGame.dispose();
         backGroundTexture.dispose();
         profileButtonTexture.dispose();
         settingsButtonTexture.dispose();
