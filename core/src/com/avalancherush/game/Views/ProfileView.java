@@ -22,6 +22,7 @@ public class ProfileView extends ScreenAdapter {
     private Texture homeButtonTexture;
     private Rectangle homeButton;
     private Texture woodBeamTexture;
+    private Texture buttonModifyTexture;
     private BitmapFont fontTitle;
     private String username = "Default_Username";
     private Rectangle changeUsernameButton;
@@ -33,6 +34,7 @@ public class ProfileView extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.backgroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
+        this.buttonModifyTexture = new Texture(Gdx.files.internal("buttonModify.png"));
         this.homeButton = new Rectangle(50, 50, homeButtonTexture.getWidth(), homeButtonTexture.getHeight());
         this.woodBeamTexture = new Texture(Gdx.files.internal("buttonWood2.png"));
         this.fontTitle = new BitmapFont();
@@ -61,27 +63,22 @@ public class ProfileView extends ScreenAdapter {
 
 
         float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 120;
-        batch.draw(woodBeamTexture, usernameX-16, woodBeamY, usernameWidth+32, 74);
+        batch.draw(woodBeamTexture, usernameX-32, woodBeamY, usernameWidth+64, 74);
 
-
-        //fontTitle.draw(batch, "Username: " + username, usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 70);
-
-
-        float changeButtonX = usernameX + usernameWidth + 20;
-        float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 120;
+        float changeButtonX = usernameX + usernameWidth + 50;
+        float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 112;
         changeUsernameButton.setPosition(changeButtonX, changeButtonY);
 
 
-        batch.draw(homeButtonTexture, changeUsernameButton.x, changeUsernameButton.y);
-
+        batch.draw(buttonModifyTexture, changeUsernameButton.x, changeUsernameButton.y);
 
         batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
 
 
         if (editingUsername) {
-            fontTitle.draw(batch, "New Username: " + usernameBuilder.toString(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 70);
+            fontTitle.draw(batch, "NEW USERNAME:\n" + usernameBuilder.toString(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 70);
         } else {
-            fontTitle.draw(batch, "Username: " + username, usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 70);
+            fontTitle.draw(batch, "USERNAME:\n" + username, usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 70);
         }
 
         batch.end();
@@ -111,7 +108,12 @@ public class ProfileView extends ScreenAdapter {
             @Override
             public boolean keyTyped(char character) {
                 if (editingUsername) {
-                    if (character == '\b' && usernameBuilder.length() > 0) {
+                    if (character == '\n') {
+                        username = usernameBuilder.toString();
+                        usernameBuilder.setLength(0);
+                        editingUsername = false;
+                        return true;
+                    } else if (character == '\b' && usernameBuilder.length() > 0) {
                         usernameBuilder.deleteCharAt(usernameBuilder.length() - 1);
                     } else if (character != '\b') {
                         usernameBuilder.append(character);
