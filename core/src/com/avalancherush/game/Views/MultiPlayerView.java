@@ -22,15 +22,20 @@ public class MultiPlayerView extends ScreenAdapter {
     private Texture joinButtonTexture;
     private Texture createButtonTexture;
     private Texture homeButtonTexture;
+    private Texture multiPlayerLogo;
+    private Texture createLogo;
+    private Texture joinLogo;
     private Rectangle joinButton;
     private Rectangle createButton;
     private Rectangle homeButton;
-    private BitmapFont fontMultiPlayer;
-    private BitmapFont fontButton;
+
 
     public MultiPlayerView(OrthographicCamera orthographicCamera) {
         this.orthographicCamera = orthographicCamera;
         this.batch = new SpriteBatch();
+        this.multiPlayerLogo = new Texture((Gdx.files.internal("multiPlayerLogo.png")));
+        this.joinLogo = new Texture((Gdx.files.internal("joinLogo.png")));
+        this.createLogo = new Texture((Gdx.files.internal("createLogo.png")));
         this.joinButtonTexture = new Texture(Gdx.files.internal("buttonWood.png"));
         this.createButtonTexture = new Texture(Gdx.files.internal("buttonWood.png"));
         this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
@@ -40,12 +45,6 @@ public class MultiPlayerView extends ScreenAdapter {
         this.createButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - createButtonTexture.getWidth()) / 2, joinButton.y - joinButtonTexture.getHeight() - 20, createButtonTexture.getWidth(), createButtonTexture.getHeight());
         this.homeButton = new Rectangle(50, 50, homeButtonTexture.getWidth(), homeButtonTexture.getHeight());
 
-        this.fontMultiPlayer = new BitmapFont();
-        this.fontButton = new BitmapFont();
-        this.fontMultiPlayer.setColor(Color.BLACK);
-        this.fontButton.setColor(Color.BLACK);
-        this.fontMultiPlayer.getData().setScale(5);
-        this.fontButton.getData().setScale(2);
     }
 
     @Override
@@ -57,21 +56,24 @@ public class MultiPlayerView extends ScreenAdapter {
         batch.begin();
 
         batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
-
-        fontMultiPlayer.draw(batch, "Multiplayer", ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - 400 + 80) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 20);
+        batch.draw(multiPlayerLogo, ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - multiPlayerLogo.getWidth() + 100) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - multiPlayerLogo.getHeight() - 20);
 
         batch.draw(joinButtonTexture, joinButton.x, joinButton.y);
-        GlyphLayout joinLayout = new GlyphLayout(fontButton, "Join Lobby");
-        fontButton.draw(batch, "Join Lobby", joinButton.x + (joinButton.width - joinLayout.width) / 2, joinButton.y + (joinButton.height + joinLayout.height + 15) / 2);
-
         batch.draw(createButtonTexture, createButton.x, createButton.y);
-        GlyphLayout createLayout = new GlyphLayout(fontButton, "Create Lobby");
-        fontButton.draw(batch, "Create Lobby", createButton.x + (createButton.width - createLayout.width) / 2, createButton.y + (createButton.height + createLayout.height + 15) / 2);
+
+        float joinLogoX = joinButton.x + (joinButtonTexture.getWidth() - joinLogo.getWidth() + 100) / 2;
+        float joinLogoY = joinButton.y + (joinButtonTexture.getHeight() - joinLogo.getHeight() - 10) / 2;
+        batch.draw(joinLogo, joinLogoX, joinLogoY);
+
+        float createLogoX = createButton.x + (createButtonTexture.getWidth() - createLogo.getWidth() + 100) / 2;
+        float createLogoY = createButton.y + (createButtonTexture.getHeight() - createLogo.getHeight() - 10) / 2;
+        batch.draw(createLogo, createLogoX, createLogoY);
 
         batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
 
         batch.end();
     }
+
 
     @Override
     public void show() {
@@ -100,8 +102,6 @@ public class MultiPlayerView extends ScreenAdapter {
         joinButtonTexture.dispose();
         createButtonTexture.dispose();
         homeButtonTexture.dispose();
-        fontMultiPlayer.dispose();
-        fontButton.dispose();
         backGroundTexture.dispose();
     }
 }

@@ -24,6 +24,7 @@ public class ProfileView extends ScreenAdapter {
     private Texture woodBeamTexture;
     private Texture buttonModifyTexture;
     private BitmapFont fontTitle;
+    private Texture profileLogo;
     private String username = "Default_Username";
     private Rectangle changeUsernameButton;
     private boolean editingUsername = false;
@@ -32,6 +33,7 @@ public class ProfileView extends ScreenAdapter {
     public ProfileView(OrthographicCamera orthographicCamera) {
         this.orthographicCamera = orthographicCamera;
         this.batch = new SpriteBatch();
+        this.profileLogo = new Texture((Gdx.files.internal("profileLogo.png")));
         this.backgroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
         this.buttonModifyTexture = new Texture(Gdx.files.internal("buttonModify.png"));
@@ -52,21 +54,20 @@ public class ProfileView extends ScreenAdapter {
         batch.begin();
 
         batch.draw(backgroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
-
+        batch.draw(profileLogo, ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - profileLogo.getWidth() + 100) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - profileLogo.getHeight() - 20);
 
         GlyphLayout glyphLayout = new GlyphLayout();
         glyphLayout.setText(fontTitle, "Username: " + username);
-        float usernameWidth = glyphLayout.width;
 
 
-        float usernameX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - usernameWidth) / 2;
+        float usernameX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
 
 
-        float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 120;
-        batch.draw(woodBeamTexture, usernameX-32, woodBeamY, usernameWidth+64, 74);
+        float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
+        batch.draw(woodBeamTexture, usernameX-32, woodBeamY, 150 + 64, 74);
 
-        float changeButtonX = usernameX + usernameWidth + 50;
-        float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 112;
+        float changeButtonX = usernameX + 150 + 50;
+        float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
         changeUsernameButton.setPosition(changeButtonX, changeButtonY);
 
 
@@ -76,9 +77,9 @@ public class ProfileView extends ScreenAdapter {
 
 
         if (editingUsername) {
-            fontTitle.draw(batch, "NEW USERNAME:\n" + usernameBuilder.toString(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 70);
+            fontTitle.draw(batch, "NEW USERNAME:\n" + usernameBuilder.toString(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
         } else {
-            fontTitle.draw(batch, "USERNAME:\n" + username, usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 70);
+            fontTitle.draw(batch, "USERNAME:\n" + username, usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
         }
 
         batch.end();
@@ -115,13 +116,14 @@ public class ProfileView extends ScreenAdapter {
                         return true;
                     } else if (character == '\b' && usernameBuilder.length() > 0) {
                         usernameBuilder.deleteCharAt(usernameBuilder.length() - 1);
-                    } else if (character != '\b') {
+                    } else if (character != '\b' && usernameBuilder.length() < 16) {
                         usernameBuilder.append(character);
                     }
                     return true;
                 }
                 return false;
             }
+
         });
     }
 

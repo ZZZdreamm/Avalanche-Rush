@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -33,14 +34,12 @@ public class MenuView extends ScreenAdapter {
     private Texture profileButtonTexture;
     private Texture settingsButtonTexture;
     private Texture logo;
+    private Texture singlePlayerLogo;
+    private Texture multiPlayerLogo;
     private Rectangle singlePlayerButton;
     private Rectangle multiPlayerButton;
     private Rectangle profileButton;
     private Rectangle settingsButton;
-
-
-
-    private BitmapFont fontButton;
 
     public MenuView(OrthographicCamera orthographicCamera) {
         this.orthographicCamera = orthographicCamera;
@@ -48,6 +47,8 @@ public class MenuView extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.texture = new Texture((Gdx.files.internal("buttonWood.png")));
         this.logo = new Texture((Gdx.files.internal("logo.png")));
+        this.singlePlayerLogo = new Texture((Gdx.files.internal("singlePlayerLogoResize.png")));
+        this.multiPlayerLogo = new Texture((Gdx.files.internal("multiPlayerLogoResize.png")));
         this.backGroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.profileButtonTexture = new Texture(Gdx.files.internal("buttonProfile.png"));
         this.settingsButtonTexture = new Texture(Gdx.files.internal("buttonSettings.png"));
@@ -59,13 +60,7 @@ public class MenuView extends ScreenAdapter {
         this.multiPlayerButton = new Rectangle(singlePlayerButton.x, singlePlayerButton.y - texture.getHeight() - buttonSpacing, texture.getWidth(), texture.getHeight());
         this.profileButton = new Rectangle(50, 50, profileButtonTexture.getWidth(), profileButtonTexture.getHeight());
 
-        // Adjust the position of the settings button to the bottom right corner
         this.settingsButton = new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() - settingsButtonTexture.getWidth() - 50, 50, settingsButtonTexture.getWidth(), settingsButtonTexture.getHeight());
-
-
-        this.fontButton = new BitmapFont();
-        this.fontButton.getData().setScale(2);
-        this.fontButton.setColor(Color.BLACK);
     }
 
     @Override
@@ -81,19 +76,18 @@ public class MenuView extends ScreenAdapter {
         batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
         batch.draw(logo, ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - logo.getWidth()) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - logo.getHeight() - 20);
-
         batch.draw(texture, singlePlayerButton.x, singlePlayerButton.y);
-        GlyphLayout firstButtonLayout = new GlyphLayout(fontButton,"Single Player");
-        fontButton.draw(batch, "Single Player", singlePlayerButton.x + (singlePlayerButton.width - firstButtonLayout.width) / 2, singlePlayerButton.y + (singlePlayerButton.height + firstButtonLayout.height + 15) / 2);
-
+        float singlePlayerButtonX = singlePlayerButton.x + (singlePlayerButton.getWidth() - singlePlayerLogo.getWidth() + 50) / 2;
+        float singlePlayerButtonY= singlePlayerButton.y + (singlePlayerButton.getHeight() - singlePlayerLogo.getHeight() - 10) / 2;
+        batch.draw(singlePlayerLogo, singlePlayerButtonX, singlePlayerButtonY);
         batch.draw(texture, multiPlayerButton.x, multiPlayerButton.y);
-        GlyphLayout secondButtonLayout = new GlyphLayout(fontButton, "Multiplayer");
-        fontButton.draw(batch, "Multiplayer", multiPlayerButton.x + (multiPlayerButton.width - secondButtonLayout.width) / 2, multiPlayerButton.y + (multiPlayerButton.height + secondButtonLayout.height + 15) / 2);
+        float multiPlayerButtonX = multiPlayerButton.x + (multiPlayerButton.getWidth() - multiPlayerLogo.getWidth() + 50) / 2;
+        float multiPlayerButtonY= multiPlayerButton.y + (multiPlayerButton.getHeight() - multiPlayerLogo.getHeight() - 10) / 2;
+        batch.draw(multiPlayerLogo, multiPlayerButtonX, multiPlayerButtonY);
 
         batch.draw(profileButtonTexture, profileButton.x, profileButton.y);
 
         batch.draw(settingsButtonTexture, settingsButton.x, settingsButton.y);
-
         batch.end();
     }
 
@@ -114,7 +108,7 @@ public class MenuView extends ScreenAdapter {
                 } else if (settingsButton.contains(touchPos.x, touchPos.y)) {
                     MyAvalancheRushGame.INSTANCE.setScreen(new SettingsView(orthographicCamera));
                 }
-                return true; // Indicate that the touch event was handled
+                return true;
             }
         });
     }
