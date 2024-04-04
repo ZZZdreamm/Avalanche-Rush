@@ -84,6 +84,7 @@ public class MultiPlayerView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (joinButton.contains(touchPos.x, touchPos.y)) {
+                    MyAvalancheRushGame.INSTANCE.setScreen(new JoinView(orthographicCamera));
                     return true;
                 } else if (createButton.contains(touchPos.x, touchPos.y)) {
                     return true;
