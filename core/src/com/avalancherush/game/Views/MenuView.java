@@ -7,6 +7,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -22,21 +24,18 @@ public class MenuView extends ScreenAdapter {
     private Texture profileButtonTexture;
     private Texture settingsButtonTexture;
     private Texture gameLogo;
-    private Texture singlePlayerLogo;
-    private Texture multiPlayerLogo;
     private Rectangle singlePlayerButton;
     private Rectangle multiPlayerButton;
     private Rectangle profileButton;
     private Rectangle settingsButton;
-
+    private BitmapFont fontText;
+    private BitmapFont fontTitle;
     public MenuView(OrthographicCamera orthographicCamera) {
         this.orthographicCamera = orthographicCamera;
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
         this.woodButtonTexture = new Texture((Gdx.files.internal("buttonWood.png")));
         this.gameLogo = new Texture((Gdx.files.internal("logo.png")));
-        this.singlePlayerLogo = new Texture((Gdx.files.internal("singlePlayerLogoResize.png")));
-        this.multiPlayerLogo = new Texture((Gdx.files.internal("multiPlayerLogoResize.png")));
         this.backGroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.profileButtonTexture = new Texture(Gdx.files.internal("buttonProfile.png"));
         this.settingsButtonTexture = new Texture(Gdx.files.internal("buttonSettings.png"));
@@ -49,6 +48,12 @@ public class MenuView extends ScreenAdapter {
         this.profileButton = new Rectangle(50, 50, profileButtonTexture.getWidth(), profileButtonTexture.getHeight());
 
         this.settingsButton = new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() - settingsButtonTexture.getWidth() - 50, 50, settingsButtonTexture.getWidth(), settingsButtonTexture.getHeight());
+
+        fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontText.getData().setScale(0.65f);
+
+        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontTitle.getData().setScale(1);
     }
 
     @Override
@@ -62,15 +67,22 @@ public class MenuView extends ScreenAdapter {
         batch.begin();
         batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        batch.draw(gameLogo, ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogo.getWidth()) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogo.getHeight() - 20);
+        GlyphLayout gameLogo = new GlyphLayout(fontText, "Avalache Rush");
+        fontText.draw(batch, );
+
         batch.draw(woodButtonTexture, singlePlayerButton.x, singlePlayerButton.y);
-        float singlePlayerButtonX = singlePlayerButton.x + (singlePlayerButton.getWidth() - singlePlayerLogo.getWidth() + 50) / 2;
-        float singlePlayerButtonY= singlePlayerButton.y + (singlePlayerButton.getHeight() - singlePlayerLogo.getHeight() - 10) / 2;
-        batch.draw(singlePlayerLogo, singlePlayerButtonX, singlePlayerButtonY);
         batch.draw(woodButtonTexture, multiPlayerButton.x, multiPlayerButton.y);
-        float multiPlayerButtonX = multiPlayerButton.x + (multiPlayerButton.getWidth() - multiPlayerLogo.getWidth() + 50) / 2;
-        float multiPlayerButtonY= multiPlayerButton.y + (multiPlayerButton.getHeight() - multiPlayerLogo.getHeight() - 10) / 2;
-        batch.draw(multiPlayerLogo, multiPlayerButtonX, multiPlayerButtonY);
+
+        GlyphLayout singlePlayerLayout = new GlyphLayout(fontText, "single player");
+        float singlePlayerTextX = singlePlayerButton.x + (singlePlayerButton.getWidth() - singlePlayerLayout.width) / 2;
+        float singlePlayerTextY = singlePlayerButton.y + (singlePlayerButton.getHeight() + singlePlayerLayout.height) / 2;
+        fontText.draw(batch, singlePlayerLayout, singlePlayerTextX, singlePlayerTextY);
+
+
+        GlyphLayout multiPlayerLayout = new GlyphLayout(fontText, "multiplayer");
+        float multiPlayerTextX = multiPlayerButton.x + (multiPlayerButton.getWidth() - multiPlayerLayout.width) / 2;
+        float multiPlayerTextY = multiPlayerButton.y + (multiPlayerButton.getHeight() + multiPlayerLayout.height) / 2;
+        fontText.draw(batch, multiPlayerLayout, multiPlayerTextX, multiPlayerTextY);
 
         batch.draw(profileButtonTexture, profileButton.x, profileButton.y);
 
@@ -108,8 +120,7 @@ public class MenuView extends ScreenAdapter {
         profileButtonTexture.dispose();
         settingsButtonTexture.dispose();
         gameLogo.dispose();
-        singlePlayerLogo.dispose();
-        multiPlayerLogo.dispose();
+        fontText.dispose();
     }
 }
 

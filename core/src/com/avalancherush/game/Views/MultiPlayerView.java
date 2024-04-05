@@ -7,6 +7,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -20,19 +22,16 @@ public class MultiPlayerView extends ScreenAdapter {
     private Texture createButtonTexture;
     private Texture homeButtonTexture;
     private Texture multiPlayerLogo;
-    private Texture createLogo;
-    private Texture joinLogo;
     private Rectangle joinButton;
     private Rectangle createButton;
     private Rectangle homeButton;
+    private BitmapFont fontText;
 
 
     public MultiPlayerView(OrthographicCamera orthographicCamera) {
         this.orthographicCamera = orthographicCamera;
         this.batch = new SpriteBatch();
         this.multiPlayerLogo = new Texture((Gdx.files.internal("multiPlayerLogo.png")));
-        this.joinLogo = new Texture((Gdx.files.internal("joinLogo.png")));
-        this.createLogo = new Texture((Gdx.files.internal("createLogo.png")));
         this.joinButtonTexture = new Texture(Gdx.files.internal("buttonWood.png"));
         this.createButtonTexture = new Texture(Gdx.files.internal("buttonWood.png"));
         this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
@@ -42,6 +41,8 @@ public class MultiPlayerView extends ScreenAdapter {
         this.createButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - createButtonTexture.getWidth()) / 2, joinButton.y - joinButtonTexture.getHeight() - 20, createButtonTexture.getWidth(), createButtonTexture.getHeight());
         this.homeButton = new Rectangle(50, 50, homeButtonTexture.getWidth(), homeButtonTexture.getHeight());
 
+        fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontText.getData().setScale(0.95f);
     }
 
     @Override
@@ -58,13 +59,15 @@ public class MultiPlayerView extends ScreenAdapter {
         batch.draw(joinButtonTexture, joinButton.x, joinButton.y);
         batch.draw(createButtonTexture, createButton.x, createButton.y);
 
-        float joinLogoX = joinButton.x + (joinButtonTexture.getWidth() - joinLogo.getWidth() + 100) / 2;
-        float joinLogoY = joinButton.y + (joinButtonTexture.getHeight() - joinLogo.getHeight() - 10) / 2;
-        batch.draw(joinLogo, joinLogoX, joinLogoY);
+        GlyphLayout joinLayout = new GlyphLayout(fontText, "join");
+        float joinTextX = joinButton.x + (joinButtonTexture.getWidth() - joinLayout.width) / 2;
+        float joinTextY = joinButton.y + (joinButtonTexture.getHeight() + joinLayout.height) / 2;
+        fontText.draw(batch, "join", joinTextX, joinTextY);
 
-        float createLogoX = createButton.x + (createButtonTexture.getWidth() - createLogo.getWidth() + 100) / 2;
-        float createLogoY = createButton.y + (createButtonTexture.getHeight() - createLogo.getHeight() - 10) / 2;
-        batch.draw(createLogo, createLogoX, createLogoY);
+        GlyphLayout createLayout = new GlyphLayout(fontText, "create");
+        float createTextX = createButton.x + (createButtonTexture.getWidth() - createLayout.width) / 2;
+        float createTextY = createButton.y + (createButtonTexture.getHeight() + createLayout.height) / 2;
+        fontText.draw(batch, "create", createTextX, createTextY);
 
         batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
 
@@ -101,6 +104,7 @@ public class MultiPlayerView extends ScreenAdapter {
         createButtonTexture.dispose();
         homeButtonTexture.dispose();
         backGroundTexture.dispose();
+        fontText.dispose();
     }
 }
 
