@@ -1,39 +1,27 @@
 package com.avalancherush.game.Views;
 
 import com.avalancherush.game.MyAvalancheRushGame;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+
 
 
 public class MenuView extends ScreenAdapter {
 
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
-    private Texture texture;
+    private Texture woodButtonTexture;
     private Texture backGroundTexture;
     private Texture profileButtonTexture;
     private Texture settingsButtonTexture;
-    private Texture logo;
+    private Texture gameLogo;
     private Texture singlePlayerLogo;
     private Texture multiPlayerLogo;
     private Rectangle singlePlayerButton;
@@ -45,8 +33,8 @@ public class MenuView extends ScreenAdapter {
         this.orthographicCamera = orthographicCamera;
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
-        this.texture = new Texture((Gdx.files.internal("buttonWood.png")));
-        this.logo = new Texture((Gdx.files.internal("logo.png")));
+        this.woodButtonTexture = new Texture((Gdx.files.internal("buttonWood.png")));
+        this.gameLogo = new Texture((Gdx.files.internal("logo.png")));
         this.singlePlayerLogo = new Texture((Gdx.files.internal("singlePlayerLogoResize.png")));
         this.multiPlayerLogo = new Texture((Gdx.files.internal("multiPlayerLogoResize.png")));
         this.backGroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
@@ -56,8 +44,8 @@ public class MenuView extends ScreenAdapter {
         float buttonY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30;
         float buttonSpacing = 12;
 
-        this.singlePlayerButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - texture.getWidth()) / 2, buttonY, texture.getWidth(), texture.getHeight());
-        this.multiPlayerButton = new Rectangle(singlePlayerButton.x, singlePlayerButton.y - texture.getHeight() - buttonSpacing, texture.getWidth(), texture.getHeight());
+        this.singlePlayerButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - woodButtonTexture.getWidth()) / 2, buttonY, woodButtonTexture.getWidth(), woodButtonTexture.getHeight());
+        this.multiPlayerButton = new Rectangle(singlePlayerButton.x, singlePlayerButton.y - woodButtonTexture.getHeight() - buttonSpacing, woodButtonTexture.getWidth(), woodButtonTexture.getHeight());
         this.profileButton = new Rectangle(50, 50, profileButtonTexture.getWidth(), profileButtonTexture.getHeight());
 
         this.settingsButton = new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() - settingsButtonTexture.getWidth() - 50, 50, settingsButtonTexture.getWidth(), settingsButtonTexture.getHeight());
@@ -72,15 +60,14 @@ public class MenuView extends ScreenAdapter {
 
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
-
         batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        batch.draw(logo, ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - logo.getWidth()) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - logo.getHeight() - 20);
-        batch.draw(texture, singlePlayerButton.x, singlePlayerButton.y);
+        batch.draw(gameLogo, ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogo.getWidth()) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogo.getHeight() - 20);
+        batch.draw(woodButtonTexture, singlePlayerButton.x, singlePlayerButton.y);
         float singlePlayerButtonX = singlePlayerButton.x + (singlePlayerButton.getWidth() - singlePlayerLogo.getWidth() + 50) / 2;
         float singlePlayerButtonY= singlePlayerButton.y + (singlePlayerButton.getHeight() - singlePlayerLogo.getHeight() - 10) / 2;
         batch.draw(singlePlayerLogo, singlePlayerButtonX, singlePlayerButtonY);
-        batch.draw(texture, multiPlayerButton.x, multiPlayerButton.y);
+        batch.draw(woodButtonTexture, multiPlayerButton.x, multiPlayerButton.y);
         float multiPlayerButtonX = multiPlayerButton.x + (multiPlayerButton.getWidth() - multiPlayerLogo.getWidth() + 50) / 2;
         float multiPlayerButtonY= multiPlayerButton.y + (multiPlayerButton.getHeight() - multiPlayerLogo.getHeight() - 10) / 2;
         batch.draw(multiPlayerLogo, multiPlayerButtonX, multiPlayerButtonY);
@@ -116,10 +103,13 @@ public class MenuView extends ScreenAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        texture.dispose();
+        woodButtonTexture.dispose();
         backGroundTexture.dispose();
         profileButtonTexture.dispose();
         settingsButtonTexture.dispose();
+        gameLogo.dispose();
+        singlePlayerLogo.dispose();
+        multiPlayerLogo.dispose();
     }
 }
 

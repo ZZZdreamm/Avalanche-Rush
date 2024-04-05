@@ -16,7 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 
 
 
-public class JoinView extends ScreenAdapter{
+public class JoinView extends ScreenAdapter {
 
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
@@ -26,24 +26,33 @@ public class JoinView extends ScreenAdapter{
     private Texture woodBeamTexture;
     private BitmapFont fontTitle;
     private Texture joinLogo;
-    private String code = " ";
+    private String code = "";
     private boolean editingCode = false;
-    private StringBuilder codeBuilder = new StringBuilder();
-    private Rectangle codeInputArea;
-    float CodeX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
-    float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 250;
+    private Rectangle woodBeamBounds;
+    private float CodeX;
+    private float woodBeamY;
+    private Texture buttonPlayTexture;
+
     public JoinView(OrthographicCamera orthographicCamera) {
         this.orthographicCamera = orthographicCamera;
         this.batch = new SpriteBatch();
-        this.joinLogo = new Texture((Gdx.files.internal("joinLogo.png")));
+        this.joinLogo = new Texture(Gdx.files.internal("joinLogo.png"));
         this.backgroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
         this.homeButton = new Rectangle(50, 50, homeButtonTexture.getWidth(), homeButtonTexture.getHeight());
         this.woodBeamTexture = new Texture(Gdx.files.internal("buttonWood2.png"));
+        this.buttonPlayTexture = new Texture(Gdx.files.internal("buttonPlay.png"));
         this.fontTitle = new BitmapFont();
         this.fontTitle.setColor(Color.WHITE);
         this.fontTitle.getData().setScale(1);
-        this.codeInputArea = new Rectangle(CodeX - 32, woodBeamY, 150 + 64, 74 );
+
+        CodeX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
+        woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 250;
+
+        this.woodBeamBounds = new Rectangle(CodeX - 32, woodBeamY, 150 + 64, 74);
+
+        // Input handling
+        Gdx.input.setInputProcessor(new MyInputAdapter());
     }
 
     @Override
@@ -55,53 +64,37 @@ public class JoinView extends ScreenAdapter{
         batch.begin();
 
         batch.draw(backgroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
-        batch.draw(joinLogo, ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - joinLogo.getWidth() + 100) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - joinLogo.getHeight() - 20);
+        batch.draw(joinLogo, (MyAvalancheRushGame.INSTANCE.getScreenWidth() - joinLogo.getWidth() + 100) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - joinLogo.getHeight() - 20);
 
-        batch.draw(woodBeamTexture, CodeX-32, woodBeamY, 150 + 64, 74);
-        fontTitle.draw(batch, "Game code: " + code, CodeX, woodBeamY+50);
+        float woodBeamWidth = 150 + 64; // Width of the woodBeamTexture including margins
+        float buttonPlayWidth = buttonPlayTexture.getWidth(); // Width of the buttonPlay.png
+
+        float totalWidth = woodBeamWidth + buttonPlayWidth;
+        float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
+        float buttonPlayX = woodBeamX + woodBeamWidth;
+
+        batch.draw(woodBeamTexture, woodBeamX, woodBeamY, woodBeamWidth, 74);
+        batch.draw(buttonPlayTexture, buttonPlayX, woodBeamY, buttonPlayWidth, 74);
+        fontTitle.draw(batch, "Insert: " + code, CodeX, woodBeamY + 50);
         batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
-
 
         batch.end();
     }
 
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(new InputAdapter() {
-            @Override
-            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                Vector3 touchPos = new Vector3(screenX, screenY, 0);
-                orthographicCamera.unproject(touchPos);
+    private class MyInputAdapter extends InputAdapter {
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            Vector3 touchPos = new Vector3(screenX, screenY, 0);
+            orthographicCamera.unproject(touchPos);
 
-                if (homeButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new MenuView(orthographicCamera));
-                    return true;
-                } else if (codeInputArea.contains(touchPos.x, touchPos.y)) {
-                    editingCode = true;
-                    return true;
-                }
-
-                return false;
+            if (homeButton.contains(touchPos.x, touchPos.y)) {
+                MyAvalancheRushGame.INSTANCE.setScreen(new MenuView(orthographicCamera));
+                return true;
             }
 
-            @Override
-            public boolean keyTyped(char character) {
-                if (editingCode) {
-                    if (character == '\n') {
-                        code = codeBuilder.toString();
-                        codeBuilder.setLength(0);
-                        editingCode = false;
-                        return true;
-                    } else if (character == '\b' && codeBuilder.length() > 0) {
-                        codeBuilder.deleteCharAt(codeBuilder.length() - 1);
-                    } else if (Character.isDigit(character) && codeBuilder.length() < 5) {
-                        codeBuilder.append(character);
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
+            return false;
+        }
+
     }
 
     @Override
@@ -109,15 +102,8 @@ public class JoinView extends ScreenAdapter{
         batch.dispose();
         backgroundTexture.dispose();
         homeButtonTexture.dispose();
+        woodBeamTexture.dispose();
+        buttonPlayTexture.dispose();
         fontTitle.dispose();
-    }
-
-    @Override
-    public void hide() {
-        if (editingCode) {
-            code = codeBuilder.toString();
-            codeBuilder.setLength(0);
-            editingCode = false;
-        }
     }
 }
