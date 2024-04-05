@@ -23,7 +23,7 @@ public class MenuView extends ScreenAdapter {
     private Texture backGroundTexture;
     private Texture profileButtonTexture;
     private Texture settingsButtonTexture;
-    private Texture gameLogo;
+
     private Rectangle singlePlayerButton;
     private Rectangle multiPlayerButton;
     private Rectangle profileButton;
@@ -35,7 +35,6 @@ public class MenuView extends ScreenAdapter {
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
         this.woodButtonTexture = new Texture((Gdx.files.internal("buttonWood.png")));
-        this.gameLogo = new Texture((Gdx.files.internal("logo.png")));
         this.backGroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.profileButtonTexture = new Texture(Gdx.files.internal("buttonProfile.png"));
         this.settingsButtonTexture = new Texture(Gdx.files.internal("buttonSettings.png"));
@@ -67,8 +66,11 @@ public class MenuView extends ScreenAdapter {
         batch.begin();
         batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        GlyphLayout gameLogo = new GlyphLayout(fontText, "Avalache Rush");
-        fontText.draw(batch, );
+        GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Avalanche Rush");
+        float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
+        float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
+        fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
+
 
         batch.draw(woodButtonTexture, singlePlayerButton.x, singlePlayerButton.y);
         batch.draw(woodButtonTexture, multiPlayerButton.x, multiPlayerButton.y);
@@ -119,7 +121,7 @@ public class MenuView extends ScreenAdapter {
         backGroundTexture.dispose();
         profileButtonTexture.dispose();
         settingsButtonTexture.dispose();
-        gameLogo.dispose();
+        fontTitle.dispose();
         fontText.dispose();
     }
 }
