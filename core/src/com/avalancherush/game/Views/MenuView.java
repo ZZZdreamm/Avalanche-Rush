@@ -67,8 +67,10 @@ public class MenuView extends ScreenAdapter {
         batch.begin();
         batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        GlyphLayout gameLogo = new GlyphLayout(fontText, "Avalache Rush");
-        fontText.draw(batch, );
+        GlyphLayout gameLogoLayout = new GlyphLayout(fontText, "Avalanche Rush");
+        float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
+        float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
+        fontText.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
         batch.draw(woodButtonTexture, singlePlayerButton.x, singlePlayerButton.y);
         batch.draw(woodButtonTexture, multiPlayerButton.x, multiPlayerButton.y);
