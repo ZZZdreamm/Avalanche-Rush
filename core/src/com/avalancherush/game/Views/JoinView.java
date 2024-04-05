@@ -25,34 +25,36 @@ public class JoinView extends ScreenAdapter {
     private Rectangle homeButton;
     private Texture woodBeamTexture;
     private BitmapFont fontTitle;
-    private Texture joinLogo;
+
     private String code = "";
     private boolean editingCode = false;
     private Rectangle woodBeamBounds;
     private float CodeX;
     private float woodBeamY;
     private Texture buttonPlayTexture;
+    private BitmapFont fontText;
 
     public JoinView(OrthographicCamera orthographicCamera) {
         this.orthographicCamera = orthographicCamera;
         this.batch = new SpriteBatch();
-        this.joinLogo = new Texture(Gdx.files.internal("joinLogo.png"));
         this.backgroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
         this.homeButton = new Rectangle(50, 50, homeButtonTexture.getWidth(), homeButtonTexture.getHeight());
         this.woodBeamTexture = new Texture(Gdx.files.internal("buttonWood2.png"));
         this.buttonPlayTexture = new Texture(Gdx.files.internal("buttonPlay.png"));
-        this.fontTitle = new BitmapFont();
-        this.fontTitle.setColor(Color.WHITE);
-        this.fontTitle.getData().setScale(1);
 
         CodeX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
         woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 250;
 
         this.woodBeamBounds = new Rectangle(CodeX - 32, woodBeamY, 150 + 64, 74);
 
-        // Input handling
         Gdx.input.setInputProcessor(new MyInputAdapter());
+        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontTitle.getData().setScale(1f);
+
+        this.fontText = new BitmapFont();
+        this.fontText.setColor(Color.WHITE);
+        this.fontText.getData().setScale(1);
     }
 
     @Override
@@ -64,7 +66,6 @@ public class JoinView extends ScreenAdapter {
         batch.begin();
 
         batch.draw(backgroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
-        batch.draw(joinLogo, (MyAvalancheRushGame.INSTANCE.getScreenWidth() - joinLogo.getWidth() + 100) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - joinLogo.getHeight() - 20);
 
         float woodBeamWidth = 150 + 64; // Width of the woodBeamTexture including margins
         float buttonPlayWidth = buttonPlayTexture.getWidth(); // Width of the buttonPlay.png
@@ -73,9 +74,14 @@ public class JoinView extends ScreenAdapter {
         float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
         float buttonPlayX = woodBeamX + woodBeamWidth;
 
+        GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Join");
+        float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
+        float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
+        fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
+
         batch.draw(woodBeamTexture, woodBeamX, woodBeamY, woodBeamWidth, 74);
         batch.draw(buttonPlayTexture, buttonPlayX, woodBeamY, buttonPlayWidth, 74);
-        fontTitle.draw(batch, "Insert: " + code, CodeX, woodBeamY + 50);
+        fontText.draw(batch, "Insert: " + code, CodeX, woodBeamY + 50);
         batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
 
         batch.end();
@@ -105,5 +111,6 @@ public class JoinView extends ScreenAdapter {
         woodBeamTexture.dispose();
         buttonPlayTexture.dispose();
         fontTitle.dispose();
+        fontText.dispose();
     }
 }

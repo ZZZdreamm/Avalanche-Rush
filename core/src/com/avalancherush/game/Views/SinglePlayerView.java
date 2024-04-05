@@ -7,6 +7,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -18,22 +20,27 @@ public class SinglePlayerView extends ScreenAdapter {
     private Texture backGroundTexture;
     private Texture playButtonTexture;
     private Texture homeButtonTexture;
-    private Texture singlePlayerLogo;
-    private Texture playLogo;
     private Rectangle playButton;
     private Rectangle homeButton;
+    private BitmapFont fontTitle;
+    private BitmapFont fontText;
 
     public SinglePlayerView(OrthographicCamera orthographicCamera) {
         this.orthographicCamera = orthographicCamera;
         this.batch = new SpriteBatch();
-        this.singlePlayerLogo = new Texture((Gdx.files.internal("singlePlayerLogo.png")));
-        this.playLogo = new Texture((Gdx.files.internal("playLogo.png")));
+
         this.playButtonTexture = new Texture(Gdx.files.internal("buttonWood.png"));
         this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
         this.backGroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
 
         this.playButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - playButtonTexture.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - playButtonTexture.getHeight()) / 2, playButtonTexture.getWidth(), playButtonTexture.getHeight());
         this.homeButton = new Rectangle(50, 50, homeButtonTexture.getWidth(), homeButtonTexture.getHeight());
+
+        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontTitle.getData().setScale(1f);
+
+        fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontText.getData().setScale(0.90f);
     }
 
     @Override
@@ -46,13 +53,18 @@ public class SinglePlayerView extends ScreenAdapter {
 
         batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        batch.draw(singlePlayerLogo, ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - singlePlayerLogo.getWidth() + 100) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - singlePlayerLogo.getHeight() - 20);
+        GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Single Player");
+        float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
+        float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
+        fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
+
 
         batch.draw(playButtonTexture, playButton.x, playButton.y);
 
-        float playLogoX = playButton.x + (playButton.width - playLogo.getWidth() + 100) / 2;
-        float playLogoY = playButton.y + (playButton.height - playLogo.getHeight()) / 2;
-        batch.draw(playLogo, playLogoX, playLogoY);
+        GlyphLayout multiPlayerLayout = new GlyphLayout(fontText, "play");
+        float multiPlayerTextX = playButton.x + (playButton.getWidth() - multiPlayerLayout.width) / 2;
+        float multiPlayerTextY = playButton.y + (playButton.getHeight() + multiPlayerLayout.height) / 2;
+        fontText.draw(batch, multiPlayerLayout, multiPlayerTextX, multiPlayerTextY);
 
         batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
 
@@ -85,8 +97,8 @@ public class SinglePlayerView extends ScreenAdapter {
         playButtonTexture.dispose();
         homeButtonTexture.dispose();
         backGroundTexture.dispose();
-        playLogo.dispose();
-        singlePlayerLogo.dispose();
+        fontText.dispose();
+        fontTitle.dispose();
     }
 }
 

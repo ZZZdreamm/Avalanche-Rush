@@ -26,16 +26,15 @@ public class ProfileView extends ScreenAdapter {
     private Texture woodBeamTexture;
     private Texture buttonModifyTexture;
     private BitmapFont font;
-    private Texture profileLogo;
     private String username;
     private boolean editingUsername = false;
     private StringBuilder usernameBuilder;
     private Rectangle changeUsernameButton;
+    private BitmapFont fontTitle;
 
     public ProfileView(OrthographicCamera orthographicCamera) {
         this.orthographicCamera = orthographicCamera;
         this.batch = new SpriteBatch();
-        this.profileLogo = new Texture((Gdx.files.internal("profileLogo.png")));
         this.backgroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
         this.buttonModifyTexture = new Texture(Gdx.files.internal("buttonModify.png"));
@@ -48,6 +47,9 @@ public class ProfileView extends ScreenAdapter {
         this.font.getData().setScale(1);
         this.changeUsernameButton = new Rectangle(50, 150, 100, 50);
 
+        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontTitle.getData().setScale(1);
+
     }
 
     @Override
@@ -59,13 +61,19 @@ public class ProfileView extends ScreenAdapter {
         batch.begin();
 
         batch.draw(backgroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
-        batch.draw(profileLogo, ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - profileLogo.getWidth() + 100) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - profileLogo.getHeight() - 20);
+
+
 
         GlyphLayout glyphLayout = new GlyphLayout();
         glyphLayout.setText(font, "Username: " + username);
 
 
         float usernameX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
+
+        GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Profile");
+        float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
+        float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
+        fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
 
         float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
@@ -138,6 +146,7 @@ public class ProfileView extends ScreenAdapter {
         backgroundTexture.dispose();
         homeButtonTexture.dispose();
         font.dispose();
+        fontTitle.dispose();
     }
 
     @Override

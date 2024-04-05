@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -46,9 +47,8 @@ public class SettingsView extends ScreenAdapter {
         int startX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
         this.volumeUpButton = new Rectangle(startX, startY, volumeUpButtonTexture.getWidth(), volumeUpButtonTexture.getHeight());
         this.volumeDownButton = new Rectangle(startX + volumeButtonWidth + buttonSpacing, startY, volumeDownButtonTexture.getWidth(), volumeDownButtonTexture.getHeight());
-        this.fontTitle = new BitmapFont();
-        this.fontTitle.setColor(Color.BLACK);
-        this.fontTitle.getData().setScale(5);
+        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontTitle.getData().setScale(1);
     }
 
     @Override
@@ -61,7 +61,10 @@ public class SettingsView extends ScreenAdapter {
 
         batch.draw(backgroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        fontTitle.draw(batch, "Settings", ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - 250) / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 20);
+        GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Settings");
+        float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
+        float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
+        fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
         batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
         batch.draw(volumeUpButtonTexture, volumeUpButton.x, volumeUpButton.y);
