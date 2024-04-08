@@ -81,6 +81,8 @@ public class SinglePlayerView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (playButton.contains(touchPos.x, touchPos.y)) {
+                    MyAvalancheRushGame.INSTANCE.setScreen(new GameViewSinglePlayer(orthographicCamera));
+                    return true;
 
                 } else if (homeButton.contains(touchPos.x, touchPos.y)) {
                     MyAvalancheRushGame.INSTANCE.setScreen(new MenuView(orthographicCamera));
