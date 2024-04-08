@@ -1,24 +1,26 @@
 package com.avalancherush.game.Models;
 
+import com.avalancherush.game.Enums.ObstacleType;
 import com.avalancherush.game.Interfaces.Collidable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Obstacle extends Collidable {
-
-    private int type;
-
+    private ObstacleType type;
     private int track; // new thing - on which track is this obstacle
-
     private Image image;
+    private boolean jumpable;
 
-    public int getType() {
+    public Obstacle(){
+
+    }
+
+    public ObstacleType getType(){
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(ObstacleType type){
         this.type = type;
     }
-
     public int getTrack() {
         return track;
     }
@@ -37,5 +39,13 @@ public class Obstacle extends Collidable {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public boolean getJumpable(){
+        return jumpable;
+    }
+
+    public void setJumpable(boolean jumpable){
+        this.jumpable = jumpable;
     }
 }
