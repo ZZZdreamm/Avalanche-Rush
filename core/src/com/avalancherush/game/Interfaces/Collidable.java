@@ -1,4 +1,9 @@
 package com.avalancherush.game.Interfaces;
 
-public interface Collidable {
+
+import com.badlogic.gdx.math.Rectangle;
+
+public interface Collidable extends Drawable {
+    boolean collides();
+    void update();
 }
