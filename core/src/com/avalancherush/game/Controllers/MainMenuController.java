@@ -10,6 +10,10 @@ import com.avalancherush.game.Views.SettingsView;
 import com.avalancherush.game.Views.SinglePlayerView;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> af723c9 (Made All Texture as GLOBAL VARIABLES)
 public class MainMenuController implements EventObserver {
     @Override
     public void notify(EventType eventType) {

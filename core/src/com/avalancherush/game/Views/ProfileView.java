@@ -1,7 +1,15 @@
 package com.avalancherush.game.Views;
 
+<<<<<<< HEAD
 import com.avalancherush.game.Controllers.ProfileController;
 import com.avalancherush.game.Enums.EventType;
+=======
+import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
+import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.MODIFY_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
+
+>>>>>>> af723c9 (Made All Texture as GLOBAL VARIABLES)
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Game;
@@ -26,11 +34,7 @@ public class ProfileView extends ScreenAdapter {
     private ProfileController profileController;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
-    private Texture backgroundTexture;
-    private Texture homeButtonTexture;
     private Rectangle homeButton;
-    private Texture woodBeamTexture;
-    private Texture buttonModifyTexture;
     private BitmapFont font;
     private String username;
     private boolean editingUsername = false;
@@ -43,11 +47,7 @@ public class ProfileView extends ScreenAdapter {
         this.orthographicCamera = gameThread.getCamera();
         this.profileController = new ProfileController();
         this.batch = new SpriteBatch();
-        this.backgroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
-        this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
-        this.buttonModifyTexture = new Texture(Gdx.files.internal("buttonModify.png"));
-        this.homeButton = new Rectangle(50, 50, homeButtonTexture.getWidth(), homeButtonTexture.getHeight());
-        this.woodBeamTexture = new Texture(Gdx.files.internal("buttonWood2.png"));
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
         this.username = "Default Username";
         this.usernameBuilder = new StringBuilder();
         this.font = new BitmapFont();
@@ -68,7 +68,7 @@ public class ProfileView extends ScreenAdapter {
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
 
-        batch.draw(backgroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
+        batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
 
 
@@ -85,16 +85,16 @@ public class ProfileView extends ScreenAdapter {
 
 
         float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
-        batch.draw(woodBeamTexture, usernameX-32, woodBeamY, 150 + 64, 74);
+        batch.draw(WOOD_BUTTON, usernameX-32, woodBeamY, 150 + 64, 74);
 
         float changeButtonX = usernameX + 150 + 50;
         float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
         changeUsernameButton.setPosition(changeButtonX, changeButtonY);
 
 
-        batch.draw(buttonModifyTexture, changeUsernameButton.x, changeUsernameButton.y);
+        batch.draw(MODIFY_BUTTON, changeUsernameButton.x, changeUsernameButton.y);
 
-        batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
 
 
         if (editingUsername) {
@@ -151,8 +151,8 @@ public class ProfileView extends ScreenAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        backgroundTexture.dispose();
-        homeButtonTexture.dispose();
+        BACKGROUND.dispose();
+        HOME_BUTTON.dispose();
         font.dispose();
         fontTitle.dispose();
     }

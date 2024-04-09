@@ -1,5 +1,10 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
+import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.PLAY_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
+
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
@@ -21,10 +26,8 @@ public class JoinView extends ScreenAdapter {
     private GameThread gameThread;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
-    private Texture backgroundTexture;
-    private Texture homeButtonTexture;
+
     private Rectangle homeButton;
-    private Texture woodBeamTexture;
     private BitmapFont fontTitle;
 
     private String code = "";
@@ -32,18 +35,13 @@ public class JoinView extends ScreenAdapter {
     private Rectangle woodBeamBounds;
     private float CodeX;
     private float woodBeamY;
-    private Texture buttonPlayTexture;
     private BitmapFont fontText;
 
     public JoinView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
         this.batch = new SpriteBatch();
-        this.backgroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
-        this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
-        this.homeButton = new Rectangle(50, 50, homeButtonTexture.getWidth(), homeButtonTexture.getHeight());
-        this.woodBeamTexture = new Texture(Gdx.files.internal("buttonWood2.png"));
-        this.buttonPlayTexture = new Texture(Gdx.files.internal("buttonPlay.png"));
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
 
         CodeX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
         woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 250;
@@ -67,10 +65,10 @@ public class JoinView extends ScreenAdapter {
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
 
-        batch.draw(backgroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
+        batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        float woodBeamWidth = 150 + 64; // Width of the woodBeamTexture including margins
-        float buttonPlayWidth = buttonPlayTexture.getWidth(); // Width of the buttonPlay.png
+        float woodBeamWidth = 150 + 64; // Width of the WOOD_BUTTON including margins
+        float buttonPlayWidth = PLAY_BUTTON.getWidth(); // Width of the buttonPlay.png
 
         float totalWidth = woodBeamWidth + buttonPlayWidth;
         float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
@@ -81,10 +79,10 @@ public class JoinView extends ScreenAdapter {
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
-        batch.draw(woodBeamTexture, woodBeamX, woodBeamY, woodBeamWidth, 74);
-        batch.draw(buttonPlayTexture, buttonPlayX, woodBeamY, buttonPlayWidth, 74);
+        batch.draw(WOOD_BUTTON, woodBeamX, woodBeamY, woodBeamWidth, 74);
+        batch.draw(PLAY_BUTTON, buttonPlayX, woodBeamY, buttonPlayWidth, 74);
         fontText.draw(batch, "Insert: " + code, CodeX, woodBeamY + 50);
-        batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
 
         batch.end();
     }
@@ -108,10 +106,10 @@ public class JoinView extends ScreenAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        backgroundTexture.dispose();
-        homeButtonTexture.dispose();
-        woodBeamTexture.dispose();
-        buttonPlayTexture.dispose();
+        BACKGROUND.dispose();
+        HOME_BUTTON.dispose();
+        WOOD_BUTTON.dispose();
+        PLAY_BUTTON.dispose();
         fontTitle.dispose();
         fontText.dispose();
     }
