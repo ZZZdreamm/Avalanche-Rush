@@ -1,5 +1,6 @@
 package com.avalancherush.game;
 
+import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Views.MenuView;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
@@ -18,6 +19,7 @@ public class MyAvalancheRushGame extends Game {
 	public static MyAvalancheRushGame INSTANCE;
 	private OrthographicCamera orthographicCamera;
 	private int screenWidth, screenHeight;
+	private GameThread instance;
 
 	public MyAvalancheRushGame() {
 		INSTANCE = this;
@@ -29,7 +31,8 @@ public class MyAvalancheRushGame extends Game {
 		this.screenHeight = Gdx.graphics.getHeight();
 		this.orthographicCamera = new OrthographicCamera();
 		this.orthographicCamera.setToOrtho(false, screenWidth, screenHeight);
-
+		instance = GameThread.getInstance();
+		instance.setCamera(orthographicCamera);
 		setScreen(new MenuView(orthographicCamera));
 	}
 

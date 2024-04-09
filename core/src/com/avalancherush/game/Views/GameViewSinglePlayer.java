@@ -38,10 +38,11 @@ public class GameViewSinglePlayer extends ScreenAdapter {
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     public Texture singlePlayer, line, scoreboard, stone, tree;    //
-    public int addition, threshold, singlePlayerHeight, singlePlayerWidth;
+    public int addition, threshold, singlePlayerHeight, singlePlayerWidth, gameScore;
     public float obstacleHeight;
     public Queue<Vector3> gameObstacle;
 
+    BitmapFont font;
     private float laneX[];
     public int obstacleWidth[];
 
@@ -79,11 +80,15 @@ public class GameViewSinglePlayer extends ScreenAdapter {
 
         this.laneX[2] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() * 5 / 6);
 
+        this.gameScore = 0;
         playerX = (float) laneX[1];
         addition = 1;
         threshold = 10;
         gameObstacle = new Queue<Vector3>();
         this.totaltime = 0;
+
+//        font.getData().setScale(2); // Set font size to 2x
+//        font.setColor(Color.RED);
     }
 
     @Override
@@ -116,6 +121,7 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         batch.draw(line,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
         batch.draw(line,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
         batch.draw(scoreboard, scoreboardX, scoreboardY, 100, 50);
+//        font.draw(batch, "Score: " + gameScore, 100, 100);
         batch.end();
     }
 
@@ -170,6 +176,9 @@ public class GameViewSinglePlayer extends ScreenAdapter {
             if(head.y > -50){
                 Vector3 vector = new Vector3(head.x, head.y-time*gameSpeed, head.z);
                 newObstacles.addLast(vector);
+            }
+            else{
+                gameScore+=1;
             }
         }
 

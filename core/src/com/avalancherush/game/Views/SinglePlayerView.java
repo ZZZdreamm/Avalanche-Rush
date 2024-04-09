@@ -1,6 +1,7 @@
 package com.avalancherush.game.Views;
 
 import com.avalancherush.game.MyAvalancheRushGame;
+import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
@@ -24,9 +25,11 @@ public class SinglePlayerView extends ScreenAdapter {
     private Rectangle homeButton;
     private BitmapFont fontTitle;
     private BitmapFont fontText;
+    public GameThread instance;
 
     public SinglePlayerView(OrthographicCamera orthographicCamera) {
-        this.orthographicCamera = orthographicCamera;
+        instance = GameThread.getInstance();
+        this.orthographicCamera = instance.getCamera();
         this.batch = new SpriteBatch();
 
         this.playButtonTexture = new Texture(Gdx.files.internal("buttonWood.png"));
