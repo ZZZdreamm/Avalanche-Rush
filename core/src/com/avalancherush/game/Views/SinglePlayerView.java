@@ -25,11 +25,8 @@ public class SinglePlayerView extends ScreenAdapter {
     private Rectangle homeButton;
     private BitmapFont fontTitle;
     private BitmapFont fontText;
-    public GameThread instance;
 
     public SinglePlayerView(OrthographicCamera orthographicCamera) {
-        instance = GameThread.getInstance();
-        this.orthographicCamera = instance.getCamera();
         this.batch = new SpriteBatch();
 
         this.playButtonTexture = new Texture(Gdx.files.internal("buttonWood.png"));
