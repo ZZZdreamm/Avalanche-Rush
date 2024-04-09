@@ -31,7 +31,7 @@ public class ObstacleFactory {
             obstacle.setJumpable(true);
             Rectangle rectangle = new Rectangle(x, y, OBSTACLE_ROCK_WIDTH, OBSTACLE_HEIGHT);
             obstacle.setRectangle(rectangle);
-            obstacle.setTexture(Textures.ROCK);
+            obstacle.setTexture(Textures.STONE);
         }else if (obstacleType == ObstacleType.TREE){
             obstacle.setType(ObstacleType.TREE);
             obstacle.setJumpable(false);

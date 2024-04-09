@@ -7,18 +7,16 @@ import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_TREE
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.Textures.LINE;
-import static com.avalancherush.game.Configuration.Textures.ROCK;
 import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
-import static com.avalancherush.game.Configuration.Textures.TREE;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 import com.avalancherush.game.Configuration.GlobalVariables;
-import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Enums.ObstacleType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.MyAvalancheRushGame;
+import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.ObstacleFactory;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -46,26 +44,25 @@ import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import org.w3c.dom.css.Rect;
-
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 
 public class GameViewSinglePlayer extends ScreenAdapter {
 
+    private GameThread gameThread;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     public int addition, threshold;
-//    public Queue<Vector3> gameObstacle;
+    //    public Queue<Vector3> gameObstacle;
     private float laneX[];
     private float scoreboardX, scoreboardY, totaltime;
     private Player player;
     private ObstacleFactory obstacleFactory;
     private Queue<Obstacle> obstacles;
 
-    public GameViewSinglePlayer(OrthographicCamera orthographicCamera) {
-        this.orthographicCamera = orthographicCamera;
+    public GameViewSinglePlayer() {
+        this.orthographicCamera = GameThread.getInstance().getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
 
