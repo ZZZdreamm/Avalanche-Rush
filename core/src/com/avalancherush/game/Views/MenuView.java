@@ -1,6 +1,9 @@
 package com.avalancherush.game.Views;
 
+import com.avalancherush.game.Controllers.MainMenuController;
+import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
+import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
@@ -16,8 +19,9 @@ import com.badlogic.gdx.math.Vector3;
 
 
 public class MenuView extends ScreenAdapter {
-
     private OrthographicCamera orthographicCamera;
+    private GameThread gameThread;
+    private MainMenuController mainMenuController;
     private SpriteBatch batch;
     private Texture woodButtonTexture;
     private Texture backGroundTexture;
@@ -31,7 +35,8 @@ public class MenuView extends ScreenAdapter {
     private BitmapFont fontText;
     private BitmapFont fontTitle;
     public MenuView(OrthographicCamera orthographicCamera) {
-        this.orthographicCamera = orthographicCamera;
+        this.gameThread = GameThread.getInstance();
+        this.orthographicCamera = gameThread.getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
         this.woodButtonTexture = new Texture((Gdx.files.internal("buttonWood.png")));
@@ -101,13 +106,13 @@ public class MenuView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (singlePlayerButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new SinglePlayerView(orthographicCamera));
+                    mainMenuController.notify(EventType.SINGLE_PLAYER_BUTTON_CLICK);
                 } else if (multiPlayerButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new MultiPlayerView(orthographicCamera));
+                    mainMenuController.notify(EventType.MULTIPLAYER_BUTTON_CLICK);
                 } else if (profileButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new ProfileView(orthographicCamera));
+                    mainMenuController.notify(EventType.PROFILE_BUTTON_CLICK);
                 } else if (settingsButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new SettingsView(orthographicCamera));
+                    mainMenuController.notify(EventType.SETTINGS_BUTTON_CLICK);
                 }
                 return true;
             }
