@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class PowerUpFactory {
     private static PowerUpFactory instance;
-    public PowerUpFactory getInstance(){
+    public static PowerUpFactory getInstance(){
         if(instance == null){
             instance = new PowerUpFactory();
         }
