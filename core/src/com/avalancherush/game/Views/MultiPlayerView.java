@@ -1,5 +1,11 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
+import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
+
+import com.avalancherush.game.Controllers.MultiPlayerController;
+import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Game;
@@ -18,12 +24,9 @@ import com.badlogic.gdx.math.Vector3;
 public class MultiPlayerView extends ScreenAdapter {
 
     private GameThread gameThread;
+    private MultiPlayerController multiPlayerController;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
-    private Texture backGroundTexture;
-    private Texture joinButtonTexture;
-    private Texture createButtonTexture;
-    private Texture homeButtonTexture;
     private Rectangle joinButton;
     private Rectangle createButton;
     private Rectangle homeButton;
@@ -34,15 +37,12 @@ public class MultiPlayerView extends ScreenAdapter {
     public MultiPlayerView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
+        this.multiPlayerController = new MultiPlayerController();
         this.batch = new SpriteBatch();
-        this.joinButtonTexture = new Texture(Gdx.files.internal("buttonWood.png"));
-        this.createButtonTexture = new Texture(Gdx.files.internal("buttonWood.png"));
-        this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
-        this.backGroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
 
-        this.joinButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - joinButtonTexture.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - joinButtonTexture.getHeight()) / 2 + 50, joinButtonTexture.getWidth(), joinButtonTexture.getHeight());
-        this.createButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - createButtonTexture.getWidth()) / 2, joinButton.y - joinButtonTexture.getHeight() - 20, createButtonTexture.getWidth(), createButtonTexture.getHeight());
-        this.homeButton = new Rectangle(50, 50, homeButtonTexture.getWidth(), homeButtonTexture.getHeight());
+        this.joinButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight()) / 2 + 50, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
+        this.createButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, joinButton.y - WOOD_BUTTON.getHeight() - 20, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
 
         fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
         fontText.getData().setScale(0.9f);
@@ -59,10 +59,10 @@ public class MultiPlayerView extends ScreenAdapter {
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
 
-        batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
+        batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        batch.draw(joinButtonTexture, joinButton.x, joinButton.y);
-        batch.draw(createButtonTexture, createButton.x, createButton.y);
+        batch.draw(WOOD_BUTTON, joinButton.x, joinButton.y);
+        batch.draw(WOOD_BUTTON, createButton.x, createButton.y);
 
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Multiplayer");
         float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
@@ -70,16 +70,16 @@ public class MultiPlayerView extends ScreenAdapter {
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
         GlyphLayout joinLayout = new GlyphLayout(fontText, "join");
-        float joinTextX = joinButton.x + (joinButtonTexture.getWidth() - joinLayout.width) / 2;
-        float joinTextY = joinButton.y + (joinButtonTexture.getHeight() + joinLayout.height) / 2;
+        float joinTextX = joinButton.x + (WOOD_BUTTON.getWidth() - joinLayout.width) / 2;
+        float joinTextY = joinButton.y + (WOOD_BUTTON.getHeight() + joinLayout.height) / 2;
         fontText.draw(batch, "join", joinTextX, joinTextY);
 
         GlyphLayout createLayout = new GlyphLayout(fontText, "create");
-        float createTextX = createButton.x + (createButtonTexture.getWidth() - createLayout.width) / 2;
-        float createTextY = createButton.y + (createButtonTexture.getHeight() + createLayout.height) / 2;
+        float createTextX = createButton.x + (WOOD_BUTTON.getWidth() - createLayout.width) / 2;
+        float createTextY = createButton.y + (WOOD_BUTTON.getHeight() + createLayout.height) / 2;
         fontText.draw(batch, "create", createTextX, createTextY);
 
-        batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
 
         batch.end();
     }
@@ -94,12 +94,12 @@ public class MultiPlayerView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (joinButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new JoinView());
+                    multiPlayerController.notify(EventType.JOIN_BUTTON_CLICK);
                     return true;
                 } else if (createButton.contains(touchPos.x, touchPos.y)) {
                     return true;
                 } else if (homeButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
+                    multiPlayerController.notify(EventType.HOME_BUTTON_CLICK);
                     return true;
                 }
                 return false;
@@ -110,10 +110,9 @@ public class MultiPlayerView extends ScreenAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        joinButtonTexture.dispose();
-        createButtonTexture.dispose();
-        homeButtonTexture.dispose();
-        backGroundTexture.dispose();
+        WOOD_BUTTON.dispose();
+        HOME_BUTTON.dispose();
+        BACKGROUND.dispose();
         fontText.dispose();
         fontTitle.dispose();
     }

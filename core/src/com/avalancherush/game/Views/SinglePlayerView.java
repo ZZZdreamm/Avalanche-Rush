@@ -30,7 +30,6 @@ public class SinglePlayerView extends ScreenAdapter {
     public SinglePlayerView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
-        this.orthographicCamera = orthographicCamera;
         this.batch = new SpriteBatch();
 
         this.playButtonTexture = new Texture(Gdx.files.internal("buttonWood.png"));
@@ -85,7 +84,7 @@ public class SinglePlayerView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (playButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new GameViewSinglePlayer(orthographicCamera));
+                    MyAvalancheRushGame.INSTANCE.setScreen(new GameViewSinglePlayer());
                     return true;
 
                 } else if (homeButton.contains(touchPos.x, touchPos.y)) {

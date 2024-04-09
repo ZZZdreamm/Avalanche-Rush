@@ -1,5 +1,10 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
+import static com.avalancherush.game.Configuration.Textures.PROFILE_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.SETTINGS_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
+
 import com.avalancherush.game.Controllers.MainMenuController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
@@ -23,10 +28,7 @@ public class MenuView extends ScreenAdapter {
     private GameThread gameThread;
     private MainMenuController mainMenuController;
     private SpriteBatch batch;
-    private Texture woodButtonTexture;
-    private Texture backGroundTexture;
-    private Texture profileButtonTexture;
-    private Texture settingsButtonTexture;
+
     private Rectangle singlePlayerButton;
     private Rectangle multiPlayerButton;
     private Rectangle profileButton;
@@ -40,19 +42,15 @@ public class MenuView extends ScreenAdapter {
         this.mainMenuController = new MainMenuController();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
-        this.woodButtonTexture = new Texture((Gdx.files.internal("buttonWood.png")));
-        this.backGroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
-        this.profileButtonTexture = new Texture(Gdx.files.internal("buttonProfile.png"));
-        this.settingsButtonTexture = new Texture(Gdx.files.internal("buttonSettings.png"));
 
         float buttonY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30;
         float buttonSpacing = 12;
 
-        this.singlePlayerButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - woodButtonTexture.getWidth()) / 2, buttonY, woodButtonTexture.getWidth(), woodButtonTexture.getHeight());
-        this.multiPlayerButton = new Rectangle(singlePlayerButton.x, singlePlayerButton.y - woodButtonTexture.getHeight() - buttonSpacing, woodButtonTexture.getWidth(), woodButtonTexture.getHeight());
-        this.profileButton = new Rectangle(50, 50, profileButtonTexture.getWidth(), profileButtonTexture.getHeight());
+        this.singlePlayerButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, buttonY, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
+        this.multiPlayerButton = new Rectangle(singlePlayerButton.x, singlePlayerButton.y - WOOD_BUTTON.getHeight() - buttonSpacing, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
+        this.profileButton = new Rectangle(50, 50, PROFILE_BUTTON.getWidth(), PROFILE_BUTTON.getHeight());
 
-        this.settingsButton = new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() - settingsButtonTexture.getWidth() - 50, 50, settingsButtonTexture.getWidth(), settingsButtonTexture.getHeight());
+        this.settingsButton = new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() - SETTINGS_BUTTON.getWidth() - 50, 50, SETTINGS_BUTTON.getWidth(), SETTINGS_BUTTON.getHeight());
 
         fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
         fontText.getData().setScale(0.65f);
@@ -70,7 +68,7 @@ public class MenuView extends ScreenAdapter {
 
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
-        batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
+        batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Avalanche Rush");
         float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
@@ -78,8 +76,8 @@ public class MenuView extends ScreenAdapter {
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
 
-        batch.draw(woodButtonTexture, singlePlayerButton.x, singlePlayerButton.y);
-        batch.draw(woodButtonTexture, multiPlayerButton.x, multiPlayerButton.y);
+        batch.draw(WOOD_BUTTON, singlePlayerButton.x, singlePlayerButton.y);
+        batch.draw(WOOD_BUTTON, multiPlayerButton.x, multiPlayerButton.y);
 
         GlyphLayout singlePlayerLayout = new GlyphLayout(fontText, "single player");
         float singlePlayerTextX = singlePlayerButton.x + (singlePlayerButton.getWidth() - singlePlayerLayout.width) / 2;
@@ -92,9 +90,9 @@ public class MenuView extends ScreenAdapter {
         float multiPlayerTextY = multiPlayerButton.y + (multiPlayerButton.getHeight() + multiPlayerLayout.height) / 2;
         fontText.draw(batch, multiPlayerLayout, multiPlayerTextX, multiPlayerTextY);
 
-        batch.draw(profileButtonTexture, profileButton.x, profileButton.y);
+        batch.draw(PROFILE_BUTTON, profileButton.x, profileButton.y);
 
-        batch.draw(settingsButtonTexture, settingsButton.x, settingsButton.y);
+        batch.draw(SETTINGS_BUTTON, settingsButton.x, settingsButton.y);
         batch.end();
     }
 
@@ -107,7 +105,7 @@ public class MenuView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (singlePlayerButton.contains(touchPos.x, touchPos.y)) {
-                    mainMenuController.notify(EventType.SINGLE_PLAYER_BUTTON_CLICK);
+                    MyAvalancheRushGame.INSTANCE.setScreen(new SinglePlayerView());
                 } else if (multiPlayerButton.contains(touchPos.x, touchPos.y)) {
                     mainMenuController.notify(EventType.MULTIPLAYER_BUTTON_CLICK);
                 } else if (profileButton.contains(touchPos.x, touchPos.y)) {
@@ -123,10 +121,10 @@ public class MenuView extends ScreenAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        woodButtonTexture.dispose();
-        backGroundTexture.dispose();
-        profileButtonTexture.dispose();
-        settingsButtonTexture.dispose();
+        WOOD_BUTTON.dispose();
+        BACKGROUND.dispose();
+        PROFILE_BUTTON.dispose();
+        SETTINGS_BUTTON.dispose();
         fontTitle.dispose();
         fontText.dispose();
     }

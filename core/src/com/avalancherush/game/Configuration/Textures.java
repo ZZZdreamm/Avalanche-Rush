@@ -4,8 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Textures {
-    public static Texture scoreboard = new Texture((Gdx.files.internal("buttonWood.png")));
-    public static Texture rock = new Texture((Gdx.files.internal("rock.png")));
-    public static Texture tree = new Texture((Gdx.files.internal("treewinter.png")));
-    public static Texture line = new Texture((Gdx.files.internal("Line.png")));
-}
+    public static Texture SCOREBOARD = new Texture((Gdx.files.internal("buttonWood.png")));
+    public static Texture STONE = new Texture((Gdx.files.internal("rock.png")));
+    public static Texture TREE = new Texture((Gdx.files.internal("treewinter.png")));
+    public static Texture LINE = new Texture((Gdx.files.internal("Line.png")));
+    public static Texture WOOD_BUTTON = new Texture((Gdx.files.internal("buttonWood.png")));
+    public static Texture BACKGROUND = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
+    public static Texture PROFILE_BUTTON = new Texture(Gdx.files.internal("buttonProfile.png"));
+    public static Texture SETTINGS_BUTTON = new Texture(Gdx.files.internal("buttonSettings.png"));
+    public static Texture HOME_BUTTON = new Texture(Gdx.files.internal("buttonHome.png"));
+    public static Texture LOST_BUTTON = new Texture(Gdx.files.internal("buttonWood2.png"));
+    public static Texture SINGLE_PLAYER = new Texture((Gdx.files.internal("ski_spritesheet.png")));
+    public static Texture PLAY_BUTTON = new Texture(Gdx.files.internal("buttonPlay.png"));
+    public static Texture MODIFY_BUTTON = new Texture(Gdx.files.internal("buttonModify.png"));
+    public static Texture VOLUME_UP_BUTTON = new Texture(Gdx.files.internal("buttonVolumeUp.png"));
+    public static Texture VOLUME_DOWN_BUTTON = new Texture(Gdx.files.internal("buttonVolumeDown.png"));
+}   

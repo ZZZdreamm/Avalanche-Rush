@@ -10,6 +10,7 @@ import com.avalancherush.game.Views.SettingsView;
 import com.avalancherush.game.Views.SinglePlayerView;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
+
 public class MainMenuController implements EventObserver {
     @Override
     public void notify(EventType eventType) {
