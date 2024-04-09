@@ -1,6 +1,7 @@
 package com.avalancherush.game.Views;
 
 import com.avalancherush.game.MyAvalancheRushGame;
+import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
@@ -17,7 +18,7 @@ import com.badlogic.gdx.math.Vector3;
 
 
 public class JoinView extends ScreenAdapter {
-
+    private GameThread gameThread;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private Texture backgroundTexture;
@@ -34,8 +35,9 @@ public class JoinView extends ScreenAdapter {
     private Texture buttonPlayTexture;
     private BitmapFont fontText;
 
-    public JoinView(OrthographicCamera orthographicCamera) {
-        this.orthographicCamera = orthographicCamera;
+    public JoinView() {
+        this.gameThread = GameThread.getInstance();
+        this.orthographicCamera = gameThread.getCamera();
         this.batch = new SpriteBatch();
         this.backgroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
@@ -94,7 +96,7 @@ public class JoinView extends ScreenAdapter {
             orthographicCamera.unproject(touchPos);
 
             if (homeButton.contains(touchPos.x, touchPos.y)) {
-                MyAvalancheRushGame.INSTANCE.setScreen(new MenuView(orthographicCamera));
+                MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
                 return true;
             }
 

@@ -86,7 +86,7 @@ public class GameEndView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (homeButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new MenuView(orthographicCamera));
+                    MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
                     return true;
                 }
                 return false;

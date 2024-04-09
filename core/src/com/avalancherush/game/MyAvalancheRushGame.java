@@ -33,7 +33,7 @@ public class MyAvalancheRushGame extends Game {
 		this.orthographicCamera.setToOrtho(false, screenWidth, screenHeight);
 		instance = GameThread.getInstance();
 		instance.setCamera(orthographicCamera);
-		setScreen(new MenuView(orthographicCamera));
+		setScreen(new MenuView());
 	}
 
 	public int getScreenWidth() {

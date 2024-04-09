@@ -1,6 +1,10 @@
 package com.avalancherush.game.Views;
 
+import com.avalancherush.game.Controllers.ProfileController;
+import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
+import com.avalancherush.game.Singletons.GameThread;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
@@ -18,6 +22,8 @@ import com.badlogic.gdx.math.Vector3;
 
 public class ProfileView extends ScreenAdapter {
 
+    private GameThread gameThread;
+    private ProfileController profileController;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private Texture backgroundTexture;
@@ -32,8 +38,10 @@ public class ProfileView extends ScreenAdapter {
     private Rectangle changeUsernameButton;
     private BitmapFont fontTitle;
 
-    public ProfileView(OrthographicCamera orthographicCamera) {
-        this.orthographicCamera = orthographicCamera;
+    public ProfileView() {
+        this.gameThread = GameThread.getInstance();
+        this.orthographicCamera = gameThread.getCamera();
+        this.profileController = new ProfileController();
         this.batch = new SpriteBatch();
         this.backgroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
@@ -107,7 +115,7 @@ public class ProfileView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (homeButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new MenuView(orthographicCamera));
+                    profileController.notify(EventType.HOME_BUTTON_CLICK);
                     return true;
                 }
 

@@ -1,6 +1,7 @@
 package com.avalancherush.game.Views;
 
 import com.avalancherush.game.MyAvalancheRushGame;
+import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 
 public class SinglePlayerView extends ScreenAdapter {
 
+    private GameThread gameThread;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private Texture backGroundTexture;
@@ -25,7 +27,9 @@ public class SinglePlayerView extends ScreenAdapter {
     private BitmapFont fontTitle;
     private BitmapFont fontText;
 
-    public SinglePlayerView(OrthographicCamera orthographicCamera) {
+    public SinglePlayerView() {
+        this.gameThread = GameThread.getInstance();
+        this.orthographicCamera = gameThread.getCamera();
         this.orthographicCamera = orthographicCamera;
         this.batch = new SpriteBatch();
 
@@ -85,7 +89,7 @@ public class SinglePlayerView extends ScreenAdapter {
                     return true;
 
                 } else if (homeButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new MenuView(orthographicCamera));
+                    MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
                     return true;
                 }
                 return false;

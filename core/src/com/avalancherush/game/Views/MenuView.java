@@ -27,16 +27,17 @@ public class MenuView extends ScreenAdapter {
     private Texture backGroundTexture;
     private Texture profileButtonTexture;
     private Texture settingsButtonTexture;
-
     private Rectangle singlePlayerButton;
     private Rectangle multiPlayerButton;
     private Rectangle profileButton;
     private Rectangle settingsButton;
     private BitmapFont fontText;
     private BitmapFont fontTitle;
-    public MenuView(OrthographicCamera orthographicCamera) {
+
+    public MenuView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
+        this.mainMenuController = new MainMenuController();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
         this.woodButtonTexture = new Texture((Gdx.files.internal("buttonWood.png")));

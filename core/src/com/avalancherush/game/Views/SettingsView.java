@@ -1,6 +1,10 @@
 package com.avalancherush.game.Views;
 
+import com.avalancherush.game.Controllers.SettingsController;
+import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
+import com.avalancherush.game.Singletons.GameThread;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
@@ -16,6 +20,8 @@ import com.badlogic.gdx.math.Vector3;
 
 public class SettingsView extends ScreenAdapter {
 
+    private GameThread gameThread;
+    private SettingsController settingsController;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private Texture backgroundTexture;
@@ -27,8 +33,10 @@ public class SettingsView extends ScreenAdapter {
     private Rectangle volumeDownButton;
     private BitmapFont fontTitle;
 
-    public SettingsView(OrthographicCamera orthographicCamera) {
-        this.orthographicCamera = orthographicCamera;
+    public SettingsView() {
+        this.gameThread = GameThread.getInstance();
+        this.orthographicCamera = gameThread.getCamera();
+        this.settingsController = new SettingsController();
         this.batch = new SpriteBatch();
         this.backgroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
@@ -82,7 +90,7 @@ public class SettingsView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (homeButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new MenuView(orthographicCamera));
+                    settingsController.notify(EventType.HOME_BUTTON_CLICK);
                     return true;
                 } else if (volumeUpButton.contains(touchPos.x, touchPos.y)) {
                     return true;
