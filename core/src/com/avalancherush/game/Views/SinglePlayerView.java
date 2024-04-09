@@ -1,9 +1,5 @@
 package com.avalancherush.game.Views;
 
-import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
-import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
-import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
-
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
@@ -23,6 +19,9 @@ public class SinglePlayerView extends ScreenAdapter {
     private GameThread gameThread;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
+    private Texture backGroundTexture;
+    private Texture playButtonTexture;
+    private Texture homeButtonTexture;
     private Rectangle playButton;
     private Rectangle homeButton;
     private BitmapFont fontTitle;
@@ -31,13 +30,14 @@ public class SinglePlayerView extends ScreenAdapter {
     public SinglePlayerView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
-        this.orthographicCamera = orthographicCamera;
-        this.orthographicCamera = GameThread.getInstance().getCamera();
         this.batch = new SpriteBatch();
 
+        this.playButtonTexture = new Texture(Gdx.files.internal("buttonWood.png"));
+        this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
+        this.backGroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
 
-        this.playButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight()) / 2, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
-        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
+        this.playButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - playButtonTexture.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - playButtonTexture.getHeight()) / 2, playButtonTexture.getWidth(), playButtonTexture.getHeight());
+        this.homeButton = new Rectangle(50, 50, homeButtonTexture.getWidth(), homeButtonTexture.getHeight());
 
         fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
         fontTitle.getData().setScale(1f);
@@ -54,7 +54,7 @@ public class SinglePlayerView extends ScreenAdapter {
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
 
-        batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
+        batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Single Player");
         float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
@@ -62,14 +62,14 @@ public class SinglePlayerView extends ScreenAdapter {
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
 
-        batch.draw(WOOD_BUTTON, playButton.x, playButton.y);
+        batch.draw(playButtonTexture, playButton.x, playButton.y);
 
         GlyphLayout multiPlayerLayout = new GlyphLayout(fontText, "play");
         float multiPlayerTextX = playButton.x + (playButton.getWidth() - multiPlayerLayout.width) / 2;
         float multiPlayerTextY = playButton.y + (playButton.getHeight() + multiPlayerLayout.height) / 2;
         fontText.draw(batch, multiPlayerLayout, multiPlayerTextX, multiPlayerTextY);
 
-        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
+        batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
 
         batch.end();
     }
@@ -84,7 +84,7 @@ public class SinglePlayerView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (playButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new GameViewSinglePlayer(orthographicCamera));
+                    MyAvalancheRushGame.INSTANCE.setScreen(new GameViewSinglePlayer());
                     return true;
 
                 } else if (homeButton.contains(touchPos.x, touchPos.y)) {
@@ -99,8 +99,9 @@ public class SinglePlayerView extends ScreenAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        WOOD_BUTTON.dispose();
-        BACKGROUND.dispose();
+        playButtonTexture.dispose();
+        homeButtonTexture.dispose();
+        backGroundTexture.dispose();
         fontText.dispose();
         fontTitle.dispose();
     }

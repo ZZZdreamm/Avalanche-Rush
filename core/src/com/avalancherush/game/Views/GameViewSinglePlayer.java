@@ -4,15 +4,11 @@ import static com.avalancherush.game.Configuration.GlobalVariables.GAME_SPEED;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
-import static com.avalancherush.game.Configuration.Textures.LINE;
-import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
-import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
-import static com.avalancherush.game.Configuration.Textures.STONE;
-import static com.avalancherush.game.Configuration.Textures.TREE;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 import com.avalancherush.game.Configuration.GlobalVariables;
 import com.avalancherush.game.MyAvalancheRushGame;
+import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -45,27 +41,36 @@ import java.util.PriorityQueue;
 
 public class GameViewSinglePlayer extends ScreenAdapter {
 
+    private GameThread gameThread;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
+    public Texture singlePlayer, line, scoreboard, stone, tree;    //
     public int addition, threshold;
     public Queue<Vector3> gameObstacle;
 
     private float laneX[];
 
-    private float SCOREBOARDX, SCOREBOARDY, playerX, playerY, totaltime;
+    private float scoreboardX, scoreboardY, playerX, playerY, totaltime;
 
-    public GameViewSinglePlayer(OrthographicCamera orthographicCamera) {
-        this.orthographicCamera = orthographicCamera;
+    public GameViewSinglePlayer() {
+        this.gameThread = GameThread.getInstance();
+        this.orthographicCamera = gameThread.getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
 
+        this.singlePlayer = new Texture((Gdx.files.internal("ski_spritesheet.png")));
+        this.singlePlayer = new Texture((Gdx.files.internal("ski_spritesheet.png")));
+        this.scoreboard = new Texture((Gdx.files.internal("buttonWood.png")));
+        this.stone = new Texture((Gdx.files.internal("rock.png")));
+        this.line = new Texture((Gdx.files.internal("Line.png")));
+        this.tree = new Texture((Gdx.files.internal("treewinter.png")));
 
         this.gameObstacle = new Queue<Vector3>();
 
 
-        this.playerY = (float) SINGLE_PLAYER.getHeight() / 2;
-        this.SCOREBOARDX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() / 2) - 10);
-        this.SCOREBOARDY = (float) (MyAvalancheRushGame.INSTANCE.getScreenHeight() - (SCOREBOARD.getHeight() / 2) - 10);
+        this.playerY = (float) singlePlayer.getHeight() / 2;
+        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (scoreboard.getWidth() / 2) - 10);
+        this.scoreboardY = (float) (MyAvalancheRushGame.INSTANCE.getScreenHeight() - (scoreboard.getHeight() / 2) - 10);
 
         this.laneX = new float[3];
         this.laneX[0] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() / 6);
@@ -100,17 +105,17 @@ public class GameViewSinglePlayer extends ScreenAdapter {
 
         for(Vector3 vector: gameObstacle){
             if(vector.z == 1){
-                batch.draw(STONE, laneX[(int)vector.x]  - 35, vector.y, 70, OBSTACLE_HEIGHT);
+                batch.draw(stone, laneX[(int)vector.x]  - 35, vector.y, 70, OBSTACLE_HEIGHT);
             }
             else if(vector.z == 2){
-                batch.draw(TREE, laneX[(int)vector.x]  - 30, vector.y, 60, OBSTACLE_HEIGHT);
+                batch.draw(tree, laneX[(int)vector.x]  - 30, vector.y, 60, OBSTACLE_HEIGHT);
             }
         }
 //
-        batch.draw(SINGLE_PLAYER, playerX - SINGLE_PLAYER_WIDTH/2, playerY, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT);
-        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
-        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
-        batch.draw(SCOREBOARD, SCOREBOARDX, SCOREBOARDY, 100, 50);
+        batch.draw(singlePlayer, playerX - SINGLE_PLAYER_WIDTH/2, playerY, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT);
+        batch.draw(line,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
+        batch.draw(line,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
+        batch.draw(scoreboard, scoreboardX, scoreboardY, 100, 50);
         batch.end();
     }
 

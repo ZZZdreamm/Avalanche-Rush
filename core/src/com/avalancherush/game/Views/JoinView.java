@@ -5,6 +5,8 @@ import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.PLAY_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
+import com.avalancherush.game.Controllers.JoinController;
+import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
@@ -24,6 +26,7 @@ import com.badlogic.gdx.math.Vector3;
 
 public class JoinView extends ScreenAdapter {
     private GameThread gameThread;
+    private JoinController joinController;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
 
@@ -40,6 +43,7 @@ public class JoinView extends ScreenAdapter {
     public JoinView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
+        this.joinController = new JoinController();
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
 
@@ -94,7 +98,7 @@ public class JoinView extends ScreenAdapter {
             orthographicCamera.unproject(touchPos);
 
             if (homeButton.contains(touchPos.x, touchPos.y)) {
-                MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
+                joinController.notify(EventType.HOME_BUTTON_CLICK);
                 return true;
             }
 

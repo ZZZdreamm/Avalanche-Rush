@@ -4,6 +4,8 @@ import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
+import com.avalancherush.game.Controllers.MultiPlayerController;
+import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Game;
@@ -22,6 +24,7 @@ import com.badlogic.gdx.math.Vector3;
 public class MultiPlayerView extends ScreenAdapter {
 
     private GameThread gameThread;
+    private MultiPlayerController multiPlayerController;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private Rectangle joinButton;
@@ -34,6 +37,7 @@ public class MultiPlayerView extends ScreenAdapter {
     public MultiPlayerView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
+        this.multiPlayerController = new MultiPlayerController();
         this.batch = new SpriteBatch();
 
         this.joinButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight()) / 2 + 50, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
@@ -90,12 +94,12 @@ public class MultiPlayerView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (joinButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new JoinView());
+                    multiPlayerController.notify(EventType.JOIN_BUTTON_CLICK);
                     return true;
                 } else if (createButton.contains(touchPos.x, touchPos.y)) {
                     return true;
                 } else if (homeButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
+                    multiPlayerController.notify(EventType.HOME_BUTTON_CLICK);
                     return true;
                 }
                 return false;

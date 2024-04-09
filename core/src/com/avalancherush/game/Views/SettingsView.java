@@ -33,6 +33,7 @@ public class SettingsView extends ScreenAdapter {
     private Rectangle volumeUpButton;
     private Rectangle volumeDownButton;
     private BitmapFont fontTitle;
+    private Texture backGroundTexture;
 
     public SettingsView() {
         this.gameThread = GameThread.getInstance();
@@ -40,6 +41,7 @@ public class SettingsView extends ScreenAdapter {
         this.settingsController = new SettingsController();
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
+        this.backGroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
         int totalButtonHeight = VOLUME_UP_BUTTON.getHeight() + VOLUME_DOWN_BUTTON.getHeight() - 30;
         int startY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - totalButtonHeight) / 2 + VOLUME_DOWN_BUTTON.getHeight();
 
@@ -65,7 +67,7 @@ public class SettingsView extends ScreenAdapter {
         batch.begin();
 
         batch.draw(BACKGROUND, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
-
+        batch.draw(backGroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Settings");
         float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;

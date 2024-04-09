@@ -1,9 +1,5 @@
 package com.avalancherush.game.Views;
 
-import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
-import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
-import static com.avalancherush.game.Configuration.Textures.LOST_BUTTON;
-
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -22,7 +18,9 @@ public class GameEndView extends ScreenAdapter {
 
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
-
+    private Texture backgroundTexture;
+    private Texture homeButtonTexture;
+    private Texture lostButtonTexture;
     private Rectangle homeButton;
     private BitmapFont scoreFont;
     private BitmapFont gameOverFont;
@@ -30,7 +28,10 @@ public class GameEndView extends ScreenAdapter {
     public GameEndView(OrthographicCamera orthographicCamera) {
         this.orthographicCamera = orthographicCamera;
         this.batch = new SpriteBatch();
-        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
+        this.backgroundTexture = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
+        this.homeButtonTexture = new Texture(Gdx.files.internal("buttonHome.png"));
+        this.lostButtonTexture = new Texture(Gdx.files.internal("buttonWood2.png"));
+        this.homeButton = new Rectangle(50, 50, homeButtonTexture.getWidth(), homeButtonTexture.getHeight());
         this.scoreFont = new BitmapFont();
         this.scoreFont.setColor(Color.WHITE);
         this.scoreFont.getData().setScale(2);
@@ -47,7 +48,7 @@ public class GameEndView extends ScreenAdapter {
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
 
-        batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
+        batch.draw(backgroundTexture, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
         // Draw "GAME OVER" text at the top center
         GlyphLayout gameOverLayout = new GlyphLayout(gameOverFont, "GAME OVER");
@@ -56,19 +57,19 @@ public class GameEndView extends ScreenAdapter {
         gameOverFont.draw(batch, "GAME OVER", gameOverX, gameOverY);
 
         // Calculate the position to center the lost button
-        float buttonX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - LOST_BUTTON.getWidth()) / 2;
-        float buttonY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - LOST_BUTTON.getHeight()) / 2;
+        float buttonX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - lostButtonTexture.getWidth()) / 2;
+        float buttonY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - lostButtonTexture.getHeight()) / 2;
 
-        batch.draw(LOST_BUTTON, buttonX, buttonY);
+        batch.draw(lostButtonTexture, buttonX, buttonY);
 
         // Calculate the position to draw the text inside the button
         GlyphLayout layout = new GlyphLayout(scoreFont, "Score: ");
-        float textX = buttonX + (LOST_BUTTON.getWidth() - layout.width - 80) / 2;
-        float textY = buttonY + (LOST_BUTTON.getHeight() + layout.height) / 2;
+        float textX = buttonX + (lostButtonTexture.getWidth() - layout.width - 80) / 2;
+        float textY = buttonY + (lostButtonTexture.getHeight() + layout.height) / 2;
 
         scoreFont.draw(batch, "Score: ", textX, textY);
 
-        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
+        batch.draw(homeButtonTexture, homeButton.x, homeButton.y);
 
         batch.end();
     }
@@ -96,8 +97,8 @@ public class GameEndView extends ScreenAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        BACKGROUND.dispose();
-        HOME_BUTTON.dispose();
+        backgroundTexture.dispose();
+        homeButtonTexture.dispose();
         scoreFont.dispose();
         gameOverFont.dispose();
     }
