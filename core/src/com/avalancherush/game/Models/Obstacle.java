@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 public class Obstacle extends Collidable {
     private ObstacleType type;
     private int track; // new thing - on which track is this obstacle
-    private Image image;
     private boolean jumpable;
 
     public Obstacle(){
@@ -31,14 +30,6 @@ public class Obstacle extends Collidable {
         } else {
             throw new Exception("Invalid track number. Track number must be between 1 and 5.");
         }
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
     }
 
     public boolean getJumpable(){
