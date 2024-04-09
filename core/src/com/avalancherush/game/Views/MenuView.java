@@ -28,10 +28,7 @@ public class MenuView extends ScreenAdapter {
     private GameThread gameThread;
     private MainMenuController mainMenuController;
     private SpriteBatch batch;
-<<<<<<< HEAD
-   
-=======
->>>>>>> af723c9 (Made All Texture as GLOBAL VARIABLES)
+
     private Rectangle singlePlayerButton;
     private Rectangle multiPlayerButton;
     private Rectangle profileButton;

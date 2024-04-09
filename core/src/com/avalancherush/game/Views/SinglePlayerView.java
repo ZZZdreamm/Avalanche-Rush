@@ -29,13 +29,10 @@ public class SinglePlayerView extends ScreenAdapter {
     private BitmapFont fontText;
 
     public SinglePlayerView() {
-<<<<<<< HEAD
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
         this.orthographicCamera = orthographicCamera;
-=======
         this.orthographicCamera = GameThread.getInstance().getCamera();
->>>>>>> af723c9 (Made All Texture as GLOBAL VARIABLES)
         this.batch = new SpriteBatch();
 
 

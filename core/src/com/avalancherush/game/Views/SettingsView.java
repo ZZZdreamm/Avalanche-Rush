@@ -1,15 +1,12 @@
 package com.avalancherush.game.Views;
 
-<<<<<<< HEAD
 import com.avalancherush.game.Controllers.SettingsController;
 import com.avalancherush.game.Enums.EventType;
-=======
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.VOLUME_DOWN_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.VOLUME_UP_BUTTON;
 
->>>>>>> af723c9 (Made All Texture as GLOBAL VARIABLES)
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Game;
