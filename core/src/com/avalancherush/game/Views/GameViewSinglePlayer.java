@@ -1,7 +1,12 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.GAME_SPEED;
+import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
+import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
+import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.badlogic.gdx.math.MathUtils.random;
 
+import com.avalancherush.game.Configuration.GlobalVariables;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -38,14 +43,12 @@ public class GameViewSinglePlayer extends ScreenAdapter {
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     public Texture singlePlayer, line, scoreboard, stone, tree;    //
-    public int addition, threshold, singlePlayerHeight, singlePlayerWidth;
-    public float obstacleHeight;
+    public int addition, threshold;
     public Queue<Vector3> gameObstacle;
 
     private float laneX[];
-    public int obstacleWidth[];
 
-    private float scoreboardX, scoreboardY, playerX, playerY, totaltime, gameSpeed;
+    private float scoreboardX, scoreboardY, playerX, playerY, totaltime;
 
     public GameViewSinglePlayer(OrthographicCamera orthographicCamera) {
         this.orthographicCamera = orthographicCamera;
@@ -60,13 +63,7 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         this.tree = new Texture((Gdx.files.internal("treewinter.png")));
 
         this.gameObstacle = new Queue<Vector3>();
-        this.singlePlayerHeight = 100;
-        this.singlePlayerWidth = 70;
-        this.gameSpeed = 50;
-        this.obstacleWidth = new int[2];
-        this.obstacleWidth[0] = 70;
-        this.obstacleWidth[1] = 60;
-        this.obstacleHeight = 100;
+
 
         this.playerY = (float) singlePlayer.getHeight() / 2;
         this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (scoreboard.getWidth() / 2) - 10);
@@ -95,7 +92,7 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         }
         float elapsedTime = Gdx.graphics.getDeltaTime();
         totaltime += elapsedTime;
-        gameSpeed = totaltime+50 > gameSpeed ? totaltime+50 : gameSpeed;
+        GAME_SPEED = totaltime+50 > GAME_SPEED ? totaltime+50 : GAME_SPEED;
 
         generateObstacle(elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
@@ -105,14 +102,14 @@ public class GameViewSinglePlayer extends ScreenAdapter {
 
         for(Vector3 vector: gameObstacle){
             if(vector.z == 1){
-                batch.draw(stone, laneX[(int)vector.x]  - 35, vector.y, 70, obstacleHeight);
+                batch.draw(stone, laneX[(int)vector.x]  - 35, vector.y, 70, OBSTACLE_HEIGHT);
             }
             else if(vector.z == 2){
-                batch.draw(tree, laneX[(int)vector.x]  - 30, vector.y, 60, obstacleHeight);
+                batch.draw(tree, laneX[(int)vector.x]  - 30, vector.y, 60, OBSTACLE_HEIGHT);
             }
         }
 //
-        batch.draw(singlePlayer, playerX - singlePlayerWidth/2, playerY, singlePlayerWidth, singlePlayerHeight);
+        batch.draw(singlePlayer, playerX - SINGLE_PLAYER_WIDTH/2, playerY, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT);
         batch.draw(line,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
         batch.draw(line,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
         batch.draw(scoreboard, scoreboardX, scoreboardY, 100, 50);
@@ -168,13 +165,13 @@ public class GameViewSinglePlayer extends ScreenAdapter {
             head = coordinates.removeFirst();
             lastObstacleLane = head.x;
             if(head.y > -50){
-                Vector3 vector = new Vector3(head.x, head.y-time*gameSpeed, head.z);
+                Vector3 vector = new Vector3(head.x, head.y-time*GAME_SPEED, head.z);
                 newObstacles.addLast(vector);
             }
         }
 
 
-        if (size<threshold && head.y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - singlePlayerHeight- 100) + 10) {
+        if (size<threshold && head.y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT- 100) + 10) {
             int x = 0;
             int y = random.nextInt(2) + 1;
             do {
@@ -190,12 +187,12 @@ public class GameViewSinglePlayer extends ScreenAdapter {
     }
     public boolean checkCollision(){
 
-        float playerHead = playerY + singlePlayerHeight/2;
+        float playerHead = playerY + SINGLE_PLAYER_HEIGHT/2;
         for(Vector3 vector: gameObstacle){
             if(laneX[(int)vector.x] != playerX){
                 continue;
             }
-            float obstacleBottom = vector.y - obstacleHeight/2;
+            float obstacleBottom = vector.y - OBSTACLE_HEIGHT/2;
             if(obstacleBottom <= playerHead){
                 return true;
             }
