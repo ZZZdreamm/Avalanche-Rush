@@ -97,7 +97,7 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         show();
         boolean collision = checkCollision();
         if(collision){
-            MyAvalancheRushGame.INSTANCE.setScreen(new GameEndView(orthographicCamera));
+            MyAvalancheRushGame.INSTANCE.setScreen(new GameEndView());
         }
         float elapsedTime = Gdx.graphics.getDeltaTime();
         totaltime += elapsedTime;

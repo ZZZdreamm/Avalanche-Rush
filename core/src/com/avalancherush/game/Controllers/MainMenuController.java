@@ -3,12 +3,12 @@ package com.avalancherush.game.Controllers;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Interfaces.EventObserver;
 import com.avalancherush.game.MyAvalancheRushGame;
-import com.avalancherush.game.Singletons.GameThread;
+import com.avalancherush.game.Views.GameEndView;
+import com.avalancherush.game.Views.GameMenuView;
 import com.avalancherush.game.Views.MultiPlayerView;
 import com.avalancherush.game.Views.ProfileView;
 import com.avalancherush.game.Views.SettingsView;
 import com.avalancherush.game.Views.SinglePlayerView;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 
 
 public class MainMenuController implements EventObserver {

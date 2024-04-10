@@ -11,6 +11,10 @@ public class SettingsController implements EventObserver {
     public void notify(EventType eventType) {
         if(eventType == EventType.HOME_BUTTON_CLICK) {
             MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
+        } else if (eventType == EventType.VOLUME_UP) {
+            MyAvalancheRushGame.INSTANCE.getMusic().play();
+        } else if (eventType == EventType.VOLUME_DOWN) {
+            MyAvalancheRushGame.INSTANCE.getMusic().pause();
         }
     }
 }

@@ -6,7 +6,6 @@ import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Views.MenuView;
 
 public class JoinController implements EventObserver {
-
     @Override
     public void notify(EventType eventType) {
         if(eventType == EventType.HOME_BUTTON_CLICK){

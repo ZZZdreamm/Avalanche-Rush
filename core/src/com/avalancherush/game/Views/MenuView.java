@@ -105,7 +105,7 @@ public class MenuView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (singlePlayerButton.contains(touchPos.x, touchPos.y)) {
-                    MyAvalancheRushGame.INSTANCE.setScreen(new SinglePlayerView());
+                    mainMenuController.notify(EventType.SINGLE_PLAYER_BUTTON_CLICK);
                 } else if (multiPlayerButton.contains(touchPos.x, touchPos.y)) {
                     mainMenuController.notify(EventType.MULTIPLAYER_BUTTON_CLICK);
                 } else if (profileButton.contains(touchPos.x, touchPos.y)) {

@@ -85,7 +85,7 @@ public class JoinView extends ScreenAdapter {
 
         batch.draw(WOOD_BUTTON, woodBeamX, woodBeamY, woodBeamWidth, 74);
         batch.draw(PLAY_BUTTON, buttonPlayX, woodBeamY, buttonPlayWidth, 74);
-        fontText.draw(batch, "Insert: " + code, CodeX, woodBeamY + 50);
+        fontText.draw(batch, "INSERT: " + code, CodeX, woodBeamY + 50);
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
 
         batch.end();

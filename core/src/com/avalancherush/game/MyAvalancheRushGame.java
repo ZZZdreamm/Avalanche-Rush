@@ -6,6 +6,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,6 +21,7 @@ public class MyAvalancheRushGame extends Game {
 	private OrthographicCamera orthographicCamera;
 	private int screenWidth, screenHeight;
 	private GameThread instance;
+	private Music music;
 
 	public MyAvalancheRushGame() {
 		INSTANCE = this;
@@ -31,6 +33,10 @@ public class MyAvalancheRushGame extends Game {
 		this.screenHeight = Gdx.graphics.getHeight();
 		this.orthographicCamera = new OrthographicCamera();
 		this.orthographicCamera.setToOrtho(false, screenWidth, screenHeight);
+		this.music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+		music.setLooping(true);
+		music.setVolume(0.1f);
+		music.play();
 		instance = GameThread.getInstance();
 		instance.setCamera(orthographicCamera);
 		setScreen(new MenuView());
@@ -42,5 +48,14 @@ public class MyAvalancheRushGame extends Game {
 
 	public int getScreenHeight() {
 		return screenHeight;
+	}
+
+	public Music getMusic() {
+		return music;
+	}
+
+	@Override
+	public void dispose() {
+		music.dispose();
 	}
 }
