@@ -19,4 +19,6 @@ public class Textures {
     public static Texture MODIFY_BUTTON = new Texture(Gdx.files.internal("buttonModify.png"));
     public static Texture VOLUME_UP_BUTTON = new Texture(Gdx.files.internal("buttonVolumeUp.png"));
     public static Texture VOLUME_DOWN_BUTTON = new Texture(Gdx.files.internal("buttonVolumeDown.png"));
+    public static Texture TABLE_LOBBY = new Texture(Gdx.files.internal("table.png"));
+    public static Texture MENU_BUTTON = new Texture(Gdx.files.internal("menuButton.png"));
 }   

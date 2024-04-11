@@ -32,7 +32,7 @@ public class ProfileView extends ScreenAdapter {
     private SpriteBatch batch;
     private Rectangle homeButton;
     private BitmapFont font;
-    private String username;
+    public static String username;
     private boolean editingUsername = false;
     private StringBuilder usernameBuilder;
     private Rectangle changeUsernameButton;
@@ -44,7 +44,7 @@ public class ProfileView extends ScreenAdapter {
         this.profileController = new ProfileController();
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
-        this.username = "Default Username";
+        username = "Default Username";
         this.usernameBuilder = new StringBuilder();
         this.font = new BitmapFont();
         this.font.setColor(Color.WHITE);
@@ -142,6 +142,10 @@ public class ProfileView extends ScreenAdapter {
             }
 
         });
+    }
+
+    public static String getUsername() {
+        return username;
     }
 
     @Override

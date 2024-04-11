@@ -34,7 +34,7 @@ public class JoinView extends ScreenAdapter {
     private BitmapFont fontTitle;
 
     private String code = "";
-    private boolean editingCode = false;
+
     private Rectangle woodBeamBounds;
     private float CodeX;
     private float woodBeamY;

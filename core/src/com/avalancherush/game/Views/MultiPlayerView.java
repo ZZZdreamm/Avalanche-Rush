@@ -97,6 +97,7 @@ public class MultiPlayerView extends ScreenAdapter {
                     multiPlayerController.notify(EventType.JOIN_BUTTON_CLICK);
                     return true;
                 } else if (createButton.contains(touchPos.x, touchPos.y)) {
+                    multiPlayerController.notify(EventType.LOBBY_BUTTON_CLICK);
                     return true;
                 } else if (homeButton.contains(touchPos.x, touchPos.y)) {
                     multiPlayerController.notify(EventType.HOME_BUTTON_CLICK);

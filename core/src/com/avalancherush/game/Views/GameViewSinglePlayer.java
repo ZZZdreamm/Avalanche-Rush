@@ -1,16 +1,16 @@
 package com.avalancherush.game.Views;
 
 import static com.avalancherush.game.Configuration.GlobalVariables.GAME_SPEED;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_ROCK_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_TREE_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.Textures.LINE;
+import static com.avalancherush.game.Configuration.Textures.MENU_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
 import static com.badlogic.gdx.math.MathUtils.random;
-
-import com.avalancherush.game.Configuration.GlobalVariables;
+import com.avalancherush.game.Controllers.GamePlayController;
+import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.ObstacleType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Models.Obstacle;
@@ -18,34 +18,17 @@ import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.ObstacleFactory;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Queue;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.LinkedList;
-import java.util.PriorityQueue;
 
 
 public class GameViewSinglePlayer extends ScreenAdapter {
@@ -60,6 +43,8 @@ public class GameViewSinglePlayer extends ScreenAdapter {
     private Player player;
     private ObstacleFactory obstacleFactory;
     private Queue<Obstacle> obstacles;
+    private GamePlayController gamePlayController;
+    private Rectangle menuButton;
 
     public GameViewSinglePlayer() {
         this.orthographicCamera = GameThread.getInstance().getCamera();
@@ -90,6 +75,9 @@ public class GameViewSinglePlayer extends ScreenAdapter {
 
         this.obstacleFactory = ObstacleFactory.getInstance();
         this.obstacles = new Queue<>();
+
+        this.menuButton = new Rectangle(10, MyAvalancheRushGame.INSTANCE.getScreenHeight() - MENU_BUTTON.getHeight() - 10, MENU_BUTTON.getWidth(), MENU_BUTTON.getHeight());
+        this.gamePlayController = new GamePlayController();
     }
 
     @Override
@@ -118,6 +106,7 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
         batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 100, 50);
+        batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
         batch.end();
     }
 
@@ -139,10 +128,14 @@ public class GameViewSinglePlayer extends ScreenAdapter {
                         player.getRectangle().x = laneX[player.getTrack()-1] - SINGLE_PLAYER_WIDTH/2;
                     }
                 }
+
+                if (menuButton.contains(touchPos.x, touchPos.y)) {
+                    gamePlayController.notify(EventType.GAME_MENU_BUTTON);
+                    return true;
+                }
                 return true;
             }
         });
-
     }
 
     @Override
@@ -203,5 +196,7 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         }
         return false;
     }
+
+
 }
 
