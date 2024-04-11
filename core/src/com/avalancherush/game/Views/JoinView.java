@@ -39,6 +39,7 @@ public class JoinView extends ScreenAdapter {
     private float CodeX;
     private float woodBeamY;
     private BitmapFont fontText;
+    private static final int CODE_LENGTH = 5;
 
     public JoinView() {
         this.gameThread = GameThread.getInstance();
@@ -105,6 +106,16 @@ public class JoinView extends ScreenAdapter {
             return false;
         }
 
+        public boolean keyTyped(char character) {
+            if (Character.isDigit(character) && code.length() < CODE_LENGTH) {
+                code += character;
+                return true;
+            }
+            else if (character == '\b' && code.length() > 0) {
+                code = code.substring(0, code.length() - 1);
+            }
+            return false;
+        }
     }
 
     @Override

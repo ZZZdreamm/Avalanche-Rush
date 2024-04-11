@@ -16,7 +16,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -32,12 +31,14 @@ public class LobbyView extends ScreenAdapter {
     private SpriteBatch batch;
 
     private Rectangle playButton;
+    private Rectangle homeButton;
     private BitmapFont fontTitle;
 
     private float CodeX;
     private float woodBeamY;
     private BitmapFont fontText;
     private String username;
+    public static int code;
 
     public LobbyView() {
         this.gameThread = GameThread.getInstance();
@@ -48,6 +49,8 @@ public class LobbyView extends ScreenAdapter {
         float buttonX = 214 + ((MyAvalancheRushGame.INSTANCE.getScreenWidth() - (PLAY_BUTTON.getWidth()+214)) / 2);
         float buttonY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - PLAY_BUTTON.getHeight()) / 2;
         this.playButton = new Rectangle(buttonX, buttonY, PLAY_BUTTON.getWidth(), PLAY_BUTTON.getHeight());
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
+
 
         CodeX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
         woodBeamY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - 140) / 2;
@@ -64,6 +67,8 @@ public class LobbyView extends ScreenAdapter {
         this.fontText = new BitmapFont();
         this.fontText.setColor(Color.WHITE);
         this.fontText.getData().setScale(1);
+
+        code = (int) (Math.random() * 99999) + 10000;
     }
 
     @Override
@@ -88,6 +93,7 @@ public class LobbyView extends ScreenAdapter {
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
+
         batch.draw(TABLE_LOBBY, woodBeamX, woodBeamY, woodBeamWidth, 140);
         batch.draw(PLAY_BUTTON, buttonPlayX, woodBeamY+35, buttonPlayWidth, 74);
 
@@ -100,6 +106,15 @@ public class LobbyView extends ScreenAdapter {
         float player2X = usernameX + (usernameLayout.width - player2Layout.width) / 2;
         float player2Y = usernameY - player2Layout.height - 35;
         fontText.draw(batch, player2Layout, player2X, player2Y);
+
+        String codeString = String.valueOf(code);
+        GlyphLayout lobbyCodeLayout = new GlyphLayout(fontText, "code " + codeString);
+        float lobbyCodeX = woodBeamX + woodBeamWidth - lobbyCodeLayout.width - 10;
+        float lobbyCodeY = woodBeamY + lobbyCodeLayout.height + 10;
+        fontText.draw(batch, lobbyCodeLayout, lobbyCodeX, lobbyCodeY);
+
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
+
 
         batch.end();
     }
@@ -115,10 +130,15 @@ public class LobbyView extends ScreenAdapter {
                 return true;
             }
 
+            if (homeButton.contains(touchPos.x, touchPos.y)) {
+                lobbyController.notify(EventType.HOME_BUTTON_CLICK);
+            }
+
             return false;
         }
-
     }
+
+
 
     @Override
     public void dispose() {
