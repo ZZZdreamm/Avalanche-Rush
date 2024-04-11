@@ -66,7 +66,7 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         this.player.setTexture(new Texture((Gdx.files.internal("ski_spritesheet.png"))));
         float playerY = (float)this.player.getTexture().getHeight()/2;
         float playerX = (float) laneX[1] - SINGLE_PLAYER_WIDTH/2;
-        Rectangle rectangle = new Rectangle(playerX, playerY, SINGLE_PLAYER_HEIGHT, SINGLE_PLAYER_WIDTH);
+        Rectangle rectangle = new Rectangle(playerX, playerY, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT);
         this.player.setRectangle(rectangle);
 
         addition = 1;
