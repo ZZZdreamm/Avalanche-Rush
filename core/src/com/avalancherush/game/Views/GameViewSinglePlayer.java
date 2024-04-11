@@ -72,7 +72,7 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         addition = 1;
         threshold = 10;
         this.totaltime = 0;
-        this.gameSpeed = 10;
+        this.gameSpeed = 30;
 
         this.obstacleFactory = ObstacleFactory.getInstance();
         this.obstacles = new Queue<>();
