@@ -1,7 +1,7 @@
 package com.avalancherush.game.Configuration;
 
 public class GlobalVariables {
-    public static float SINGLE_PLAYER_HEIGHT = 100;
+    public static float SINGLE_PLAYER_HEIGHT = 110;
     public static float SINGLE_PLAYER_WIDTH = 70;
 
     public static float GAME_SPEED = 50;
