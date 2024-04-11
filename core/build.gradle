@@ -1,8 +1,4 @@
 sourceCompatibility = 1.8
-dependencies {
-    implementation files('..\\android\\libs\\gdx-stb-truetype.jar')
-    implementation files('..\\android\\libs\\gdx-stb-truetype-natives.jar')
-}
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
