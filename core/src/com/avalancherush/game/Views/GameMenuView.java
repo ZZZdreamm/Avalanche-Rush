@@ -41,25 +41,19 @@ public class GameMenuView extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.gameMenuController = new GameMenuController();
 
-        float screenWidth = MyAvalancheRushGame.INSTANCE.getScreenWidth();
-        float screenHeight = MyAvalancheRushGame.INSTANCE.getScreenHeight();
-
-        this.resumeButton = new Rectangle((screenWidth - WOOD_BUTTON.getWidth()) / 2, (screenHeight - WOOD_BUTTON.getHeight()) / 2 + 50, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
-        this.volumeUpButton = new Rectangle((screenWidth - WOOD_BUTTON.getWidth()) / 2, resumeButton.y - WOOD_BUTTON.getHeight() - 20, VOLUME_UP_BUTTON.getWidth(), VOLUME_UP_BUTTON.getHeight());
-        this.volumeDownButton = new Rectangle((screenWidth - WOOD_BUTTON.getWidth()) / 2 + 150, volumeUpButton.y, VOLUME_DOWN_BUTTON.getWidth(), VOLUME_DOWN_BUTTON.getHeight());
+        this.resumeButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, ((float)MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight()) / 2 + 50, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
+        this.volumeUpButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, resumeButton.y - WOOD_BUTTON.getHeight() - 20, VOLUME_UP_BUTTON.getWidth(), VOLUME_UP_BUTTON.getHeight());
+        this.volumeDownButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2 + 150, volumeUpButton.y, VOLUME_DOWN_BUTTON.getWidth(), VOLUME_DOWN_BUTTON.getHeight());
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
 
-        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontTitle.getData().setScale(1f);
-
-        fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontText.getData().setScale(0.90f);
+        this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontTitle.getData().setScale(1f);
+        this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontText.getData().setScale(0.90f);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();

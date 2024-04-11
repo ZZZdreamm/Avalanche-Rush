@@ -50,27 +50,21 @@ public class ProfileView extends ScreenAdapter {
         this.font.setColor(Color.WHITE);
         this.font.getData().setScale(1);
         this.changeUsernameButton = new Rectangle(50, 150, 100, 50);
-
-        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontTitle.getData().setScale(1);
+        this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontTitle.getData().setScale(1);
 
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
 
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-
-
         GlyphLayout glyphLayout = new GlyphLayout();
         glyphLayout.setText(font, "Username: " + username);
-
 
         float usernameX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
 
@@ -79,7 +73,6 @@ public class ProfileView extends ScreenAdapter {
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
-
         float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
         batch.draw(WOOD_BUTTON, usernameX-32, woodBeamY, 150 + 64, 74);
 
@@ -87,11 +80,9 @@ public class ProfileView extends ScreenAdapter {
         float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
         changeUsernameButton.setPosition(changeButtonX, changeButtonY);
 
-
         batch.draw(MODIFY_BUTTON, changeUsernameButton.x, changeUsernameButton.y);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
-
 
         if (editingUsername) {
             font.draw(batch, "NEW USERNAME:\n" + usernameBuilder.toString(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
@@ -153,6 +144,7 @@ public class ProfileView extends ScreenAdapter {
         batch.dispose();
         BACKGROUND.dispose();
         HOME_BUTTON.dispose();
+        MODIFY_BUTTON.dispose();
         font.dispose();
         fontTitle.dispose();
     }

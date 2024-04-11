@@ -81,8 +81,8 @@ public class LobbyView extends ScreenAdapter {
 
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        float woodBeamWidth = 150 + 64; // Width of the WOOD_BUTTON including margins
-        float buttonPlayWidth = PLAY_BUTTON.getWidth(); // Width of the buttonPlay.png
+        float woodBeamWidth = 150 + 64;
+        float buttonPlayWidth = PLAY_BUTTON.getWidth();
 
         float totalWidth = woodBeamWidth + buttonPlayWidth;
         float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
@@ -126,7 +126,7 @@ public class LobbyView extends ScreenAdapter {
             orthographicCamera.unproject(touchPos);
 
             if (playButton.contains(touchPos.x, touchPos.y)) {
-                lobbyController.notify(EventType.HOME_BUTTON_CLICK); //change HOME_BUTTON with PLAY_BUTTON
+                lobbyController.notify(EventType.HOME_BUTTON_CLICK);
                 return true;
             }
 
