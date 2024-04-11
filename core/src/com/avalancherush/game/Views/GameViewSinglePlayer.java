@@ -1,6 +1,6 @@
 package com.avalancherush.game.Views;
 
-import static com.avalancherush.game.Configuration.GlobalVariables.GAME_SPEED;
+import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_ROCK_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_TREE_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
@@ -37,7 +37,6 @@ public class GameViewSinglePlayer extends ScreenAdapter {
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     public int addition, threshold;
-    //    public Queue<Vector3> gameObstacle;
     private float laneX[];
     private float scoreboardX, scoreboardY, totaltime;
     private Player player;
@@ -45,6 +44,7 @@ public class GameViewSinglePlayer extends ScreenAdapter {
     private Queue<Obstacle> obstacles;
     private GamePlayController gamePlayController;
     private Rectangle menuButton;
+    private float gameSpeed;
 
     public GameViewSinglePlayer() {
         this.orthographicCamera = GameThread.getInstance().getCamera();
@@ -72,6 +72,7 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         addition = 1;
         threshold = 10;
         this.totaltime = 0;
+        this.gameSpeed = 10;
 
         this.obstacleFactory = ObstacleFactory.getInstance();
         this.obstacles = new Queue<>();
@@ -89,14 +90,12 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         }
         float elapsedTime = Gdx.graphics.getDeltaTime();
         totaltime += elapsedTime;
-        GAME_SPEED = totaltime+50 > GAME_SPEED ? totaltime+50 : GAME_SPEED;
-
+        gameSpeed = totaltime+50 > gameSpeed ? totaltime+50 : gameSpeed;
         generateObstacle(elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
-
         for(Obstacle obstacle: obstacles){
             obstacle.draw(batch);
         }
@@ -146,6 +145,8 @@ public class GameViewSinglePlayer extends ScreenAdapter {
     public void generateObstacle(float time){
         int size = obstacles.size;
 
+        Queue<Obstacle> obstacleTemp = new Queue<>();
+
         Obstacle head = new Obstacle();
         Rectangle rectangle = new Rectangle(0,0,0,0);
         head.setRectangle(rectangle);
@@ -153,21 +154,14 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         while(!obstacles.isEmpty()){
             head = obstacles.removeFirst();
             Rectangle headRectangle = head.getRectangle();
-            lastObstacleLane = headRectangle.x;
+            lastObstacleLane = head.getTrack();
             if(headRectangle.y > -50){
-                Obstacle newObstacle;
-                int track = random.nextInt(1, 3);
-                if(random.nextInt(2) == 1){
-                    newObstacle = obstacleFactory.createObstacle(ObstacleType.ROCK, track, headRectangle.x, headRectangle.y-time*GAME_SPEED);
-                }else{
-                    newObstacle = obstacleFactory.createObstacle(ObstacleType.TREE, track, headRectangle.x, headRectangle.y-time*GAME_SPEED);
-                }
-                obstacles.addLast(newObstacle);
+                head.getRectangle().y = headRectangle.y - time * gameSpeed;
+                obstacleTemp.addLast(head);
             }
         }
 
-
-        if (size<threshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - 100) + 10) {
+        if (size<threshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - OBSTACLE_HEIGHT)) {
             int track = 0;
             do{
                 track = random.nextInt(3) + 1;
@@ -180,8 +174,10 @@ public class GameViewSinglePlayer extends ScreenAdapter {
                 newObstacle = obstacleFactory.createObstacle(ObstacleType.TREE, track, laneX[track - 1] - OBSTACLE_TREE_WIDTH/2, MyAvalancheRushGame.INSTANCE.getScreenHeight());
             }
 
-            obstacles.addLast(newObstacle);
+            obstacleTemp.addLast(newObstacle);
         }
+
+        obstacles = obstacleTemp;
 
 
     }
