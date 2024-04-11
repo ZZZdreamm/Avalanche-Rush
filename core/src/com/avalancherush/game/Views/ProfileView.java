@@ -13,9 +13,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -74,7 +72,9 @@ public class ProfileView extends ScreenAdapter {
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
         float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
-        batch.draw(WOOD_BUTTON, usernameX-32, woodBeamY, 150 + 64, 74);
+        batch.draw(WOOD_BUTTON, usernameX - 32, woodBeamY, 150 + 64, 74);
+        batch.draw(WOOD_BUTTON,usernameX - 32,woodBeamY - 100,150+64,74);
+        font.draw(batch,"HIGHEST SCORE",usernameX,woodBeamY - 100 + 50);
 
         float changeButtonX = usernameX + 150 + 50;
         float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
@@ -85,9 +85,9 @@ public class ProfileView extends ScreenAdapter {
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
 
         if (editingUsername) {
-            font.draw(batch, "NEW USERNAME:\n" + usernameBuilder.toString(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
+            font.draw(batch, "NEW USERNAME\n" + usernameBuilder.toString(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
         } else {
-            font.draw(batch, "USERNAME:\n" + username, usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
+            font.draw(batch, "USERNAME\n" + username, usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
         }
 
         batch.end();
@@ -135,6 +135,15 @@ public class ProfileView extends ScreenAdapter {
         });
     }
 
+    @Override
+    public void hide() {
+        if (editingUsername) {
+            username = usernameBuilder.toString();
+            usernameBuilder.setLength(0);
+            editingUsername = false;
+        }
+    }
+
     public static String getUsername() {
         return username;
     }
@@ -149,12 +158,4 @@ public class ProfileView extends ScreenAdapter {
         fontTitle.dispose();
     }
 
-    @Override
-    public void hide() {
-        if (editingUsername) {
-            username = usernameBuilder.toString();
-            usernameBuilder.setLength(0);
-            editingUsername = false;
-        }
-    }
 }

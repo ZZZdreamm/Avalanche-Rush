@@ -11,11 +11,9 @@ public class GameThread {
         }
         return instance;
     }
-
     public void setCamera(OrthographicCamera inputCamera) {
         camera = inputCamera;
     }
-
     public OrthographicCamera getCamera() {
         return camera;
     }

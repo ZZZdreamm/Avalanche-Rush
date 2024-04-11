@@ -9,6 +9,7 @@ public class Textures {
     public static Texture TREE = new Texture((Gdx.files.internal("treewinter.png")));
     public static Texture LINE = new Texture((Gdx.files.internal("Line.png")));
     public static Texture WOOD_BUTTON = new Texture((Gdx.files.internal("buttonWood.png")));
+
     public static Texture BACKGROUND = new Texture(Gdx.files.internal("backGroundMountain.jpg"));
     public static Texture PROFILE_BUTTON = new Texture(Gdx.files.internal("buttonProfile.png"));
     public static Texture SETTINGS_BUTTON = new Texture(Gdx.files.internal("buttonSettings.png"));

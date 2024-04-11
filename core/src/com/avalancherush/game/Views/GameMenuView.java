@@ -7,14 +7,12 @@ import static com.avalancherush.game.Configuration.Textures.VOLUME_UP_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.Controllers.GameMenuController;
-import com.avalancherush.game.Controllers.MainMenuController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;

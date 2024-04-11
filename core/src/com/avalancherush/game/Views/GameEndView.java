@@ -57,8 +57,8 @@ public class GameEndView extends ScreenAdapter {
         float gameOverY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameOverLayout.height - 50;
         gameOverFont.draw(batch, "GAME OVER", gameOverX, gameOverY);
 
-        float buttonX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - LOST_BUTTON.getWidth()) / 2;
-        float buttonY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - LOST_BUTTON.getHeight()) / 2;
+        float buttonX = (float)(MyAvalancheRushGame.INSTANCE.getScreenWidth() - LOST_BUTTON.getWidth()) / 2;
+        float buttonY = (float)(MyAvalancheRushGame.INSTANCE.getScreenHeight() - LOST_BUTTON.getHeight()) / 2;
 
         batch.draw(LOST_BUTTON, buttonX, buttonY);
 
@@ -72,9 +72,6 @@ public class GameEndView extends ScreenAdapter {
 
         batch.end();
     }
-
-
-
 
     @Override
     public void show() {

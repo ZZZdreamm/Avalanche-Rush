@@ -45,15 +45,12 @@ public class MyAvalancheRushGame extends Game {
 	public int getScreenWidth() {
 		return screenWidth;
 	}
-
 	public int getScreenHeight() {
 		return screenHeight;
 	}
-
 	public Music getMusic() {
 		return music;
 	}
-
 	@Override
 	public void dispose() {
 		music.dispose();
