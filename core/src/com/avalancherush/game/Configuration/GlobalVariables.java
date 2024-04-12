@@ -10,4 +10,7 @@ public class GlobalVariables {
     public static int POWER_UP_SNOWBOARD_TIME = 30;
     public static float POWER_UP_HEIGHT = 40;
     public static float POWER_UP_WIDTH = 40;
+
+    public static float[] LANES = new float[3];
+
 }
