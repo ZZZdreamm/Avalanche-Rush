@@ -5,6 +5,7 @@ public interface FirebaseInterface {
     public void serverChangeListener(Server server);
 
     public void setValueToDataBase(String key, String value);
+    public void idChangeListener(String key);
 
 
 }

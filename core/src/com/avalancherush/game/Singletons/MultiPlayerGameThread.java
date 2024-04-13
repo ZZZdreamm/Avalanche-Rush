@@ -7,11 +7,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class MultiPlayerGameThread {
     private static MultiPlayerGameThread instance;
+
+
     private Server server;
+
+    private String gameid;
 
     public static MultiPlayerGameThread getInstance() {
         if (instance == null) {
             instance = new MultiPlayerGameThread();
+
         }
         return instance;
     }
@@ -21,5 +26,12 @@ public class MultiPlayerGameThread {
     }
     public Server getServer(){
         return this.server;
+    }
+
+    public void setGameId(String id){
+        this.gameid = id;
+    }
+    public String getGameid(){
+        return this.gameid;
     }
 }

@@ -13,20 +13,23 @@ import com.avalancherush.game.Server;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.MultiPlayerGameThread;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import java.awt.TextField;
 
-
-public class JoinView extends ScreenAdapter {
+public class JoinView extends ScreenAdapter implements Input.TextInputListener {
 
     private GameThread gameThread;
     private JoinController joinController;
@@ -40,9 +43,12 @@ public class JoinView extends ScreenAdapter {
     private BitmapFont fontText;
     private MultiPlayerGameThread instance;
     private static final int CODE_LENGTH = 5;
-    FirebaseInterface database;
-    Server server;
+    private FirebaseInterface database;
+    private Server server;
+    private com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle style;
+//    private TextField field;
 
+//    private Stage stage;
     public JoinView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
@@ -65,13 +71,37 @@ public class JoinView extends ScreenAdapter {
         instance = MultiPlayerGameThread.getInstance();
         this.database = gameThread.getDatabase();
         this.server = new Server(code);
+
+        Gdx.input.getTextInput(this,"Enter Game Code", "", "23");
+        Gdx.app.log("Text", code);
+
+
+//        style = new TextField.TextFieldStyle();
+//        style.font = new BitmapFont();
+//        style.fontColor = Color.CHARTREUSE;
+
+//        field = new TextField("", style);
+//        field.setText("Test");
+//        field.setWidth(150);
+//        field.setHeight(50);
+//        field.setPosition(500, 500);
+//        stage = new Stage(new ScreenViewport());
+//        stage.addActor(field);
+//        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
 
+        Gdx.gl.glClearColor(0, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//        stage.act(Gdx.graphics.getDeltaTime());
+//        stage.draw();
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
+//        field.draw(batch, 1f);
+
+
 
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
@@ -113,7 +143,6 @@ public class JoinView extends ScreenAdapter {
                     server.CurrentPlayer = "PlayerB";
                     database.serverChangeListener(server);
                     database.setValueToServerDataBase(server.id, "playerB", "playerB");
-                    database.setValueToServerDataBase(server.id, "playerBStatus", "True");
                     instance.setServer(server);
                     joinController.notify(EventType.LOBBY_BUTTON_CLICK);
 
@@ -122,17 +151,7 @@ public class JoinView extends ScreenAdapter {
                 return false;
             }
 
-            @Override
-            public boolean keyTyped(char character) {
-                if (Character.isDigit(character) && code.length() < CODE_LENGTH) {
-                    code += character;
-                    return true;
-                }
-                else if (character == '\b' && code.length() > 0) {
-                    code = code.substring(0, code.length() - 1);
-                }
-                return false;
-            }
+
         });
 
     }
@@ -146,5 +165,15 @@ public class JoinView extends ScreenAdapter {
         PLAY_BUTTON.dispose();
         fontTitle.dispose();
         fontText.dispose();
+    }
+
+    @Override
+    public void input(String text) {
+        this.code = text;
+    }
+
+    @Override
+    public void canceled() {
+
     }
 }

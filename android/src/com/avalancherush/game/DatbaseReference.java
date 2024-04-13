@@ -2,6 +2,7 @@ package com.avalancherush.game;
 
 import android.util.Log;
 
+import com.avalancherush.game.Singletons.MultiPlayerGameThread;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -95,6 +96,22 @@ public class DatbaseReference implements FirebaseInterface{
     public void setValueToDataBase(String key, String value){
         DatabaseReference myRef = database.getReference(key);
         myRef.setValue(value);
+    }
+
+    @Override
+    public void idChangeListener(String key) {
+        DatabaseReference myRef = database.getReference(key);
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                MultiPlayerGameThread.getInstance().setGameId(snapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

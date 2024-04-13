@@ -6,6 +6,7 @@ import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.Controllers.MultiPlayerController;
 import com.avalancherush.game.Enums.EventType;
+import com.avalancherush.game.FirebaseInterface;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Server;
 import com.avalancherush.game.Singletons.GameThread;
@@ -102,9 +103,17 @@ public class MultiPlayerView extends ScreenAdapter {
                     multiPlayerController.notify(EventType.JOIN_BUTTON_CLICK);
                     return true;
                 } else if (createButton.contains(touchPos.x, touchPos.y)) {
-                    server = new Server("1");
+                    FirebaseInterface database = gameThread.getDatabase();
+                    database.idChangeListener("id");
+                    String id = instance.getGameid();
+                    int idnum = Integer.parseInt(id);
+
+                    idnum +=1;
+                    server = new Server(id);
                     server.CurrentPlayer = "PlayerA";
                     instance.setServer(server);
+
+                    database.setValueToDataBase("id", String.valueOf(idnum));
                     multiPlayerController.notify(EventType.LOBBY_BUTTON_CLICK);
                     return true;
                 } else if (homeButton.contains(touchPos.x, touchPos.y)) {

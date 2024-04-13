@@ -20,6 +20,8 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		FirebaseInterface database = new DatbaseReference();
+		database.idChangeListener("id");
+		System.out.println("Going to Core....................");
 		initialize(new MyAvalancheRushGame(database), config);
 	}
 }
