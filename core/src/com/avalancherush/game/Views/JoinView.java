@@ -43,8 +43,6 @@ public class JoinView extends ScreenAdapter {
     FirebaseInterface database;
     Server server;
 
-    TextField.TextFeildStyle style;
-
     public JoinView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
