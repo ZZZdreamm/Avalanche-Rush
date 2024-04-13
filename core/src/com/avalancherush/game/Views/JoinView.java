@@ -7,8 +7,11 @@ import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.Controllers.JoinController;
 import com.avalancherush.game.Enums.EventType;
+import com.avalancherush.game.FirebaseInterface;
 import com.avalancherush.game.MyAvalancheRushGame;
+import com.avalancherush.game.Server;
 import com.avalancherush.game.Singletons.GameThread;
+import com.avalancherush.game.Singletons.MultiPlayerGameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
@@ -20,6 +23,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+import java.awt.TextField;
 
 
 public class JoinView extends ScreenAdapter {
@@ -28,13 +32,18 @@ public class JoinView extends ScreenAdapter {
     private JoinController joinController;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
-    private Rectangle homeButton;
+    private Rectangle homeButton, playButton;
     private BitmapFont fontTitle;
     private String code = "";
     private float CodeX;
     private float woodBeamY;
     private BitmapFont fontText;
+    private MultiPlayerGameThread instance;
     private static final int CODE_LENGTH = 5;
+    FirebaseInterface database;
+    Server server;
+
+    TextField.TextFeildStyle style;
 
     public JoinView() {
         this.gameThread = GameThread.getInstance();
@@ -42,14 +51,22 @@ public class JoinView extends ScreenAdapter {
         this.joinController = new JoinController();
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
+        float woodBeamWidth = 150 + 64;
+        float totalWidth = woodBeamWidth + PLAY_BUTTON.getWidth();
+        float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
+        float buttonPlayX = woodBeamX + woodBeamWidth;
         this.CodeX = ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
         this.woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 250;
+        this.playButton = new Rectangle(buttonPlayX, woodBeamY, PLAY_BUTTON.getWidth(), PLAY_BUTTON.getHeight());
 
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
         this.fontTitle.getData().setScale(1f);
         this.fontText = new BitmapFont();
         this.fontText.setColor(Color.WHITE);
         this.fontText.getData().setScale(1);
+        instance = MultiPlayerGameThread.getInstance();
+        this.database = gameThread.getDatabase();
+        this.server = new Server(code);
     }
 
     @Override
@@ -63,7 +80,7 @@ public class JoinView extends ScreenAdapter {
         float woodBeamWidth = 150 + 64;
         float totalWidth = woodBeamWidth + PLAY_BUTTON.getWidth();
         float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
-        float buttonPlayX = woodBeamX + woodBeamWidth;
+
 
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Join");
         float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
@@ -71,9 +88,12 @@ public class JoinView extends ScreenAdapter {
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
         batch.draw(WOOD_BUTTON, woodBeamX, woodBeamY, woodBeamWidth, 74);
-        batch.draw(PLAY_BUTTON, buttonPlayX, woodBeamY, PLAY_BUTTON.getWidth(), 74);
+
         fontText.draw(batch, "INSERT CODE: " + code, CodeX - 30, woodBeamY + 50);
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
+        batch.draw(PLAY_BUTTON, playButton.x, playButton.y, playButton.getWidth(), 74);
+
+
 
         batch.end();
     }
@@ -90,7 +110,17 @@ public class JoinView extends ScreenAdapter {
                     joinController.notify(EventType.HOME_BUTTON_CLICK);
                     return true;
                 }
+                else if (playButton.contains(touchPos.x, touchPos.y)) {
+                    server.id = code;
+                    server.CurrentPlayer = "PlayerB";
+                    database.serverChangeListener(server);
+                    database.setValueToServerDataBase(server.id, "playerB", "playerB");
+                    database.setValueToServerDataBase(server.id, "playerBStatus", "True");
+                    instance.setServer(server);
+                    joinController.notify(EventType.LOBBY_BUTTON_CLICK);
 
+                    return true;
+                }
                 return false;
             }
 

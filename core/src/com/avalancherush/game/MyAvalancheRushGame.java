@@ -22,9 +22,10 @@ public class MyAvalancheRushGame extends Game {
 	private int screenWidth, screenHeight;
 	private GameThread instance;
 	private Music music;
-
-	public MyAvalancheRushGame() {
+	private FirebaseInterface database;
+	public MyAvalancheRushGame(FirebaseInterface database) {
 		INSTANCE = this;
+		this.database = database;
 	}
 
 	@Override
@@ -39,6 +40,7 @@ public class MyAvalancheRushGame extends Game {
 		music.play();
 		instance = GameThread.getInstance();
 		instance.setCamera(orthographicCamera);
+		instance.setDatabase(this.database);
 		setScreen(new MenuView());
 	}
 
