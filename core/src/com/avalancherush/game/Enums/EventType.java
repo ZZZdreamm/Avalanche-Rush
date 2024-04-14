@@ -17,6 +17,5 @@ public enum EventType {
     RESUME_BUTTON_CLICK,
     LOBBY_BUTTON_CLICK,
     GAME_MENU_BUTTON,
-
     GAME_MULTI_PLAYER,
 }
