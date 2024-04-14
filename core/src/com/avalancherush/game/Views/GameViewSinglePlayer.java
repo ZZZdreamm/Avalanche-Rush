@@ -96,6 +96,8 @@ public class GameViewSinglePlayer extends RenderNotifier {
         boolean collision = checkCollision();
         if(collision){
             MyAvalancheRushGame.INSTANCE.setScreen(new GameEndView());
+            MyAvalancheRushGame.INSTANCE.getMusicGame().pause();
+            MyAvalancheRushGame.INSTANCE.getMusicMenu().play();
         }
         float elapsedTime = Gdx.graphics.getDeltaTime();
         totaltime += elapsedTime;

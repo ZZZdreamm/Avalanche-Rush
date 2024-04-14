@@ -65,9 +65,8 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
 
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
         this.fontTitle.getData().setScale(1f);
-        this.fontText = new BitmapFont();
-        this.fontText.setColor(Color.WHITE);
-        this.fontText.getData().setScale(1);
+        this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontText.getData().setScale(0.5f);
         instance = MultiPlayerGameThread.getInstance();
         this.database = gameThread.getDatabase();
         this.server = new Server(code);

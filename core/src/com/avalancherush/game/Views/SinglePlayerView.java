@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Queue;
 
 public class SinglePlayerView extends ScreenAdapter {
 
@@ -81,6 +82,8 @@ public class SinglePlayerView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (playButton.contains(touchPos.x, touchPos.y)) {
+                    gameThread.obstacles = new Queue<>();
+                    gameThread.powerUps = new Queue<>();
                     singlePlayerController.notify(EventType.GAME_SINGLE_PLAYER_CLICK);
                     return true;
 
