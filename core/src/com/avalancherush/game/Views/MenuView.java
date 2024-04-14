@@ -50,7 +50,6 @@ public class MenuView extends ScreenAdapter {
         this.fontText.getData().setScale(0.65f);
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
         this.fontTitle.getData().setScale(1);
-        SinglePlayerController.setGameViewSinglePlayer(new GameViewSinglePlayer());
     }
 
     @Override
