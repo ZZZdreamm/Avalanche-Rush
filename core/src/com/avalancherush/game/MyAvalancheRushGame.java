@@ -24,10 +24,12 @@ public class MyAvalancheRushGame extends Game {
 	private OrthographicCamera orthographicCamera;
 	private int screenWidth, screenHeight;
 	private GameThread instance;
-	private Music music;
-
-	public MyAvalancheRushGame() {
+	private Music musicMenu;
+	private Music musicGame;
+	private FirebaseInterface database;
+	public MyAvalancheRushGame(FirebaseInterface database) {
 		INSTANCE = this;
+		this.database = database;
 	}
 
 	@Override
@@ -36,14 +38,18 @@ public class MyAvalancheRushGame extends Game {
 		this.screenHeight = Gdx.graphics.getHeight();
 		this.orthographicCamera = new OrthographicCamera();
 		this.orthographicCamera.setToOrtho(false, screenWidth, screenHeight);
-		this.music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
-		music.setLooping(true);
-		music.setVolume(0.1f);
-		music.play();
-		instance = GameThread.getInstance();
-		instance.setCamera(orthographicCamera);
-
-
+		this.musicMenu = Gdx.audio.newMusic(Gdx.files.internal("menu.mp3"));
+		this.musicMenu.setLooping(true);
+		this.musicMenu.setVolume(1);
+		this.musicMenu.play();
+		this.musicGame = Gdx.audio.newMusic(Gdx.files.internal("game.mp3"));
+		this.musicGame.setLooping(true);
+		this.musicGame.setVolume(1);
+		this.musicGame.pause();
+		this.instance = GameThread.getInstance();
+		this.instance.setCamera(orthographicCamera);
+		instance.setDatabase(this.database);
+		System.out.println("Going to Menu View.........................................");
 		setScreen(new MenuView());
 	}
 
@@ -53,11 +59,13 @@ public class MyAvalancheRushGame extends Game {
 	public int getScreenHeight() {
 		return screenHeight;
 	}
-	public Music getMusic() {
-		return music;
+	public Music getMusicMenu() {
+		return musicMenu;
 	}
+	public Music getMusicGame() {return musicGame;}
+
 	@Override
 	public void dispose() {
-		music.dispose();
+		musicMenu.dispose();
 	}
 }

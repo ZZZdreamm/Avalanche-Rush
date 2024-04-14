@@ -6,8 +6,11 @@ import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.Controllers.MultiPlayerController;
 import com.avalancherush.game.Enums.EventType;
+import com.avalancherush.game.FirebaseInterface;
 import com.avalancherush.game.MyAvalancheRushGame;
+import com.avalancherush.game.Server;
 import com.avalancherush.game.Singletons.GameThread;
+import com.avalancherush.game.Singletons.MultiPlayerGameThread;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -33,12 +36,17 @@ public class MultiPlayerView extends ScreenAdapter {
     private BitmapFont fontText;
     private BitmapFont fontTitle;
 
+    private MultiPlayerGameThread instance;
+
+    Server server;
+
 
     public MultiPlayerView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
         this.multiPlayerController = new MultiPlayerController();
         this.batch = new SpriteBatch();
+        this.instance = MultiPlayerGameThread.getInstance();
 
         this.joinButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight()) / 2 + 50, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
         this.createButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, joinButton.y - WOOD_BUTTON.getHeight() - 20, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
@@ -95,6 +103,17 @@ public class MultiPlayerView extends ScreenAdapter {
                     multiPlayerController.notify(EventType.JOIN_BUTTON_CLICK);
                     return true;
                 } else if (createButton.contains(touchPos.x, touchPos.y)) {
+                    FirebaseInterface database = gameThread.getDatabase();
+                    database.idChangeListener("id");
+                    String id = instance.getGameid();
+                    int idnum = Integer.parseInt(id);
+
+                    idnum +=1;
+                    server = new Server(id);
+                    server.CurrentPlayer = "PlayerA";
+                    instance.setServer(server);
+
+                    database.setValueToDataBase("id", String.valueOf(idnum));
                     multiPlayerController.notify(EventType.LOBBY_BUTTON_CLICK);
                     return true;
                 } else if (homeButton.contains(touchPos.x, touchPos.y)) {

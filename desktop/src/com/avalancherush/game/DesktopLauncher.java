@@ -10,6 +10,6 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("AvalancheRush");
-		new Lwjgl3Application(new MyAvalancheRushGame(), config);
+		new Lwjgl3Application(new MyAvalancheRushGame(new desktopFireBase()), config);
 	}
 }

@@ -37,9 +37,8 @@ public class GameEndView extends ScreenAdapter {
         this.gameEndController = new GameEndController();
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
-        this.scoreFont = new BitmapFont();
-        this.scoreFont.setColor(Color.WHITE);
-        this.scoreFont.getData().setScale(1);
+        this.scoreFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.scoreFont.getData().setScale(0.75f);
         this.gameOverFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
         this.gameOverFont.getData().setScale(1.5f);
     }
@@ -49,6 +48,7 @@ public class GameEndView extends ScreenAdapter {
 
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
+
 
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
@@ -62,11 +62,11 @@ public class GameEndView extends ScreenAdapter {
 
         batch.draw(LOST_BUTTON, buttonX, buttonY);
 
-        GlyphLayout layout = new GlyphLayout(scoreFont, "SCORE: ");
+        GlyphLayout layout = new GlyphLayout(scoreFont, "SCORE ");
         float textX = buttonX + (LOST_BUTTON.getWidth() - layout.width - 80) / 2;
         float textY = buttonY + (LOST_BUTTON.getHeight() + layout.height) / 2;
 
-        scoreFont.draw(batch, "SCORE: ", textX, textY);
+        scoreFont.draw(batch, "SCORE ", textX, textY);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
 

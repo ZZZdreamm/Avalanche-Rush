@@ -1,7 +1,11 @@
 package com.avalancherush.game.Singletons;
 
+
+import com.avalancherush.game.FirebaseInterface;
+
 import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Models.PowerUp;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Queue;
 
@@ -9,6 +13,8 @@ import com.badlogic.gdx.utils.Queue;
 public class GameThread {
     private static GameThread instance;
     private OrthographicCamera camera;
+
+    private FirebaseInterface database;
     public Queue<Obstacle> obstacles;
     public Queue<PowerUp> powerUps;
     public float gameSpeed;
@@ -29,5 +35,11 @@ public class GameThread {
     }
     public OrthographicCamera getCamera() {
         return camera;
+    }
+    public void setDatabase(FirebaseInterface database) {
+        this.database = database;
+    }
+    public FirebaseInterface getDatabase() {
+        return this.database;
     }
 }

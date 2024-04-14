@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "339386989263",
+    "project_id": "avalanche-rush-ntnu-6fbfc",
+    "storage_bucket": "avalanche-rush-ntnu-6fbfc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339386989263:android:79b21fd5468d190a3f55ba",
+        "android_client_info": {
+          "package_name": "com.avalancherush.game"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmR9SMlZN7pQ0rxxk6AcW7FhBAE1Yx8kc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
