@@ -12,6 +12,8 @@ public class GameMenuController implements EventObserver {
     public void notify(EventType eventType) {
         if (eventType == EventType.HOME_BUTTON_CLICK) {
             MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
+            MyAvalancheRushGame.INSTANCE.getMusicGame().pause();
+            MyAvalancheRushGame.INSTANCE.getMusicMenu().play();
         } else if (eventType == EventType.RESUME_BUTTON_CLICK) {
             MyAvalancheRushGame.INSTANCE.setScreen(SinglePlayerController.getGameViewSinglePlayer());
         } else if (eventType == EventType.VOLUME_UP) {
