@@ -9,6 +9,7 @@ import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
 import static com.avalancherush.game.Configuration.Textures.LINE;
 import static com.avalancherush.game.Configuration.Textures.MENU_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
+import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
 import static com.badlogic.gdx.math.MathUtils.random;
 import com.avalancherush.game.Controllers.GamePlayController;
 import com.avalancherush.game.Controllers.PlayerController;
@@ -55,6 +56,9 @@ public class GameViewSinglePlayer extends ScreenAdapter {
 
     private Vector3 initialTouchPos = new Vector3();                 ///////// new
 
+    private long lastTouchTime = 0;                                 ///////// new
+    private static final long DOUBLE_TAP_TIME_DELTA = 200;          ///////// new
+
     public GameViewSinglePlayer() {
         this.orthographicCamera = GameThread.getInstance().getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
@@ -71,7 +75,8 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         this.player = new Player();
         this.player.setTrack(2);
         this.player.setSkin(SkinType.BASIC);
-        this.player.setTexture(new Texture((Gdx.files.internal("ski_spritesheet.png"))));
+//        this.player.setTexture(new Texture((Gdx.files.internal("ski_spritesheet.png"))));
+        this.player.setTexture(SINGLE_PLAYER);
         float playerY = (float)this.player.getTexture().getHeight()/2;
         float playerX = (float) LANES[1] - SINGLE_PLAYER_WIDTH/2;
         Rectangle rectangle = new Rectangle(playerX, playerY, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT);
@@ -131,12 +136,18 @@ public class GameViewSinglePlayer extends ScreenAdapter {
                 Vector3 touchPos = new Vector3(screenX, screenY, 0);
                 orthographicCamera.unproject(touchPos);
 
-//                Rectangle playerRectangle = player.getRectangle();
-//                if(screenX < playerRectangle.x){
-//                    notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_LEFT);
-//                } else if(screenX > playerRectangle.x){
-//                    notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_RIGHT);
-//                }
+                Rectangle playerRectangle = player.getRectangle();
+                if(screenX < playerRectangle.x){
+                    notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_LEFT);
+                } else if(screenX > playerRectangle.x){
+                    notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_RIGHT);
+                }
+
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastTouchTime < DOUBLE_TAP_TIME_DELTA) {
+                    notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_UP);
+                }
+                lastTouchTime = currentTime;
 
                 if (menuButton.contains(touchPos.x, touchPos.y)) {
                     notifyObservers(observers, EventType.GAME_MENU_BUTTON);
@@ -157,17 +168,18 @@ public class GameViewSinglePlayer extends ScreenAdapter {
                 // Set a threshold to consider it a slide
                 float slideThreshold = 150; // Adjust this threshold as needed
 
-                if (Math.abs(deltaX) > slideThreshold || Math.abs(deltaY) > slideThreshold) {
-                    Rectangle playerRectangle = player.getRectangle();
-                    if (deltaX < 0) {
-                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_LEFT);
-                    } else if (deltaX > 0) {
-                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_RIGHT);
-                    } else if (Math.abs(deltaY) > slideThreshold && deltaY > 0)  {
-                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_UP);
-                        }
-                    initialTouchPos.set(currentTouchPos);
-                }
+//                if (Math.abs(deltaX) > slideThreshold || Math.abs(deltaY) > slideThreshold) {
+//                    Rectangle playerRectangle = player.getRectangle();
+//                    if (deltaX < 0) {
+//                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_LEFT);
+//                    } else if (deltaX > 0) {
+//                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_RIGHT);
+//                    } else if (Math.abs(deltaY) > slideThreshold && deltaY > 0)  {
+//                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_UP);
+//                        initialTouchPos.y = screenY; /// ?
+//                    }
+//                    initialTouchPos.set(currentTouchPos);
+//                }
 
                 return true;
             }
