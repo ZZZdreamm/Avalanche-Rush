@@ -28,6 +28,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -46,11 +47,9 @@ public class GameViewMultiplayer extends ScreenAdapter {
     private Player player;
     private ObstacleFactory obstacleFactory;
     private Queue<Obstacle> obstacles;
-    private GamePlayController gamePlayController;
-    private Rectangle menuButton;
     private float gameSpeed;
-
     private float gameScore;
+    private BitmapFont scoreFont;
 
 
     public GameViewMultiplayer(){
@@ -88,17 +87,21 @@ public class GameViewMultiplayer extends ScreenAdapter {
         this.obstacleFactory = ObstacleFactory.getInstance();
         this.obstacles = new Queue<>();
 
-        this.menuButton = new Rectangle(10, MyAvalancheRushGame.INSTANCE.getScreenHeight() - MENU_BUTTON.getHeight() - 10, MENU_BUTTON.getWidth(), MENU_BUTTON.getHeight());
-        this.gamePlayController = new GamePlayController();
-
         this.gameScore = 0;
+
+        this.scoreFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.scoreFont.getData().setScale(0.5f);
     }
     @Override
     public void render(float delta) {
+        System.out.println("Player A Score "+server.playerAScore);
+
+        System.out.println("Player B Score "+server.playerBScore);
+        database.serverChangeListener(server);
         show();
         boolean collision = checkCollision();
         if(collision){
-            MyAvalancheRushGame.INSTANCE.setScreen(new GameEndView());
+            MyAvalancheRushGame.INSTANCE.setScreen(new GameEndMultiplayerView());
         }
         float elapsedTime = Gdx.graphics.getDeltaTime();
         totaltime += elapsedTime;
@@ -118,8 +121,17 @@ public class GameViewMultiplayer extends ScreenAdapter {
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
         batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 100, 50);
-        batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
+        batch.draw(SCOREBOARD, 10, scoreboardY,100,50);
+        if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
+            scoreFont.draw(batch,"YOU " + Integer.toString(server.playerAScore),10,scoreboardY);
+            scoreFont.draw(batch,"FRIEND " + Integer.toString(server.playerBScore),scoreboardX,scoreboardY);
+        } else {
+            scoreFont.draw(batch,"YOU " + Integer.toString(server.playerBScore),10,scoreboardY);
+            scoreFont.draw(batch,"FRIEND " + Integer.toString(server.playerAScore),scoreboardX,scoreboardY);
+        }
+
         batch.end();
+
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
             database.setValueToServerDataBase(server.id,"PlayerAScore", String.valueOf(gameScore));
         }
@@ -146,11 +158,6 @@ public class GameViewMultiplayer extends ScreenAdapter {
                         player.setTrack(player.getTrack() + 1);
                         player.getRectangle().x = laneX[player.getTrack()-1] - SINGLE_PLAYER_WIDTH/2;
                     }
-                }
-
-                if (menuButton.contains(touchPos.x, touchPos.y)) {
-                    gamePlayController.notify(EventType.GAME_MENU_BUTTON);
-                    return true;
                 }
                 return true;
             }
@@ -197,7 +204,6 @@ public class GameViewMultiplayer extends ScreenAdapter {
         }
 
         obstacles = obstacleTemp;
-
 
     }
     public boolean checkCollision(){

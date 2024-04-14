@@ -2,12 +2,17 @@ package com.avalancherush.game.Controllers;
 
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.ObstacleType;
+import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Interfaces.EventObserver;
 import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Timer;
+
+import com.avalancherush.game.Singletons.GameThread;
+import com.avalancherush.game.Singletons.PowerUpFactory;
+import com.badlogic.gdx.Game;
 
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
@@ -18,12 +23,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerController implements EventObserver {
+    private PowerUpFactory powerUpFactory;
     private List<Player> players;
 
     GameThread gameThread;
 
     public PlayerController() {
         this.gameThread = GameThread.getInstance();
+        this.powerUpFactory = PowerUpFactory.getInstance();
+
     }
 
     @Override
@@ -54,6 +62,12 @@ public class PlayerController implements EventObserver {
                     players.get(0).getRectangle().x = LANES[players.get(0).getTrack()-1] - SINGLE_PLAYER_WIDTH/2;
                     break;
                 }
+            }
+            case TAKE_UP_HELMET_POWER_UP: {
+                players.get(0).addPowerUp(powerUpFactory.givePlayerPowerUp(PowerUpType.HELMET, 60));
+            }
+            case TAKE_UP_SNOWBOARD_POWER_UP: {
+                players.get(0).addPowerUp(powerUpFactory.givePlayerPowerUp(PowerUpType.SNOWBOARD, 60));
             }
         }
     }

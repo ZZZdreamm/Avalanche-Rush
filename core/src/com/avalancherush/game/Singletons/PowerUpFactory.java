@@ -7,6 +7,7 @@ import com.avalancherush.game.Configuration.GlobalVariables;
 import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Models.PowerUp;
+import com.avalancherush.game.Models.TakenPowerUp;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
@@ -21,7 +22,6 @@ public class PowerUpFactory {
         }
         return instance;
     }
-
     public PowerUp createPowerUp (PowerUpType powerUpType, int track, float x, float y, int time){
         PowerUp powerUp = new PowerUp();
         try {
@@ -35,10 +35,14 @@ public class PowerUpFactory {
         if(powerUpType == PowerUpType.HELMET){
             powerUp.setType(PowerUpType.HELMET);
             powerUp.setTexture(Textures.HELMET);
-        }else if(powerUpType == PowerUpType.SNOWBOARD){
+        } if(powerUpType == PowerUpType.SNOWBOARD){
             powerUp.setType(PowerUpType.SNOWBOARD);
             powerUp.setTexture(Textures.SNOWBOARD);
         }
         return powerUp;
     };
+
+    public TakenPowerUp givePlayerPowerUp(PowerUpType powerUpType, float time){
+        return new TakenPowerUp(powerUpType, time);
+    }
 }

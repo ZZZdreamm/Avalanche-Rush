@@ -46,9 +46,9 @@ public class DatbaseReference implements FirebaseInterface{
                 } else if (keyName.equals("playerBStatus")) {
                     server.playerBStatus = value;
                 } else if (keyName.equals("playerAScore")) {
-                    server.playerAScore = (int)snapshot.getValue();
+                    server.playerAScore = Integer.parseInt(value);
                 } else if (keyName.equals("playerBScore")) {
-                    server.playerBScore = (int)snapshot.getValue();
+                    server.playerBScore = Integer.parseInt(value);
                 }
             }
 

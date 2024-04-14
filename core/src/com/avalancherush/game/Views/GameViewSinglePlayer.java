@@ -25,6 +25,7 @@ import com.avalancherush.game.Interfaces.RenderObserver;
 import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.Models.PowerUp;
+import com.avalancherush.game.Models.TakenPowerUp;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.ObstacleFactory;
@@ -103,10 +104,29 @@ public class GameViewSinglePlayer extends RenderNotifier {
         boolean collision = checkCollision();
         if(collision){
             MyAvalancheRushGame.INSTANCE.setScreen(new GameEndView());
+            MyAvalancheRushGame.INSTANCE.getMusicGame().pause();
+            MyAvalancheRushGame.INSTANCE.getMusicMenu().play();
+        }
+        PowerUpType catchedPowerUpType = checkGettingPowerUp();
+        if(catchedPowerUpType == PowerUpType.HELMET){
+            notifyObservers(Collections.singletonList(observers.get(1)), EventType.TAKE_UP_HELMET_POWER_UP);
+        }else if(catchedPowerUpType == PowerUpType.SNOWBOARD){
+            notifyObservers(Collections.singletonList(observers.get(1)), EventType.TAKE_UP_SNOWBOARD_POWER_UP);
         }
         float elapsedTime = Gdx.graphics.getDeltaTime();
+        float vehicleMultiplier = 1;
+        for (TakenPowerUp powerUp: player.getPowerUps()){
+            powerUp.setTime(powerUp.getTime() - elapsedTime);
+            if(powerUp.getTime() < 0){
+                player.getPowerUps().remove(powerUp);
+            }
+            if(powerUp.getPowerUpType() == PowerUpType.SNOWBOARD){
+                vehicleMultiplier = 1.50f;
+            }
+        }
+
         totaltime += elapsedTime;
-        gameThread.gameSpeed = totaltime+50 > gameThread.gameSpeed ? totaltime+50 : gameThread.gameSpeed;
+        gameThread.gameSpeed = totaltime+50 > gameThread.gameSpeed ? (totaltime+50) * vehicleMultiplier : gameThread.gameSpeed * vehicleMultiplier;
         notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -191,93 +211,37 @@ public class GameViewSinglePlayer extends RenderNotifier {
     public void dispose() {
         batch.dispose();
     }
-
-//    public void generateObstacle(float time){
-//        int size = obstacles.size;
-//
-//        Queue<Obstacle> obstacleTemp = new Queue<>();
-//
-//        Obstacle head = new Obstacle();
-//        Rectangle rectangle = new Rectangle(0,0,0,0);
-//        head.setRectangle(rectangle);
-//        while(!obstacles.isEmpty()){
-//            head = obstacles.removeFirst();
-//            Rectangle headRectangle = head.getRectangle();
-//            if(headRectangle.y > -50){
-//                head.getRectangle().y = headRectangle.y - time * gameSpeed;
-//                obstacleTemp.addLast(head);
-//            }
-//        }
-//
-//        if (size<obstaclesThreshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - OBSTACLE_HEIGHT)) {
-//            int track;
-//            do{
-//                track = random.nextInt(3) + 1;
-//            }while (track == lastTrackObstacleSpawned);
-//
-//            Obstacle newObstacle;
-//            if(random.nextInt(2) == 1){
-//                newObstacle = obstacleFactory.createObstacle(ObstacleType.ROCK, track, LANES[track - 1] - OBSTACLE_ROCK_WIDTH/2, MyAvalancheRushGame.INSTANCE.getScreenHeight());
-//            }else{
-//                newObstacle = obstacleFactory.createObstacle(ObstacleType.TREE, track, LANES[track - 1] - OBSTACLE_TREE_WIDTH/2, MyAvalancheRushGame.INSTANCE.getScreenHeight());
-//            }
-//            lastTrackObstacleSpawned = newObstacle.getTrack();
-//
-//            obstacleTemp.addLast(newObstacle);
-//            obstaclesSpawned++;
-//        }
-//
-//        obstacles = obstacleTemp;
-//    }
-
-//    public void generatePowerUp(float time){
-//        Queue<PowerUp> powerUpTemp = new Queue<>();
-//
-//        PowerUp head = new PowerUp();
-//        Rectangle rectangle = new Rectangle(0,0,0,0);
-//        head.setRectangle(rectangle);
-//        while(!powerUps.isEmpty()){
-//            head = powerUps.removeFirst();
-//            Rectangle headRectangle = head.getRectangle();
-//            if(headRectangle.y > -50){
-//                head.getRectangle().y = headRectangle.y - time * gameSpeed;
-//                powerUpTemp.addLast(head);
-//            }
-//        }
-//
-//       if(obstaclesSpawned >= obstaclesPerPowerUp) {
-//           int track;
-//           do {
-//               track = random.nextInt(3) + 1;
-//           } while (track == lastTrackObstacleSpawned);
-//
-//           PowerUp newPowerUp;
-//           if (random.nextInt(2) == 1) {
-//               newPowerUp = powerUpFactory.createPowerUp(PowerUpType.HELMET, track, LANES[track - 1] - OBSTACLE_ROCK_WIDTH / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight(), POWER_UP_HELMET_TIME);
-//           } else {
-//               newPowerUp = powerUpFactory.createPowerUp(PowerUpType.SNOWBOARD, track, LANES[track - 1] - OBSTACLE_TREE_WIDTH / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight(), POWER_UP_SNOWBOARD_TIME);
-//           }
-//
-//           powerUpTemp.addLast(newPowerUp);
-//           obstaclesSpawned = 0;
-//       }
-//
-//        powerUps = powerUpTemp;
-//    }
-
-
-
-
     public boolean checkCollision(){
         for(Obstacle obstacle: gameThread.obstacles){
             if(obstacle.getTrack() != player.getTrack()){
                 continue;
             }
             if(player.collides(obstacle.getRectangle())){
+                if(obstacle.getType() == ObstacleType.ROCK){
+                    if (player.getJumping()){
+                        return false;
+                    }
+                    for (TakenPowerUp powerUp : player.getPowerUps()){
+                        if(powerUp.getPowerUpType() == PowerUpType.HELMET){
+                            gameThread.obstacles.removeValue(obstacle, true);
+                            player.removePowerUp(powerUp);
+                            return false;
+                        }
+                    }
+                }
                 return true;
             }
         }
         return false;
+    }
+    public PowerUpType checkGettingPowerUp(){
+        for(PowerUp powerUp: gameThread.powerUps){
+            if(player.collides(powerUp.getRectangle())){
+                gameThread.powerUps.removeValue(powerUp, true);
+                return powerUp.getType();
+            }
+        }
+        return null;
     }
 
 

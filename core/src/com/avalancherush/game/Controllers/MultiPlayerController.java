@@ -18,8 +18,6 @@ public class MultiPlayerController implements EventObserver {
             MyAvalancheRushGame.INSTANCE.setScreen(new JoinView());
         } else if (eventType == EventType.LOBBY_BUTTON_CLICK) {
             MyAvalancheRushGame.INSTANCE.setScreen(new LobbyView());
-        } else if (eventType == EventType.GAME_MULTI_PLAYER) {
-            MyAvalancheRushGame.INSTANCE.setScreen(new GameViewSinglePlayer());
         }
     }
 }

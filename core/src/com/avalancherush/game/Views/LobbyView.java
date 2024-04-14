@@ -138,7 +138,7 @@ public class LobbyView extends ScreenAdapter {
 
         if(server.playerBStatus.equalsIgnoreCase("True") && server.playerAStatus.equalsIgnoreCase("True")){
             System.out.println("Entered");
-            MyAvalancheRushGame.INSTANCE.setScreen(new GameViewMultiplayer());
+            lobbyController.notify(EventType.GAME_MULTI_PLAYER);
 
         }
 
