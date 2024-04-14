@@ -35,7 +35,7 @@ public class PowerUpFactory {
         if(powerUpType == PowerUpType.HELMET){
             powerUp.setType(PowerUpType.HELMET);
             powerUp.setTexture(Textures.HELMET);
-        }else if(powerUpType == PowerUpType.SNOWBOARD){
+        } if(powerUpType == PowerUpType.SNOWBOARD){
             powerUp.setType(PowerUpType.SNOWBOARD);
             powerUp.setTexture(Textures.SNOWBOARD);
         }

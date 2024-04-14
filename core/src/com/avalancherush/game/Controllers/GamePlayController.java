@@ -36,7 +36,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
     public float gameSpeed;
 
     public GamePlayController(){
-        gameThread = GameThread.getInstance();
+        this.gameThread = GameThread.getInstance();
         this.obstacleFactory = ObstacleFactory.getInstance();
         this.powerUpFactory = PowerUpFactory.getInstance();
         this.lastTrackObstacleSpawned = 0;

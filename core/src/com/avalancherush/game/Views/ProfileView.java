@@ -44,9 +44,8 @@ public class ProfileView extends ScreenAdapter {
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
         username = "Default Username";
         this.usernameBuilder = new StringBuilder();
-        this.font = new BitmapFont();
-        this.font.setColor(Color.WHITE);
-        this.font.getData().setScale(1);
+        this.font = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.font.getData().setScale(0.5f);
         this.changeUsernameButton = new Rectangle(50, 150, 100, 50);
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
         this.fontTitle.getData().setScale(1);

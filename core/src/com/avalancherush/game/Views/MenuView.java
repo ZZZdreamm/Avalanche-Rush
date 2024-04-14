@@ -6,6 +6,7 @@ import static com.avalancherush.game.Configuration.Textures.SETTINGS_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.Controllers.MainMenuController;
+import com.avalancherush.game.Controllers.SinglePlayerController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
@@ -49,6 +50,7 @@ public class MenuView extends ScreenAdapter {
         this.fontText.getData().setScale(0.65f);
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
         this.fontTitle.getData().setScale(1);
+        SinglePlayerController.setGameViewSinglePlayer(new GameViewSinglePlayer());
     }
 
     @Override
