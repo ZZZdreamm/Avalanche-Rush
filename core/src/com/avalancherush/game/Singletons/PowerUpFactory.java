@@ -1,8 +1,17 @@
 package com.avalancherush.game.Singletons;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HEIGHT;
+import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_WIDTH;
+
+import com.avalancherush.game.Configuration.GlobalVariables;
+import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Models.PowerUp;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
+import org.w3c.dom.Text;
+
 
 public class PowerUpFactory {
     private static PowerUpFactory instance;
@@ -13,23 +22,22 @@ public class PowerUpFactory {
         return instance;
     }
 
-    public PowerUp createPowerUp (PowerUpType powerUpType, int track, int time){
+    public PowerUp createPowerUp (PowerUpType powerUpType, int track, float x, float y, int time){
         PowerUp powerUp = new PowerUp();
         try {
             powerUp.setTrack(track);
         }catch (Exception e){
             System.out.println(e);
         }
+        Rectangle rectangle = new Rectangle(x, y, POWER_UP_WIDTH, POWER_UP_HEIGHT);
+        powerUp.setRectangle(rectangle);
+        powerUp.setTime(time);
         if(powerUpType == PowerUpType.HELMET){
-            Image image = new Image();
-            powerUp.setImage(image);
             powerUp.setType(PowerUpType.HELMET);
-            powerUp.setTime(time);
+            powerUp.setTexture(Textures.HELMET);
         }else if(powerUpType == PowerUpType.SNOWBOARD){
-            Image image = new Image();
-            powerUp.setImage(image);
             powerUp.setType(PowerUpType.SNOWBOARD);
-            powerUp.setTime(time);
+            powerUp.setTexture(Textures.SNOWBOARD);
         }
         return powerUp;
     };

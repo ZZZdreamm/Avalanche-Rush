@@ -3,6 +3,8 @@ package com.avalancherush.game.Views;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_ROCK_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_TREE_WIDTH;
+import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
+import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_SNOWBOARD_TIME;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
@@ -15,13 +17,18 @@ import com.avalancherush.game.Controllers.GamePlayController;
 import com.avalancherush.game.Controllers.PlayerController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.ObstacleType;
+import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Interfaces.EventObserver;
+import com.avalancherush.game.Interfaces.RenderNotifier;
+import com.avalancherush.game.Interfaces.RenderObserver;
 import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Models.Player;
+import com.avalancherush.game.Models.PowerUp;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.ObstacleFactory;
+import com.avalancherush.game.Singletons.PowerUpFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
@@ -38,28 +45,21 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class GameViewSinglePlayer extends ScreenAdapter {
-
+public class GameViewSinglePlayer extends RenderNotifier {
     private GameThread gameThread;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
-    public int addition, threshold;
-    //private float laneX[];
     private float scoreboardX, scoreboardY, totaltime;
     private Player player;
-    private ObstacleFactory obstacleFactory;
-    private Queue<Obstacle> obstacles;
-
-    private List<EventObserver> observers;
     private Rectangle menuButton;
+    private Vector3 initialTouchPos = new Vector3();
     private float gameSpeed;
-
-    private Vector3 initialTouchPos = new Vector3();                 ///////// new
 
     private long lastTouchTime = 0;                                 ///////// new
     private static final long DOUBLE_TAP_TIME_DELTA = 200;          ///////// new
 
     public GameViewSinglePlayer() {
+        this.gameThread = GameThread.getInstance();
         this.orthographicCamera = GameThread.getInstance().getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
@@ -78,17 +78,11 @@ public class GameViewSinglePlayer extends ScreenAdapter {
 //        this.player.setTexture(new Texture((Gdx.files.internal("ski_spritesheet.png"))));
         this.player.setTexture(SINGLE_PLAYER);
         float playerY = (float)this.player.getTexture().getHeight()/2;
-        float playerX = (float) LANES[1] - SINGLE_PLAYER_WIDTH/2;
+        float playerX = LANES[1] - SINGLE_PLAYER_WIDTH/2;
         Rectangle rectangle = new Rectangle(playerX, playerY, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT);
         this.player.setRectangle(rectangle);
 
-        addition = 1;
-        threshold = 10;
         this.totaltime = 0;
-        this.gameSpeed = 30;
-
-        this.obstacleFactory = ObstacleFactory.getInstance();
-        this.obstacles = new Queue<>();
 
         this.menuButton = new Rectangle(10, MyAvalancheRushGame.INSTANCE.getScreenHeight() - MENU_BUTTON.getHeight() - 10, MENU_BUTTON.getWidth(), MENU_BUTTON.getHeight());
 
@@ -98,6 +92,9 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         observers = new ArrayList<>();
         observers.add(gamePlayController);
         observers.add(playerController);
+        renderObservers = new ArrayList<>();
+        renderObservers.add(gamePlayController);
+
     }
 
     @Override
@@ -109,14 +106,17 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         }
         float elapsedTime = Gdx.graphics.getDeltaTime();
         totaltime += elapsedTime;
-        gameSpeed = totaltime+50 > gameSpeed ? totaltime+50 : gameSpeed;
-        generateObstacle(elapsedTime);
+        gameThread.gameSpeed = totaltime+50 > gameThread.gameSpeed ? totaltime+50 : gameThread.gameSpeed;
+        notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
-        for(Obstacle obstacle: obstacles){
+        for(Obstacle obstacle: gameThread.obstacles){
             obstacle.draw(batch);
+        }
+        for (PowerUp powerUp: gameThread.powerUps){
+            powerUp.draw(batch);
         }
 
         player.draw(batch);
@@ -192,89 +192,84 @@ public class GameViewSinglePlayer extends ScreenAdapter {
         batch.dispose();
     }
 
-    public void generateObstacle(float time){
-        int size = obstacles.size;
-
-        Queue<Obstacle> obstacleTemp = new Queue<>();
-
-        Obstacle head = new Obstacle();
-        Rectangle rectangle = new Rectangle(0,0,0,0);
-        head.setRectangle(rectangle);
-        float lastObstacleLane = 0;
-        while(!obstacles.isEmpty()){
-            head = obstacles.removeFirst();
-            Rectangle headRectangle = head.getRectangle();
-            lastObstacleLane = head.getTrack();
-            if(headRectangle.y > -50){
-                head.getRectangle().y = headRectangle.y - time * gameSpeed;
-                obstacleTemp.addLast(head);
-            }
-        }
-
-        if (size<threshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - OBSTACLE_HEIGHT)) {
-            int track = 0;
-            do{
-                track = random.nextInt(3) + 1;
-            }while (track == lastObstacleLane);
-
-            Obstacle newObstacle;
-            if(random.nextInt(2) == 1){
-                newObstacle = obstacleFactory.createObstacle(ObstacleType.ROCK, track, LANES[track - 1] - OBSTACLE_ROCK_WIDTH/2, MyAvalancheRushGame.INSTANCE.getScreenHeight());
-            }else{
-                newObstacle = obstacleFactory.createObstacle(ObstacleType.TREE, track, LANES[track - 1] - OBSTACLE_TREE_WIDTH/2, MyAvalancheRushGame.INSTANCE.getScreenHeight());
-            }
-
-            obstacleTemp.addLast(newObstacle);
-        }
-
-        obstacles = obstacleTemp;
-
-
-    }
-
-/////////////////////////////////////////////////////
-//    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//        initialTouchPos.set(screenX, screenY, 0);
-//        orthographicCamera.unproject(initialTouchPos);
-//        return true;
-//    }
+//    public void generateObstacle(float time){
+//        int size = obstacles.size;
 //
-//    public boolean touchDragged(int screenX, int screenY, int pointer) {
-//        Vector3 currentTouchPos = new Vector3(screenX, screenY, 0);
-//        orthographicCamera.unproject(currentTouchPos);
+//        Queue<Obstacle> obstacleTemp = new Queue<>();
 //
-//        float deltaX = currentTouchPos.x - initialTouchPos.x;
-//        float deltaY = currentTouchPos.y - initialTouchPos.y;
-//
-//        // Set a threshold to consider it a slide
-//        float slideThreshold = 50; // Adjust this threshold as needed
-//
-//        if (Math.abs(deltaX) > slideThreshold || Math.abs(deltaY) > slideThreshold) {
-//            Rectangle playerRectangle = player.getRectangle();
-//            if (deltaX < 0) {
-//                notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_LEFT);
-//            } else if (deltaX > 0) {
-//                notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_RIGHT);
+//        Obstacle head = new Obstacle();
+//        Rectangle rectangle = new Rectangle(0,0,0,0);
+//        head.setRectangle(rectangle);
+//        while(!obstacles.isEmpty()){
+//            head = obstacles.removeFirst();
+//            Rectangle headRectangle = head.getRectangle();
+//            if(headRectangle.y > -50){
+//                head.getRectangle().y = headRectangle.y - time * gameSpeed;
+//                obstacleTemp.addLast(head);
 //            }
-//
-//            initialTouchPos.set(currentTouchPos);
 //        }
 //
-//        return true;
+//        if (size<obstaclesThreshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - OBSTACLE_HEIGHT)) {
+//            int track;
+//            do{
+//                track = random.nextInt(3) + 1;
+//            }while (track == lastTrackObstacleSpawned);
+//
+//            Obstacle newObstacle;
+//            if(random.nextInt(2) == 1){
+//                newObstacle = obstacleFactory.createObstacle(ObstacleType.ROCK, track, LANES[track - 1] - OBSTACLE_ROCK_WIDTH/2, MyAvalancheRushGame.INSTANCE.getScreenHeight());
+//            }else{
+//                newObstacle = obstacleFactory.createObstacle(ObstacleType.TREE, track, LANES[track - 1] - OBSTACLE_TREE_WIDTH/2, MyAvalancheRushGame.INSTANCE.getScreenHeight());
+//            }
+//            lastTrackObstacleSpawned = newObstacle.getTrack();
+//
+//            obstacleTemp.addLast(newObstacle);
+//            obstaclesSpawned++;
+//        }
+//
+//        obstacles = obstacleTemp;
+//    }
+
+//    public void generatePowerUp(float time){
+//        Queue<PowerUp> powerUpTemp = new Queue<>();
+//
+//        PowerUp head = new PowerUp();
+//        Rectangle rectangle = new Rectangle(0,0,0,0);
+//        head.setRectangle(rectangle);
+//        while(!powerUps.isEmpty()){
+//            head = powerUps.removeFirst();
+//            Rectangle headRectangle = head.getRectangle();
+//            if(headRectangle.y > -50){
+//                head.getRectangle().y = headRectangle.y - time * gameSpeed;
+//                powerUpTemp.addLast(head);
+//            }
+//        }
+//
+//       if(obstaclesSpawned >= obstaclesPerPowerUp) {
+//           int track;
+//           do {
+//               track = random.nextInt(3) + 1;
+//           } while (track == lastTrackObstacleSpawned);
+//
+//           PowerUp newPowerUp;
+//           if (random.nextInt(2) == 1) {
+//               newPowerUp = powerUpFactory.createPowerUp(PowerUpType.HELMET, track, LANES[track - 1] - OBSTACLE_ROCK_WIDTH / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight(), POWER_UP_HELMET_TIME);
+//           } else {
+//               newPowerUp = powerUpFactory.createPowerUp(PowerUpType.SNOWBOARD, track, LANES[track - 1] - OBSTACLE_TREE_WIDTH / 2, MyAvalancheRushGame.INSTANCE.getScreenHeight(), POWER_UP_SNOWBOARD_TIME);
+//           }
+//
+//           powerUpTemp.addLast(newPowerUp);
+//           obstaclesSpawned = 0;
+//       }
+//
+//        powerUps = powerUpTemp;
 //    }
 
 
-    /////////////////////////////////////////
 
-    private void notifyObservers(List<EventObserver> observers, EventType eventType){
-        for (EventObserver observer: observers
-        ) {
-            observer.notify(eventType);
-        }
-    }
 
     public boolean checkCollision(){
-        for(Obstacle obstacle: obstacles){
+        for(Obstacle obstacle: gameThread.obstacles){
             if(obstacle.getTrack() != player.getTrack()){
                 continue;
             }

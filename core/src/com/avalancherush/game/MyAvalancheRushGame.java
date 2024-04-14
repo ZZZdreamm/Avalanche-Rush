@@ -1,5 +1,6 @@
 package com.avalancherush.game;
 
+import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Views.MenuView;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -12,8 +13,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 
 public class MyAvalancheRushGame extends Game {
 
@@ -22,9 +25,10 @@ public class MyAvalancheRushGame extends Game {
 	private int screenWidth, screenHeight;
 	private GameThread instance;
 	private Music music;
-
-	public MyAvalancheRushGame() {
+	private FirebaseInterface database;
+	public MyAvalancheRushGame(FirebaseInterface database) {
 		INSTANCE = this;
+		this.database = database;
 	}
 
 	@Override
@@ -39,6 +43,8 @@ public class MyAvalancheRushGame extends Game {
 		music.play();
 		instance = GameThread.getInstance();
 		instance.setCamera(orthographicCamera);
+		instance.setDatabase(this.database);
+		System.out.println("Going to Menu View.........................................");
 		setScreen(new MenuView());
 	}
 

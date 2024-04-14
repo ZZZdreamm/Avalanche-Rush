@@ -8,23 +8,32 @@ import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.Controllers.LobbyController;
 import com.avalancherush.game.Enums.EventType;
+import com.avalancherush.game.FirebaseInterface;
 import com.avalancherush.game.MyAvalancheRushGame;
+import com.avalancherush.game.Server;
 import com.avalancherush.game.Singletons.GameThread;
+import com.avalancherush.game.Singletons.MultiPlayerGameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 
 public class LobbyView extends ScreenAdapter {
+    private MultiPlayerGameThread instance;
     private GameThread gameThread;
     private LobbyController lobbyController;
     private OrthographicCamera orthographicCamera;
@@ -33,12 +42,13 @@ public class LobbyView extends ScreenAdapter {
     private Rectangle playButton;
     private Rectangle homeButton;
     private BitmapFont fontTitle;
-
+    private FirebaseInterface database;
     private float CodeX;
     private float woodBeamY;
     private BitmapFont fontText;
     private String username;
-    public static int code;
+    public String code;
+    private Server server;
 
     public LobbyView() {
         this.gameThread = GameThread.getInstance();
@@ -48,7 +58,7 @@ public class LobbyView extends ScreenAdapter {
 
         float buttonX = 214 + ((MyAvalancheRushGame.INSTANCE.getScreenWidth() - (PLAY_BUTTON.getWidth()+214)) / 2);
         float buttonY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - PLAY_BUTTON.getHeight()) / 2;
-        this.playButton = new Rectangle(buttonX, buttonY, PLAY_BUTTON.getWidth(), PLAY_BUTTON.getHeight());
+        this.playButton = new Rectangle(buttonX+50, buttonY, PLAY_BUTTON.getWidth(), PLAY_BUTTON.getHeight());
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
 
 
@@ -66,57 +76,72 @@ public class LobbyView extends ScreenAdapter {
 
         this.fontText = new BitmapFont();
         this.fontText.setColor(Color.WHITE);
-        this.fontText.getData().setScale(1);
+        this.fontText.getData().setScale(1.5f);
+        this.database = gameThread.getDatabase();
+        instance = MultiPlayerGameThread.getInstance();
+        this.server = instance.getServer();
+        code = (server.id);
+        database.serverChangeListener(this.server);
+        if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
+            database.setValueToServerDataBase(server.id, "playerA", "Player-A");
+        }
 
-        code = (int) (Math.random() * 99999) + 10000;
+
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
-
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
-
-        float woodBeamWidth = 150 + 64;
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
+        float woodBeamWidth = 150 + 150;
         float buttonPlayWidth = PLAY_BUTTON.getWidth();
-
         float totalWidth = woodBeamWidth + buttonPlayWidth;
         float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
         float buttonPlayX = woodBeamX + woodBeamWidth;
+        batch.draw(TABLE_LOBBY, woodBeamX, woodBeamY, woodBeamWidth, 140);
 
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Lobby");
         float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
+        float CenterX = MyAvalancheRushGame.INSTANCE.getScreenWidth()/2;
+        float CenterY = MyAvalancheRushGame.INSTANCE.getScreenHeight()/2;
+
+        GlyphLayout ready = new GlyphLayout(fontText, "Ready");
+        GlyphLayout playerALayout = new GlyphLayout(fontText, server.playerA);
+        GlyphLayout playerBLayout = new GlyphLayout(fontText, server.playerB);
+        fontText.draw(batch, playerALayout, CenterX - playerALayout.width-50, CenterY+15);
+        fontText.draw(batch, playerBLayout, CenterX - playerALayout.width-50, CenterY-15);
 
 
-        batch.draw(TABLE_LOBBY, woodBeamX, woodBeamY, woodBeamWidth, 140);
-        batch.draw(PLAY_BUTTON, buttonPlayX, woodBeamY+35, buttonPlayWidth, 74);
+        if(server.CurrentPlayer.equalsIgnoreCase("PlayerA") && (!server.playerAStatus.equals("True"))){
+            batch.draw(PLAY_BUTTON, playButton.x, playButton.y, buttonPlayWidth, 74);
+        }
+        else if(server.CurrentPlayer.equalsIgnoreCase("PlayerB") && (!server.playerBStatus.equals("True"))){
+            batch.draw(PLAY_BUTTON, playButton.x,playButton.y, buttonPlayWidth, 74);
+        }
+        if(server.playerAStatus.equals("True")) {
+            fontText.draw(batch, ready,CenterX + playerALayout.width-70, CenterY + 15);
+        }
+        else if((server.playerBStatus.equals("True"))){
+            fontText.draw(batch, ready,CenterX + playerALayout.width-70,CenterY-15);
+        }
 
-        GlyphLayout usernameLayout = new GlyphLayout(fontText, username);
-        float usernameX = woodBeamX + (woodBeamWidth - usernameLayout.width) / 2;
-        float usernameY = woodBeamY + (woodBeamY + usernameLayout.height) / 2;
-        fontText.draw(batch, usernameLayout, usernameX, usernameY+15);
-
-        GlyphLayout player2Layout = new GlyphLayout(fontText, "PLAYER2");
-        float player2X = usernameX + (usernameLayout.width - player2Layout.width) / 2;
-        float player2Y = usernameY - player2Layout.height - 35;
-        fontText.draw(batch, player2Layout, player2X, player2Y);
-
-        String codeString = String.valueOf(code);
-        GlyphLayout lobbyCodeLayout = new GlyphLayout(fontText, "code " + codeString);
-        float lobbyCodeX = woodBeamX + woodBeamWidth - lobbyCodeLayout.width - 10;
-        float lobbyCodeY = woodBeamY + lobbyCodeLayout.height + 10;
-        fontText.draw(batch, lobbyCodeLayout, lobbyCodeX, lobbyCodeY);
-
-        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
-
-
+        GlyphLayout serverId = new GlyphLayout(fontText, ("Lobby ID : "+server.id));
+        System.out.println(server.id);
+        fontText.draw(batch, serverId, gameLogoX, gameLogoY-50);
         batch.end();
+
+        if(server.playerBStatus.equalsIgnoreCase("True") && server.playerAStatus.equalsIgnoreCase("True")){
+            System.out.println("Entered");
+            MyAvalancheRushGame.INSTANCE.setScreen(new GameViewMultiplayer());
+
+        }
+
     }
 
     private class MyInputAdapter extends InputAdapter {
@@ -126,8 +151,13 @@ public class LobbyView extends ScreenAdapter {
             orthographicCamera.unproject(touchPos);
 
             if (playButton.contains(touchPos.x, touchPos.y)) {
-                lobbyController.notify(EventType.HOME_BUTTON_CLICK);
-                return true;
+                if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
+                    database.setValueToServerDataBase(server.id, "playerAStatus", "True");
+                }
+                else{
+                    database.setValueToServerDataBase(server.id, "playerBStatus", "True");
+                }
+
             }
 
             if (homeButton.contains(touchPos.x, touchPos.y)) {

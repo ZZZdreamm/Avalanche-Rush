@@ -14,7 +14,6 @@ public class PowerUp extends Collidable {
     private int track;
 
     private int time;
-    private Image image;
 
     public PowerUpType getType() {
         return type;
@@ -41,12 +40,5 @@ public class PowerUp extends Collidable {
         } else {
             throw new Exception("Invalid track number. Track number must be between 1 and 5.");
         }
-    }
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
     }
 }
