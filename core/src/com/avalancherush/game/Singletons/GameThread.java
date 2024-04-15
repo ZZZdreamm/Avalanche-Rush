@@ -28,7 +28,7 @@ public class GameThread {
     private GameThread(){
         this.obstacles = new Queue<>();
         this.powerUps = new Queue<>();
-        this.gameSpeed = 30;
+        this.gameSpeed = 100;
     }
     public void setCamera(OrthographicCamera inputCamera) {
         camera = inputCamera;

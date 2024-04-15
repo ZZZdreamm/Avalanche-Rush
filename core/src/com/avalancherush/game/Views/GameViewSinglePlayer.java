@@ -76,7 +76,6 @@ public class GameViewSinglePlayer extends RenderNotifier {
         this.player = new Player();
         this.player.setTrack(2);
         this.player.setSkin(SkinType.BASIC);
-//        this.player.setTexture(new Texture((Gdx.files.internal("ski_spritesheet.png"))));
         this.player.setTexture(SINGLE_PLAYER);
         float playerY = (float)this.player.getTexture().getHeight()/2;
         float playerX = LANES[1] - SINGLE_PLAYER_WIDTH/2;
@@ -114,17 +113,21 @@ public class GameViewSinglePlayer extends RenderNotifier {
             notifyObservers(Collections.singletonList(observers.get(1)), EventType.TAKE_UP_SNOWBOARD_POWER_UP);
         }
         float elapsedTime = Gdx.graphics.getDeltaTime();
-        float vehicleMultiplier = 1;
+        float vehicleMultiplier = 1.0f;
+        List<TakenPowerUp> powerUpsToRemove = new ArrayList<>();
         for (TakenPowerUp powerUp: player.getPowerUps()){
             powerUp.setTime(powerUp.getTime() - elapsedTime);
             if(powerUp.getTime() < 0){
-                player.getPowerUps().remove(powerUp);
+                powerUpsToRemove.add(powerUp);
             }
             if(powerUp.getPowerUpType() == PowerUpType.SNOWBOARD){
-                vehicleMultiplier = 1.50f;
+                vehicleMultiplier = 2.0f;
             }
         }
-
+        for(TakenPowerUp powerUpToRemove: powerUpsToRemove){
+            player.getPowerUps().remove(powerUpToRemove);
+        }
+//        elapsedTime *= vehicleMultiplier;
         totaltime += elapsedTime;
         gameThread.gameSpeed = totaltime+50 > gameThread.gameSpeed ? (totaltime+50) * vehicleMultiplier : gameThread.gameSpeed * vehicleMultiplier;
         notifyRenderObservers(renderObservers, elapsedTime);
@@ -217,16 +220,14 @@ public class GameViewSinglePlayer extends RenderNotifier {
                 continue;
             }
             if(player.collides(obstacle.getRectangle())){
-                if(obstacle.getType() == ObstacleType.ROCK){
-                    if (player.getJumping()){
+                if(obstacle.getType() == ObstacleType.ROCK && player.getJumping()){
+                    return false;
+                }
+                for (TakenPowerUp powerUp : player.getPowerUps()){
+                    if(powerUp.getPowerUpType() == PowerUpType.HELMET){
+                        gameThread.obstacles.removeValue(obstacle, true);
+                        player.removePowerUp(powerUp);
                         return false;
-                    }
-                    for (TakenPowerUp powerUp : player.getPowerUps()){
-                        if(powerUp.getPowerUpType() == PowerUpType.HELMET){
-                            gameThread.obstacles.removeValue(obstacle, true);
-                            player.removePowerUp(powerUp);
-                            return false;
-                        }
                     }
                 }
                 return true;
