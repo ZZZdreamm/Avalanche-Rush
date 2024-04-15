@@ -160,9 +160,14 @@ public class GameViewSinglePlayer extends RenderNotifier {
                 orthographicCamera.unproject(touchPos);
 
                 Rectangle playerRectangle = player.getRectangle();
-                if(screenX < playerRectangle.x){
+                int currentTrack = player.getTrack();
+                float laneWidth = LANES[1] - LANES[0];
+                float laneRightPosition = LANES[currentTrack - 1] + laneWidth/2;
+                float laneLeftPosition =  laneRightPosition - laneWidth;
+
+                if(screenX < laneLeftPosition){
                     notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_LEFT);
-                } else if(screenX > playerRectangle.x){
+                } else if(screenX > laneRightPosition){
                     notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_RIGHT);
                 }
 
