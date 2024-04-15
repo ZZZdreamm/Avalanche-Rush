@@ -20,6 +20,7 @@ import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.ObstacleFactory;
 import com.avalancherush.game.Singletons.PowerUpFactory;
+import com.avalancherush.game.Singletons.SinglePlayerGameThread;
 import com.avalancherush.game.Views.GameMenuView;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Rectangle;
@@ -28,19 +29,18 @@ import com.badlogic.gdx.utils.Queue;
 
 public class GamePlayController implements EventObserver, RenderObserver {
     private GameThread gameThread;
+    private SinglePlayerGameThread singlePlayerGameThread;
     private ObstacleFactory obstacleFactory;
     private PowerUpFactory powerUpFactory;
     private int obstaclesSpawned = 0;
     private int lastTrackObstacleSpawned;
     private int addition, obstaclesThreshold, obstaclesPerPowerUp;
-    public float gameSpeed;
-
     public GamePlayController(){
         this.gameThread = GameThread.getInstance();
+        this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.obstacleFactory = ObstacleFactory.getInstance();
         this.powerUpFactory = PowerUpFactory.getInstance();
         this.lastTrackObstacleSpawned = 0;
-        this.gameSpeed = 30;
         this.addition = 1;
         this.obstaclesThreshold = 10;
         this.obstaclesPerPowerUp = 2;
@@ -58,23 +58,23 @@ public class GamePlayController implements EventObserver, RenderObserver {
     }
 
     public void generateObstacle(float time){
-        int size = gameThread.obstacles.size;
+        int size = singlePlayerGameThread.obstacles.size;
 
         Queue<Obstacle> obstacleTemp = new Queue<>();
 
         Obstacle head = new Obstacle();
         Rectangle rectangle = new Rectangle(0,0,0,0);
         head.setRectangle(rectangle);
-        while(!gameThread.obstacles.isEmpty()){
-            head = gameThread.obstacles.removeFirst();
+        while(!singlePlayerGameThread.obstacles.isEmpty()){
+            head = singlePlayerGameThread.obstacles.removeFirst();
             Rectangle headRectangle = head.getRectangle();
             if(headRectangle.y > -50){
-                head.getRectangle().y = headRectangle.y - time * gameSpeed;
+                head.getRectangle().y = headRectangle.y - time * gameThread.gameSpeed;
                 obstacleTemp.addLast(head);
             }
         }
 
-        if (size<obstaclesThreshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - OBSTACLE_HEIGHT)) {
+        if (size<obstaclesThreshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - OBSTACLE_HEIGHT - 50)) {
             int track;
             do{
                 track = random.nextInt(3) + 1;
@@ -92,7 +92,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
             obstaclesSpawned++;
         }
 
-        gameThread.obstacles = obstacleTemp;
+        singlePlayerGameThread.obstacles = obstacleTemp;
     }
 
     public void generatePowerUp(float time){
@@ -101,11 +101,11 @@ public class GamePlayController implements EventObserver, RenderObserver {
         PowerUp head = new PowerUp();
         Rectangle rectangle = new Rectangle(0,0,0,0);
         head.setRectangle(rectangle);
-        while(!gameThread.powerUps.isEmpty()){
-            head = gameThread.powerUps.removeFirst();
+        while(!singlePlayerGameThread.powerUps.isEmpty()){
+            head = singlePlayerGameThread.powerUps.removeFirst();
             Rectangle headRectangle = head.getRectangle();
             if(headRectangle.y > -50){
-                head.getRectangle().y = headRectangle.y - time * gameSpeed;
+                head.getRectangle().y = headRectangle.y - time * gameThread.gameSpeed;
                 powerUpTemp.addLast(head);
             }
         }
@@ -127,7 +127,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
             obstaclesSpawned = 0;
         }
 
-        gameThread.powerUps = powerUpTemp;
+        singlePlayerGameThread.powerUps = powerUpTemp;
     }
 
 }

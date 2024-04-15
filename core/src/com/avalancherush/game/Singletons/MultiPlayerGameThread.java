@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class MultiPlayerGameThread {
     private static MultiPlayerGameThread instance;
-
-
     private Server server;
 
     private String gameid;

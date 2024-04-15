@@ -47,10 +47,8 @@ public class GameEndMultiplayerView extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
-
 
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 

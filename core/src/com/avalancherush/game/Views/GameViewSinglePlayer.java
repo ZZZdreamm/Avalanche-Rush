@@ -1,10 +1,7 @@
 package com.avalancherush.game.Views;
 
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_ROCK_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_TREE_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_SNOWBOARD_TIME;
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
@@ -13,6 +10,9 @@ import static com.avalancherush.game.Configuration.Textures.MENU_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
 import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
 import static com.badlogic.gdx.math.MathUtils.random;
+
+import com.avalancherush.game.Configuration.GlobalVariables;
+import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Controllers.GamePlayController;
 import com.avalancherush.game.Controllers.PlayerController;
 import com.avalancherush.game.Enums.EventType;
@@ -30,12 +30,14 @@ import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.ObstacleFactory;
 import com.avalancherush.game.Singletons.PowerUpFactory;
+import com.avalancherush.game.Singletons.SinglePlayerGameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -48,25 +50,26 @@ import java.util.List;
 
 public class GameViewSinglePlayer extends RenderNotifier {
     private GameThread gameThread;
+    private SinglePlayerGameThread singlePlayerGameThread;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private float scoreboardX, scoreboardY, totaltime;
+    private BitmapFont scoreFont;
     private Player player;
     private Rectangle menuButton;
     private Vector3 initialTouchPos = new Vector3();
-    private float gameSpeed;
-
     private long lastTouchTime = 0;                                 ///////// new
     private static final long DOUBLE_TAP_TIME_DELTA = 200;          ///////// new
 
     public GameViewSinglePlayer() {
         this.gameThread = GameThread.getInstance();
+        this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.orthographicCamera = GameThread.getInstance().getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
+        this.scoreFont = BIG_BLACK_FONT;
 
-
-        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() / 2) - 10);
+        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() / 2) - 60);
         this.scoreboardY = (float) (MyAvalancheRushGame.INSTANCE.getScreenHeight() - (SCOREBOARD.getHeight() / 2) - 10);
 
         LANES[0] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() / 6);
@@ -127,26 +130,50 @@ public class GameViewSinglePlayer extends RenderNotifier {
         for(TakenPowerUp powerUpToRemove: powerUpsToRemove){
             player.getPowerUps().remove(powerUpToRemove);
         }
-//        elapsedTime *= vehicleMultiplier;
         totaltime += elapsedTime;
-        gameThread.gameSpeed = totaltime+50 > gameThread.gameSpeed ? (totaltime+50) * vehicleMultiplier : gameThread.gameSpeed * vehicleMultiplier;
+        singlePlayerGameThread.gameScore += elapsedTime * 10 * vehicleMultiplier;
+        gameThread.gameSpeed += elapsedTime;
         notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
-        for(Obstacle obstacle: gameThread.obstacles){
+        for(Obstacle obstacle: singlePlayerGameThread.obstacles){
             obstacle.draw(batch);
         }
-        for (PowerUp powerUp: gameThread.powerUps){
+        for (PowerUp powerUp: singlePlayerGameThread.powerUps){
             powerUp.draw(batch);
         }
-
         player.draw(batch);
+
+        for (int i = 0; i < player.getPowerUps().size(); i++) {
+            TakenPowerUp takenPowerUp = player.getPowerUps().get(i);
+            int yOffset = 50 * i + 100;
+            if (takenPowerUp.getPowerUpType() == PowerUpType.HELMET) {
+                batch.draw(Textures.HELMET, 10, Gdx.graphics.getHeight() - yOffset, 30, 30);
+            } else if (takenPowerUp.getPowerUpType() == PowerUpType.SNOWBOARD) {
+                batch.draw(Textures.SNOWBOARD, 10, Gdx.graphics.getHeight() - yOffset, 30, 30);
+            }
+
+            float timePercentage = takenPowerUp.getTime() / POWER_UP_HELMET_TIME;
+            if (timePercentage <= 0.25){
+                batch.draw(Textures.POWER_UP_BAR_1, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+            }
+            else if (timePercentage <= 0.5){
+                batch.draw(Textures.POWER_UP_BAR_2, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+            }
+            else if(timePercentage <= 0.75) {
+                batch.draw(Textures.POWER_UP_BAR_3, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+            }
+            else{
+                batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+            }
+        }
 
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
-        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 100, 50);
+        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 150, 50);
+        scoreFont.draw(batch, "Score: " + Math.round(singlePlayerGameThread.gameScore), scoreboardX + 25, scoreboardY + SCOREBOARD.getHeight()/2.5f);
         batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
         batch.end();
     }
@@ -159,10 +186,14 @@ public class GameViewSinglePlayer extends RenderNotifier {
                 Vector3 touchPos = new Vector3(screenX, screenY, 0);
                 orthographicCamera.unproject(touchPos);
 
-                Rectangle playerRectangle = player.getRectangle();
-                if(screenX < playerRectangle.x){
+                int currentTrack = player.getTrack();
+                float laneWidth = LANES[1] - LANES[0];
+                float laneRightPosition = LANES[currentTrack - 1] + laneWidth/2;
+                float laneLeftPosition =  laneRightPosition - laneWidth;
+
+                if(screenX < laneLeftPosition){
                     notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_LEFT);
-                } else if(screenX > playerRectangle.x){
+                } else if(screenX > laneRightPosition){
                     notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_RIGHT);
                 }
 
@@ -179,34 +210,6 @@ public class GameViewSinglePlayer extends RenderNotifier {
                 return true;
             }
 
-            // addjust strenght of sliding --- have to connect to a phone
-            @Override
-            public boolean touchDragged(int screenX, int screenY, int pointer) {
-                Vector3 currentTouchPos = new Vector3(screenX, screenY, 0);
-                orthographicCamera.unproject(currentTouchPos);
-
-                float deltaX = currentTouchPos.x - initialTouchPos.x;   //// to chyab musi być na coś ustawiane to inital
-                float deltaY = currentTouchPos.y - initialTouchPos.y;
-
-                // Set a threshold to consider it a slide
-                float slideThreshold = 150; // Adjust this threshold as needed
-
-//                if (Math.abs(deltaX) > slideThreshold || Math.abs(deltaY) > slideThreshold) {
-//                    Rectangle playerRectangle = player.getRectangle();
-//                    if (deltaX < 0) {
-//                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_LEFT);
-//                    } else if (deltaX > 0) {
-//                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_RIGHT);
-//                    } else if (Math.abs(deltaY) > slideThreshold && deltaY > 0)  {
-//                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_UP);
-//                        initialTouchPos.y = screenY; /// ?
-//                    }
-//                    initialTouchPos.set(currentTouchPos);
-//                }
-
-                return true;
-            }
-
         });
     }
 
@@ -215,7 +218,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
         batch.dispose();
     }
     public boolean checkCollision(){
-        for(Obstacle obstacle: gameThread.obstacles){
+        for(Obstacle obstacle: singlePlayerGameThread.obstacles){
             if(obstacle.getTrack() != player.getTrack()){
                 continue;
             }
@@ -225,7 +228,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
                 }
                 for (TakenPowerUp powerUp : player.getPowerUps()){
                     if(powerUp.getPowerUpType() == PowerUpType.HELMET){
-                        gameThread.obstacles.removeValue(obstacle, true);
+                        singlePlayerGameThread.obstacles.removeValue(obstacle, true);
                         player.removePowerUp(powerUp);
                         return false;
                     }
@@ -236,9 +239,9 @@ public class GameViewSinglePlayer extends RenderNotifier {
         return false;
     }
     public PowerUpType checkGettingPowerUp(){
-        for(PowerUp powerUp: gameThread.powerUps){
+        for(PowerUp powerUp: singlePlayerGameThread.powerUps){
             if(player.collides(powerUp.getRectangle())){
-                gameThread.powerUps.removeValue(powerUp, true);
+                singlePlayerGameThread.powerUps.removeValue(powerUp, true);
                 return powerUp.getType();
             }
         }
