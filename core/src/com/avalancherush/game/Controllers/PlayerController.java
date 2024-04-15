@@ -6,6 +6,7 @@ import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Interfaces.EventObserver;
 import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Models.Player;
+import com.avalancherush.game.Models.TakenPowerUp;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Timer;
@@ -27,13 +28,8 @@ import java.util.List;
 public class PlayerController implements EventObserver {
     private PowerUpFactory powerUpFactory;
     private List<Player> players;
-
-    GameThread gameThread;
-
     public PlayerController() {
-        this.gameThread = GameThread.getInstance();
         this.powerUpFactory = PowerUpFactory.getInstance();
-
     }
 
     @Override
@@ -66,10 +62,24 @@ public class PlayerController implements EventObserver {
                 }
             }
             case TAKE_UP_HELMET_POWER_UP: {
+                for (TakenPowerUp takenPowerUp: players.get(0).getPowerUps()){
+                    if(takenPowerUp.getPowerUpType() == PowerUpType.HELMET){
+                        takenPowerUp.setTime(POWER_UP_HELMET_TIME);
+                        break;
+                    }
+                }
                 players.get(0).addPowerUp(powerUpFactory.givePlayerPowerUp(PowerUpType.HELMET, POWER_UP_HELMET_TIME));
+                break;
             }
             case TAKE_UP_SNOWBOARD_POWER_UP: {
+                for (TakenPowerUp takenPowerUp: players.get(0).getPowerUps()){
+                    if(takenPowerUp.getPowerUpType() == PowerUpType.SNOWBOARD){
+                        takenPowerUp.setTime(POWER_UP_SNOWBOARD_TIME);
+                        break;
+                    }
+                }
                 players.get(0).addPowerUp(powerUpFactory.givePlayerPowerUp(PowerUpType.SNOWBOARD, POWER_UP_SNOWBOARD_TIME));
+                break;
             }
         }
     }

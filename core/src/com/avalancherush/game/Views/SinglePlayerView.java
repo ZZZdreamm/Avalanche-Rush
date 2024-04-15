@@ -8,6 +8,7 @@ import com.avalancherush.game.Controllers.SinglePlayerController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
+import com.avalancherush.game.Singletons.SinglePlayerGameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
@@ -25,6 +26,7 @@ public class SinglePlayerView extends ScreenAdapter {
     private GameThread gameThread;
     private OrthographicCamera orthographicCamera;
     private SinglePlayerController singlePlayerController;
+    private SinglePlayerGameThread singlePlayerGameThread;
     private SpriteBatch batch;
     private Rectangle playButton;
     private Rectangle homeButton;
@@ -33,6 +35,7 @@ public class SinglePlayerView extends ScreenAdapter {
 
     public SinglePlayerView() {
         this.gameThread = GameThread.getInstance();
+        this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
         this.batch = new SpriteBatch();
         this.singlePlayerController = new SinglePlayerController();
@@ -82,8 +85,8 @@ public class SinglePlayerView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (playButton.contains(touchPos.x, touchPos.y)) {
-                    gameThread.obstacles = new Queue<>();
-                    gameThread.powerUps = new Queue<>();
+                    singlePlayerGameThread.obstacles = new Queue<>();
+                    singlePlayerGameThread.powerUps = new Queue<>();
                     singlePlayerController.notify(EventType.GAME_SINGLE_PLAYER_CLICK);
                     return true;
 

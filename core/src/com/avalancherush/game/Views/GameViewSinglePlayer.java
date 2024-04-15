@@ -13,6 +13,8 @@ import static com.avalancherush.game.Configuration.Textures.MENU_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
 import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
 import static com.badlogic.gdx.math.MathUtils.random;
+
+import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Controllers.GamePlayController;
 import com.avalancherush.game.Controllers.PlayerController;
 import com.avalancherush.game.Enums.EventType;
@@ -30,12 +32,14 @@ import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.ObstacleFactory;
 import com.avalancherush.game.Singletons.PowerUpFactory;
+import com.avalancherush.game.Singletons.SinglePlayerGameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -48,19 +52,21 @@ import java.util.List;
 
 public class GameViewSinglePlayer extends RenderNotifier {
     private GameThread gameThread;
+    private SinglePlayerGameThread singlePlayerGameThread;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private float scoreboardX, scoreboardY, totaltime;
+    private int gameScore;
+    private BitmapFont scoreFont;
     private Player player;
     private Rectangle menuButton;
     private Vector3 initialTouchPos = new Vector3();
-    private float gameSpeed;
-
     private long lastTouchTime = 0;                                 ///////// new
     private static final long DOUBLE_TAP_TIME_DELTA = 200;          ///////// new
 
     public GameViewSinglePlayer() {
         this.gameThread = GameThread.getInstance();
+        this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.orthographicCamera = GameThread.getInstance().getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
@@ -127,26 +133,30 @@ public class GameViewSinglePlayer extends RenderNotifier {
         for(TakenPowerUp powerUpToRemove: powerUpsToRemove){
             player.getPowerUps().remove(powerUpToRemove);
         }
-//        elapsedTime *= vehicleMultiplier;
         totaltime += elapsedTime;
-        gameThread.gameSpeed = totaltime+50 > gameThread.gameSpeed ? (totaltime+50) * vehicleMultiplier : gameThread.gameSpeed * vehicleMultiplier;
+        gameScore += elapsedTime * 10 * vehicleMultiplier;
+        gameThread.gameSpeed += elapsedTime;
         notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
-        for(Obstacle obstacle: gameThread.obstacles){
+        for(Obstacle obstacle: singlePlayerGameThread.obstacles){
             obstacle.draw(batch);
         }
-        for (PowerUp powerUp: gameThread.powerUps){
+        for (PowerUp powerUp: singlePlayerGameThread.powerUps){
             powerUp.draw(batch);
         }
-
         player.draw(batch);
+        for (int i = 0; i < player.getPowerUps().size(); i++){
+            TakenPowerUp takenPowerUp = player.getPowerUps().get(i);
+            batch.draw(Textures.POWER_UP_BAR_1, 20, Gdx.graphics.getHeight() - i*100, 300, 30);
+        }
 
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
         batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 100, 50);
+//        scoreFont.draw(batch, )
         batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
         batch.end();
     }
@@ -215,7 +225,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
         batch.dispose();
     }
     public boolean checkCollision(){
-        for(Obstacle obstacle: gameThread.obstacles){
+        for(Obstacle obstacle: singlePlayerGameThread.obstacles){
             if(obstacle.getTrack() != player.getTrack()){
                 continue;
             }
@@ -225,7 +235,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
                 }
                 for (TakenPowerUp powerUp : player.getPowerUps()){
                     if(powerUp.getPowerUpType() == PowerUpType.HELMET){
-                        gameThread.obstacles.removeValue(obstacle, true);
+                        singlePlayerGameThread.obstacles.removeValue(obstacle, true);
                         player.removePowerUp(powerUp);
                         return false;
                     }
@@ -236,9 +246,9 @@ public class GameViewSinglePlayer extends RenderNotifier {
         return false;
     }
     public PowerUpType checkGettingPowerUp(){
-        for(PowerUp powerUp: gameThread.powerUps){
+        for(PowerUp powerUp: singlePlayerGameThread.powerUps){
             if(player.collides(powerUp.getRectangle())){
-                gameThread.powerUps.removeValue(powerUp, true);
+                singlePlayerGameThread.powerUps.removeValue(powerUp, true);
                 return powerUp.getType();
             }
         }
