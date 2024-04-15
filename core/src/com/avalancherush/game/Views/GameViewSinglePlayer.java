@@ -14,6 +14,7 @@ import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
 import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
 import static com.badlogic.gdx.math.MathUtils.random;
 
+import com.avalancherush.game.Configuration.GlobalVariables;
 import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Controllers.GamePlayController;
 import com.avalancherush.game.Controllers.PlayerController;
@@ -148,9 +149,30 @@ public class GameViewSinglePlayer extends RenderNotifier {
             powerUp.draw(batch);
         }
         player.draw(batch);
-        for (int i = 0; i < player.getPowerUps().size(); i++){
+
+        for (int i = 0; i < player.getPowerUps().size(); i++) {
             TakenPowerUp takenPowerUp = player.getPowerUps().get(i);
-            batch.draw(Textures.POWER_UP_BAR_1, 20, Gdx.graphics.getHeight() - i*100, 300, 30);
+            int yOffset = 50 * i + 100;
+            if (takenPowerUp.getPowerUpType() == PowerUpType.HELMET) {
+                batch.draw(Textures.HELMET, 10, Gdx.graphics.getHeight() - yOffset, 30, 30);
+            } else if (takenPowerUp.getPowerUpType() == PowerUpType.SNOWBOARD) {
+                batch.draw(Textures.SNOWBOARD, 10, Gdx.graphics.getHeight() - yOffset, 30, 30);
+            }
+            float timePercentage = takenPowerUp.getTime() / POWER_UP_HELMET_TIME;
+            switch ((int) (timePercentage / 25)) {
+                case 0:
+                    batch.draw(Textures.POWER_UP_BAR_1, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
+                    break;
+                case 1:
+                    batch.draw(Textures.POWER_UP_BAR_2, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
+                    break;
+                case 2:
+                    batch.draw(Textures.POWER_UP_BAR_3, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
+                    break;
+                case 3:
+                    batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
+                    break;
+            }
         }
 
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
