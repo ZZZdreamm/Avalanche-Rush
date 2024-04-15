@@ -74,7 +74,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
             }
         }
 
-        if (size<obstaclesThreshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - OBSTACLE_HEIGHT)) {
+        if (size<obstaclesThreshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - OBSTACLE_HEIGHT - 50)) {
             int track;
             do{
                 track = random.nextInt(3) + 1;

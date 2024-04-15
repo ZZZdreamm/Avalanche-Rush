@@ -1,6 +1,7 @@
 package com.avalancherush.game.Views;
 
 import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
@@ -66,9 +67,9 @@ public class GameViewSinglePlayer extends RenderNotifier {
         this.orthographicCamera = GameThread.getInstance().getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
-        this.scoreFont = new BitmapFont();
+        this.scoreFont = BIG_BLACK_FONT;
 
-        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() / 2) - 10);
+        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() / 2) - 60);
         this.scoreboardY = (float) (MyAvalancheRushGame.INSTANCE.getScreenHeight() - (SCOREBOARD.getHeight() / 2) - 10);
 
         LANES[0] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() / 6);
@@ -171,8 +172,8 @@ public class GameViewSinglePlayer extends RenderNotifier {
 
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
-        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 100, 50);
-        scoreFont.draw(batch, "Score: " + Math.round(singlePlayerGameThread.gameScore), scoreboardX + 15, scoreboardY + SCOREBOARD.getHeight()/3);
+        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 150, 50);
+        scoreFont.draw(batch, "Score: " + Math.round(singlePlayerGameThread.gameScore), scoreboardX + 25, scoreboardY + SCOREBOARD.getHeight()/2.5f);
         batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
         batch.end();
     }
