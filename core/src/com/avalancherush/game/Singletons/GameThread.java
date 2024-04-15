@@ -13,10 +13,7 @@ import com.badlogic.gdx.utils.Queue;
 public class GameThread {
     private static GameThread instance;
     private OrthographicCamera camera;
-
     private FirebaseInterface database;
-    public Queue<Obstacle> obstacles;
-    public Queue<PowerUp> powerUps;
     public float gameSpeed;
     public static GameThread getInstance(){
         if(instance == null){
@@ -26,8 +23,6 @@ public class GameThread {
     }
 
     private GameThread(){
-        this.obstacles = new Queue<>();
-        this.powerUps = new Queue<>();
         this.gameSpeed = 100;
     }
     public void setCamera(OrthographicCamera inputCamera) {
