@@ -94,9 +94,6 @@ public class GameViewMultiplayer extends ScreenAdapter {
     }
     @Override
     public void render(float delta) {
-        System.out.println("Player A Score "+server.playerAScore);
-
-        System.out.println("Player B Score "+server.playerBScore);
         database.serverChangeListener(server);
         show();
         boolean collision = checkCollision();
@@ -123,8 +120,8 @@ public class GameViewMultiplayer extends ScreenAdapter {
         batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 100, 50);
         batch.draw(SCOREBOARD, 10, scoreboardY,100,50);
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
-            scoreFont.draw(batch,"YOU " + Integer.toString(server.playerAScore),10,scoreboardY);
-            scoreFont.draw(batch,"FRIEND " + Integer.toString(server.playerBScore),scoreboardX,scoreboardY);
+            scoreFont.draw(batch,"YOU " + server.playerAScore,10,scoreboardY);
+            scoreFont.draw(batch,"FRIEND " + server.playerBScore,scoreboardX,scoreboardY);
         } else {
             scoreFont.draw(batch,"YOU " + Integer.toString(server.playerBScore),10,scoreboardY);
             scoreFont.draw(batch,"FRIEND " + Integer.toString(server.playerAScore),scoreboardX,scoreboardY);
