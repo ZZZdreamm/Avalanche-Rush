@@ -14,6 +14,8 @@ import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.PowerUpFactory;
 import com.badlogic.gdx.Game;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
+import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_SNOWBOARD_TIME;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
 import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
@@ -64,10 +66,10 @@ public class PlayerController implements EventObserver {
                 }
             }
             case TAKE_UP_HELMET_POWER_UP: {
-                players.get(0).addPowerUp(powerUpFactory.givePlayerPowerUp(PowerUpType.HELMET, 60));
+                players.get(0).addPowerUp(powerUpFactory.givePlayerPowerUp(PowerUpType.HELMET, POWER_UP_HELMET_TIME));
             }
             case TAKE_UP_SNOWBOARD_POWER_UP: {
-                players.get(0).addPowerUp(powerUpFactory.givePlayerPowerUp(PowerUpType.SNOWBOARD, 60));
+                players.get(0).addPowerUp(powerUpFactory.givePlayerPowerUp(PowerUpType.SNOWBOARD, POWER_UP_SNOWBOARD_TIME));
             }
         }
     }
