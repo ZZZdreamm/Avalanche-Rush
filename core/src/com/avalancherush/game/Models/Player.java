@@ -1,16 +1,23 @@
 package com.avalancherush.game.Models;
 
+import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Interfaces.Collidable;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends Collidable {
     private int playerId;
     private int track;
+
+    private boolean jumping;
     private SkinType skin;
-    private List<PowerUp> powerUps;
+    private List<TakenPowerUp> powerUps;
+    public Player(){
+        this.powerUps = new ArrayList<>();
+    }
     public int getPlayerId() {
         return playerId;
     }
@@ -28,6 +35,14 @@ public class Player extends Collidable {
         this.track = track;
     }
 
+    public boolean getJumping() {
+        return jumping;
+    }
+
+    public void setJumping(boolean jumping){
+        this.jumping = jumping;
+    }
+
     public SkinType getSkin() {
         return skin;
     }
@@ -36,16 +51,16 @@ public class Player extends Collidable {
         this.skin = skin;
     }
 
-    public List<PowerUp> getPowerUps(){
+    public List<TakenPowerUp> getPowerUps(){
         return powerUps;
     }
 
-    public void addPowerUp(PowerUp powerUp) {
+    public void addPowerUp(TakenPowerUp powerUp) {
         this.powerUps.add(powerUp);
     }
 
-    public void removePowerUp(int powerUpIndex) {
-        this.powerUps.remove(powerUpIndex);
+    public void removePowerUp(TakenPowerUp powerUp) {
+        this.powerUps.remove(powerUp);
     }
 
 }

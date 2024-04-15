@@ -16,6 +16,7 @@ public class Textures {
     public static Texture HOME_BUTTON = new Texture(Gdx.files.internal("buttonHome.png"));
     public static Texture LOST_BUTTON = new Texture(Gdx.files.internal("buttonWood2.png"));
     public static Texture SINGLE_PLAYER = new Texture((Gdx.files.internal("ski_spritesheet.png")));
+    public static Texture SINGLE_PLAYER_JUMPING = new Texture((Gdx.files.internal("ski_jumper.png")));
     public static Texture PLAY_BUTTON = new Texture(Gdx.files.internal("buttonPlay.png"));
     public static Texture MODIFY_BUTTON = new Texture(Gdx.files.internal("buttonModify.png"));
     public static Texture VOLUME_UP_BUTTON = new Texture(Gdx.files.internal("buttonVolumeUp.png"));

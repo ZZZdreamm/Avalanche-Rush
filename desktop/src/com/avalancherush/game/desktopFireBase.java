@@ -16,4 +16,9 @@ public class desktopFireBase implements FirebaseInterface{
     public void setValueToDataBase(String key, String value) {
 
     }
+
+    @Override
+    public void idChangeListener(String key) {
+
+    }
 }
