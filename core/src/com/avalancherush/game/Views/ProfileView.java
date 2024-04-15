@@ -45,10 +45,10 @@ public class ProfileView extends ScreenAdapter {
         username = "Default Username";
         this.usernameBuilder = new StringBuilder();
         this.font = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.font.getData().setScale(0.5f);
+        this.font.getData().setScale(1f);
         this.changeUsernameButton = new Rectangle(50, 150, 100, 50);
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(1);
+        this.fontTitle.getData().setScale(3);
 
     }
 
@@ -70,23 +70,24 @@ public class ProfileView extends ScreenAdapter {
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
-        float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
+
+
+        float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 250;
         batch.draw(WOOD_BUTTON, usernameX - 32, woodBeamY, 150 + 64, 74);
         batch.draw(WOOD_BUTTON,usernameX - 32,woodBeamY - 100,150+64,74);
-        font.draw(batch,"HIGHEST SCORE",usernameX,woodBeamY - 100 + 50);
+        font.draw(batch,"Highest Score",usernameX,woodBeamY - 100 + 50);
 
         float changeButtonX = usernameX + 150 + 50;
-        float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
-        changeUsernameButton.setPosition(changeButtonX, changeButtonY);
+        changeUsernameButton.setPosition(changeButtonX, woodBeamY+10);
 
         batch.draw(MODIFY_BUTTON, changeUsernameButton.x, changeUsernameButton.y);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
 
         if (editingUsername) {
-            font.draw(batch, "NEW USERNAME\n" + usernameBuilder.toString(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
+            font.draw(batch, "New Username\n" + usernameBuilder.toString(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 190);
         } else {
-            font.draw(batch, "USERNAME\n" + username, usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
+            font.draw(batch, "Username\n" + username, usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 190);
         }
 
         batch.end();

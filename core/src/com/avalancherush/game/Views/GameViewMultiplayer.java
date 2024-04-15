@@ -90,7 +90,7 @@ public class GameViewMultiplayer extends ScreenAdapter {
         this.gameScore = 0;
 
         this.scoreFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.scoreFont.getData().setScale(0.5f);
+        this.scoreFont.getData().setScale(1f);
     }
     @Override
     public void render(float delta) {

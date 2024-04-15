@@ -38,9 +38,9 @@ public class GameEndMultiplayerView extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
         this.scoreFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.scoreFont.getData().setScale(0.75f);
+        this.scoreFont.getData().setScale(1f);
         this.resultFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.resultFont.getData().setScale(1.5f);
+        this.resultFont.getData().setScale(3f);
         multiPlayerGameThread = MultiPlayerGameThread.getInstance();
         server = multiPlayerGameThread.getServer();
     }
@@ -91,13 +91,13 @@ public class GameEndMultiplayerView extends ScreenAdapter {
         batch.draw(LOST_BUTTON, buttonX, buttonY - 20);
 
         GlyphLayout personalLayout = new GlyphLayout(scoreFont, personalScore);
-        float personalTextX = buttonX + (LOST_BUTTON.getWidth() - personalLayout.width - 80) / 2;
-        float personalTextY = buttonY + (LOST_BUTTON.getHeight() + personalLayout.height) / 2;
+        float personalTextX = buttonX + (LOST_BUTTON.getWidth() - personalLayout.width) / 2;
+        float personalTextY = buttonY + (LOST_BUTTON.getHeight() + personalLayout.height) / 2 + personalLayout.height;
         scoreFont.draw(batch, personalScore, personalTextX, personalTextY);
 
         GlyphLayout enemyLayout = new GlyphLayout(scoreFont, enemyScore);
-        float enemyTextX = buttonX + (LOST_BUTTON.getWidth() - enemyLayout.width - 80) / 2;
-        float enemyTextY = buttonY - 20 + (LOST_BUTTON.getHeight() + enemyLayout.height) / 2;
+        float enemyTextX = buttonX + (LOST_BUTTON.getWidth() - enemyLayout.width) / 2;
+        float enemyTextY = buttonY - 30 + (LOST_BUTTON.getHeight() + enemyLayout.height) / 2 + enemyLayout.height;
         scoreFont.draw(batch, enemyScore, enemyTextX, enemyTextY);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);

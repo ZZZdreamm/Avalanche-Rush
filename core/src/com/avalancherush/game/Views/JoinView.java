@@ -64,9 +64,9 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
         this.playButton = new Rectangle(buttonPlayX, woodBeamY, PLAY_BUTTON.getWidth(), PLAY_BUTTON.getHeight());
 
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(1f);
+        this.fontTitle.getData().setScale(3f);
         this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontText.getData().setScale(0.5f);
+        this.fontText.getData().setScale(1f);
         instance = MultiPlayerGameThread.getInstance();
         this.database = gameThread.getDatabase();
         this.server = new Server(code);
@@ -116,7 +116,7 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
 
         batch.draw(WOOD_BUTTON, woodBeamX, woodBeamY, woodBeamWidth, 74);
 
-        fontText.draw(batch, "INSERT CODE: " + code, CodeX - 30, woodBeamY + 50);
+        fontText.draw(batch, "Insert code: " + code, CodeX - 30, woodBeamY + 50);
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
         batch.draw(PLAY_BUTTON, playButton.x, playButton.y, playButton.getWidth(), 74);
 
