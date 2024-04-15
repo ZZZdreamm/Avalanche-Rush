@@ -1,10 +1,5 @@
 package com.avalancherush.game.Views;
 
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_ROCK_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_TREE_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_SNOWBOARD_TIME;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
@@ -57,7 +52,6 @@ public class GameViewSinglePlayer extends RenderNotifier {
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private float scoreboardX, scoreboardY, totaltime;
-    private int gameScore;
     private BitmapFont scoreFont;
     private Player player;
     private Rectangle menuButton;
@@ -71,7 +65,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
         this.orthographicCamera = GameThread.getInstance().getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
-
+        this.scoreFont = new BitmapFont();
 
         this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() / 2) - 10);
         this.scoreboardY = (float) (MyAvalancheRushGame.INSTANCE.getScreenHeight() - (SCOREBOARD.getHeight() / 2) - 10);
@@ -135,7 +129,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
             player.getPowerUps().remove(powerUpToRemove);
         }
         totaltime += elapsedTime;
-        gameScore += elapsedTime * 10 * vehicleMultiplier;
+        singlePlayerGameThread.gameScore += elapsedTime * 10 * vehicleMultiplier;
         gameThread.gameSpeed += elapsedTime;
         notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
@@ -178,7 +172,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
         batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
         batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 100, 50);
-//        scoreFont.draw(batch, )
+        scoreFont.draw(batch, "Score: " + Math.round(singlePlayerGameThread.gameScore), scoreboardX + 15, scoreboardY + SCOREBOARD.getHeight()/3);
         batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
         batch.end();
     }
@@ -191,7 +185,6 @@ public class GameViewSinglePlayer extends RenderNotifier {
                 Vector3 touchPos = new Vector3(screenX, screenY, 0);
                 orthographicCamera.unproject(touchPos);
 
-                Rectangle playerRectangle = player.getRectangle();
                 int currentTrack = player.getTrack();
                 float laneWidth = LANES[1] - LANES[0];
                 float laneRightPosition = LANES[currentTrack - 1] + laneWidth/2;
@@ -213,34 +206,6 @@ public class GameViewSinglePlayer extends RenderNotifier {
                     notifyObservers(observers, EventType.GAME_MENU_BUTTON);
                     return true;
                 }
-                return true;
-            }
-
-            // addjust strenght of sliding --- have to connect to a phone
-            @Override
-            public boolean touchDragged(int screenX, int screenY, int pointer) {
-                Vector3 currentTouchPos = new Vector3(screenX, screenY, 0);
-                orthographicCamera.unproject(currentTouchPos);
-
-                float deltaX = currentTouchPos.x - initialTouchPos.x;   //// to chyab musi być na coś ustawiane to inital
-                float deltaY = currentTouchPos.y - initialTouchPos.y;
-
-                // Set a threshold to consider it a slide
-                float slideThreshold = 150; // Adjust this threshold as needed
-
-//                if (Math.abs(deltaX) > slideThreshold || Math.abs(deltaY) > slideThreshold) {
-//                    Rectangle playerRectangle = player.getRectangle();
-//                    if (deltaX < 0) {
-//                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_LEFT);
-//                    } else if (deltaX > 0) {
-//                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_RIGHT);
-//                    } else if (Math.abs(deltaY) > slideThreshold && deltaY > 0)  {
-//                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_UP);
-//                        initialTouchPos.y = screenY; /// ?
-//                    }
-//                    initialTouchPos.set(currentTouchPos);
-//                }
-
                 return true;
             }
 

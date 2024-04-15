@@ -87,6 +87,7 @@ public class SinglePlayerView extends ScreenAdapter {
                 if (playButton.contains(touchPos.x, touchPos.y)) {
                     singlePlayerGameThread.obstacles = new Queue<>();
                     singlePlayerGameThread.powerUps = new Queue<>();
+                    singlePlayerGameThread.gameScore = 0;
                     singlePlayerController.notify(EventType.GAME_SINGLE_PLAYER_CLICK);
                     return true;
 

@@ -65,7 +65,7 @@ public class PlayerController implements EventObserver {
                 for (TakenPowerUp takenPowerUp: players.get(0).getPowerUps()){
                     if(takenPowerUp.getPowerUpType() == PowerUpType.HELMET){
                         takenPowerUp.setTime(POWER_UP_HELMET_TIME);
-                        break;
+                        return;
                     }
                 }
                 players.get(0).addPowerUp(powerUpFactory.givePlayerPowerUp(PowerUpType.HELMET, POWER_UP_HELMET_TIME));
@@ -75,7 +75,7 @@ public class PlayerController implements EventObserver {
                 for (TakenPowerUp takenPowerUp: players.get(0).getPowerUps()){
                     if(takenPowerUp.getPowerUpType() == PowerUpType.SNOWBOARD){
                         takenPowerUp.setTime(POWER_UP_SNOWBOARD_TIME);
-                        break;
+                        return;
                     }
                 }
                 players.get(0).addPowerUp(powerUpFactory.givePlayerPowerUp(PowerUpType.SNOWBOARD, POWER_UP_SNOWBOARD_TIME));

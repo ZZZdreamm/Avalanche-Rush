@@ -8,6 +8,7 @@ public class SinglePlayerGameThread {
     private static SinglePlayerGameThread instance;
     public Queue<Obstacle> obstacles;
     public Queue<PowerUp> powerUps;
+    public float gameScore;
     public static SinglePlayerGameThread getInstance(){
         if(instance == null){
             instance = new SinglePlayerGameThread();
@@ -18,5 +19,6 @@ public class SinglePlayerGameThread {
     private SinglePlayerGameThread(){
         this.obstacles = new Queue<>();
         this.powerUps = new Queue<>();
+        this.gameScore = 0;
     }
 }
