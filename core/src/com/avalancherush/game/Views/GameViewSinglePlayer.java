@@ -1,5 +1,6 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
@@ -152,20 +153,19 @@ public class GameViewSinglePlayer extends RenderNotifier {
             } else if (takenPowerUp.getPowerUpType() == PowerUpType.SNOWBOARD) {
                 batch.draw(Textures.SNOWBOARD, 10, Gdx.graphics.getHeight() - yOffset, 30, 30);
             }
+
             float timePercentage = takenPowerUp.getTime() / POWER_UP_HELMET_TIME;
-            switch ((int) (timePercentage / 25)) {
-                case 0:
-                    batch.draw(Textures.POWER_UP_BAR_1, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
-                    break;
-                case 1:
-                    batch.draw(Textures.POWER_UP_BAR_2, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
-                    break;
-                case 2:
-                    batch.draw(Textures.POWER_UP_BAR_3, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
-                    break;
-                case 3:
-                    batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
-                    break;
+            if (timePercentage <= 0.25){
+                batch.draw(Textures.POWER_UP_BAR_1, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
+            }
+            else if (timePercentage <= 0.5){
+                batch.draw(Textures.POWER_UP_BAR_2, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
+            }
+            else if(timePercentage <= 0.75) {
+                batch.draw(Textures.POWER_UP_BAR_3, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
+            }
+            else{
+                batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
             }
         }
 
