@@ -156,16 +156,16 @@ public class GameViewSinglePlayer extends RenderNotifier {
 
             float timePercentage = takenPowerUp.getTime() / POWER_UP_HELMET_TIME;
             if (timePercentage <= 0.25){
-                batch.draw(Textures.POWER_UP_BAR_1, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
+                batch.draw(Textures.POWER_UP_BAR_1, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
             }
             else if (timePercentage <= 0.5){
-                batch.draw(Textures.POWER_UP_BAR_2, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
+                batch.draw(Textures.POWER_UP_BAR_2, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
             }
             else if(timePercentage <= 0.75) {
-                batch.draw(Textures.POWER_UP_BAR_3, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
+                batch.draw(Textures.POWER_UP_BAR_3, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
             }
             else{
-                batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, 300, 30);
+                batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
             }
         }
 
