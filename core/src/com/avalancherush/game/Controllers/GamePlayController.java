@@ -34,14 +34,13 @@ public class GamePlayController implements EventObserver, RenderObserver {
     private PowerUpFactory powerUpFactory;
     private int obstaclesSpawned = 0;
     private int lastTrackObstacleSpawned;
-    private int addition, obstaclesThreshold, obstaclesPerPowerUp;
+    private int obstaclesThreshold, obstaclesPerPowerUp;
     public GamePlayController(){
         this.gameThread = GameThread.getInstance();
         this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.obstacleFactory = ObstacleFactory.getInstance();
         this.powerUpFactory = PowerUpFactory.getInstance();
         this.lastTrackObstacleSpawned = 0;
-        this.addition = 1;
         this.obstaclesThreshold = 10;
         this.obstaclesPerPowerUp = 10;
     }

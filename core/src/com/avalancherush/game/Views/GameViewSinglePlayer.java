@@ -121,7 +121,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
         }
         totaltime += elapsedTime;
         singlePlayerGameThread.gameScore += elapsedTime * 10 * vehicleMultiplier;
-        gameThread.gameSpeed += elapsedTime;
+        gameThread.gameSpeed += elapsedTime * 3;
         notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
