@@ -78,7 +78,6 @@ public class GameViewSinglePlayer extends RenderNotifier {
         this.player = new Player();
         this.player.setTrack(2);
         this.player.setSkin(SkinType.BASIC);
-        this.player.setTexture(SINGLE_PLAYER);
         float playerY = (float)this.player.getTexture().getHeight()/2;
         float playerX = LANES[1] - SINGLE_PLAYER_WIDTH/2;
         Rectangle rectangle = new Rectangle(playerX, playerY, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT);

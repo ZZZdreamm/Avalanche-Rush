@@ -1,5 +1,6 @@
 package com.avalancherush.game.Controllers;
 
+import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.ObstacleType;
 import com.avalancherush.game.Enums.PowerUpType;
@@ -23,6 +24,7 @@ import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
 import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
 import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER_JUMPING;
+import static com.avalancherush.game.Configuration.Textures.SKIN_JUMP;
 
 import org.w3c.dom.Text;
 
@@ -42,7 +44,7 @@ public class PlayerController implements EventObserver {
             case SLIDED_UP: {
                 player.setJumping(true);
                 Texture textureBeforeJump = player.getTexture();
-                player.setTexture(player.getSkin() == SkinType.BASIC ? SINGLE_PLAYER_JUMPING : null);
+                player.setTexture(player.getSkin() == SkinType.BASIC ? SINGLE_PLAYER_JUMPING : SKIN_JUMP);
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
