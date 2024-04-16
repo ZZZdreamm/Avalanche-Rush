@@ -1,5 +1,9 @@
 package com.avalancherush.game.Models;
 
+import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
+import static com.avalancherush.game.Configuration.Textures.SKIN;
+
+import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Interfaces.Collidable;
@@ -11,7 +15,6 @@ import java.util.List;
 public class Player extends Collidable {
     private int playerId;
     private int track;
-
     private boolean jumping;
     private SkinType skin;
     private List<TakenPowerUp> powerUps;
@@ -46,9 +49,14 @@ public class Player extends Collidable {
     public SkinType getSkin() {
         return skin;
     }
-
     public void setSkin(SkinType skin) {
         this.skin = skin;
+        if(skin == SkinType.BASIC){
+            this.texture = SINGLE_PLAYER;
+        }else if(skin == SkinType.MASTER){
+            this.texture = SKIN;
+        }
+
     }
 
     public List<TakenPowerUp> getPowerUps(){

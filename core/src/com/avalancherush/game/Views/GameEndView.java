@@ -1,16 +1,15 @@
 package com.avalancherush.game.Views;
 
-import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.LOST_BUTTON;
 
-import com.avalancherush.game.Configuration.Fonts;
 import com.avalancherush.game.Controllers.GameEndController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.SinglePlayerGameThread;
+import com.avalancherush.game.Views.SinglePlayerView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
@@ -27,7 +26,6 @@ import com.badlogic.gdx.math.Vector3;
 public class GameEndView extends ScreenAdapter {
 
     private GameThread gameThread;
-    private SinglePlayerGameThread singlePlayerGameThread;
     private GameEndController gameEndController;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
@@ -37,14 +35,13 @@ public class GameEndView extends ScreenAdapter {
 
     public GameEndView() {
         this.gameThread = GameThread.getInstance();
-        this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
         this.gameEndController = new GameEndController();
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
-        this.scoreFont = BIG_BLACK_FONT;
-//        this.scoreFont.getData().setScale(0.75f);
-        this.gameOverFont = BIG_BLACK_FONT;
+        this.scoreFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.scoreFont.getData().setScale(0.75f);
+        this.gameOverFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
         this.gameOverFont.getData().setScale(1.5f);
     }
 
@@ -71,7 +68,7 @@ public class GameEndView extends ScreenAdapter {
         float textX = buttonX + (LOST_BUTTON.getWidth() - layout.width - 80) / 2;
         float textY = buttonY + (LOST_BUTTON.getHeight() + layout.height) / 2;
 
-        scoreFont.draw(batch, "Score: " + Math.round(singlePlayerGameThread.gameScore), textX, textY);
+        scoreFont.draw(batch, "SCORE  " + Math.round(SinglePlayerGameThread.getInstance().gameScore) , textX, textY);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
 

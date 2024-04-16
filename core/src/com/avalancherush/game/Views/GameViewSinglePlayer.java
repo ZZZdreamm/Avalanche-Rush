@@ -1,5 +1,7 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
@@ -9,6 +11,7 @@ import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
 import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
 import static com.badlogic.gdx.math.MathUtils.random;
 
+import com.avalancherush.game.Configuration.GlobalVariables;
 import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Controllers.GamePlayController;
 import com.avalancherush.game.Controllers.PlayerController;
@@ -47,36 +50,32 @@ import java.util.List;
 
 public class GameViewSinglePlayer extends RenderNotifier {
     private GameThread gameThread;
-    private SinglePlayerGameThread singlePlayerGameThread;
+    private static SinglePlayerGameThread singlePlayerGameThread;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private float scoreboardX, scoreboardY, totaltime;
     private BitmapFont scoreFont;
     private Player player;
     private Rectangle menuButton;
-    private Vector3 initialTouchPos = new Vector3();
-    private long lastTouchTime = 0;                                 ///////// new
-    private static final long DOUBLE_TAP_TIME_DELTA = 200;          ///////// new
+    private long lastTouchTime = 0;
+    private static final long DOUBLE_TAP_TIME_DELTA = 200;
 
-    public GameViewSinglePlayer() {
+    public GameViewSinglePlayer(Player player, List<EventObserver> eventObserverList, List<RenderObserver> renderObserverList) {
         this.gameThread = GameThread.getInstance();
         this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.orthographicCamera = GameThread.getInstance().getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
-        this.scoreFont = new BitmapFont();
+        this.scoreFont = BIG_BLACK_FONT;
 
-        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() / 2) - 10);
+        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() / 2) - 60);
         this.scoreboardY = (float) (MyAvalancheRushGame.INSTANCE.getScreenHeight() - (SCOREBOARD.getHeight() / 2) - 10);
 
         LANES[0] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() / 6);
         LANES[1] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2);
         LANES[2] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() * 5 / 6);
 
-        this.player = new Player();
-        this.player.setTrack(2);
-        this.player.setSkin(SkinType.BASIC);
-        this.player.setTexture(SINGLE_PLAYER);
+        this.player = player;
         float playerY = (float)this.player.getTexture().getHeight()/2;
         float playerX = LANES[1] - SINGLE_PLAYER_WIDTH/2;
         Rectangle rectangle = new Rectangle(playerX, playerY, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT);
@@ -86,15 +85,8 @@ public class GameViewSinglePlayer extends RenderNotifier {
 
         this.menuButton = new Rectangle(10, MyAvalancheRushGame.INSTANCE.getScreenHeight() - MENU_BUTTON.getHeight() - 10, MENU_BUTTON.getWidth(), MENU_BUTTON.getHeight());
 
-        GamePlayController gamePlayController = new GamePlayController();
-        PlayerController playerController = new PlayerController();
-        playerController.setPlayers(Collections.singletonList(this.player));
-        observers = new ArrayList<>();
-        observers.add(gamePlayController);
-        observers.add(playerController);
-        renderObservers = new ArrayList<>();
-        renderObservers.add(gamePlayController);
-
+        this.observers = eventObserverList;
+        this.renderObservers = renderObserverList;
     }
 
     @Override
@@ -129,12 +121,14 @@ public class GameViewSinglePlayer extends RenderNotifier {
         }
         totaltime += elapsedTime;
         singlePlayerGameThread.gameScore += elapsedTime * 10 * vehicleMultiplier;
-        gameThread.gameSpeed += elapsedTime;
+        gameThread.gameSpeed += elapsedTime * 3;
         notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
+        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
+        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
         for(Obstacle obstacle: singlePlayerGameThread.obstacles){
             obstacle.draw(batch);
         }
@@ -142,15 +136,35 @@ public class GameViewSinglePlayer extends RenderNotifier {
             powerUp.draw(batch);
         }
         player.draw(batch);
-        for (int i = 0; i < player.getPowerUps().size(); i++){
+
+        for (int i = 0; i < player.getPowerUps().size(); i++) {
             TakenPowerUp takenPowerUp = player.getPowerUps().get(i);
-            batch.draw(Textures.POWER_UP_BAR_1, 20, Gdx.graphics.getHeight() - i*100, 300, 30);
+            int yOffset = 50 * i + 100;
+            if (takenPowerUp.getPowerUpType() == PowerUpType.HELMET) {
+                batch.draw(Textures.HELMET, 10, Gdx.graphics.getHeight() - yOffset, 30, 30);
+            } else if (takenPowerUp.getPowerUpType() == PowerUpType.SNOWBOARD) {
+                batch.draw(Textures.SNOWBOARD, 10, Gdx.graphics.getHeight() - yOffset, 30, 30);
+                batch.draw(Textures.X2_SPEED, scoreboardX - 50, scoreboardY, 50, 50);
+                scoreFont.draw(batch, "X2", scoreboardX - 40, scoreboardY + 35);
+            }
+
+            float timePercentage = takenPowerUp.getTime() / POWER_UP_HELMET_TIME;
+            if (timePercentage <= 0.25){
+                batch.draw(Textures.POWER_UP_BAR_1, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+            }
+            else if (timePercentage <= 0.5){
+                batch.draw(Textures.POWER_UP_BAR_2, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+            }
+            else if(timePercentage <= 0.75) {
+                batch.draw(Textures.POWER_UP_BAR_3, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+            }
+            else{
+                batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+            }
         }
 
-        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
-        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
-        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 100, 50);
-        scoreFont.draw(batch, "Score: " + Math.round(singlePlayerGameThread.gameScore), scoreboardX + 15, scoreboardY + SCOREBOARD.getHeight()/3);
+        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 150, 50);
+        scoreFont.draw(batch, "Score: " + Math.round(singlePlayerGameThread.gameScore), scoreboardX + 25, scoreboardY + SCOREBOARD.getHeight()/2.5f);
         batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
         batch.end();
     }
@@ -224,7 +238,6 @@ public class GameViewSinglePlayer extends RenderNotifier {
         }
         return null;
     }
-
 
 }
 

@@ -23,7 +23,7 @@ public class GameThread {
     }
 
     private GameThread(){
-        this.gameSpeed = 100;
+        this.gameSpeed = 150;
     }
     public void setCamera(OrthographicCamera inputCamera) {
         camera = inputCamera;

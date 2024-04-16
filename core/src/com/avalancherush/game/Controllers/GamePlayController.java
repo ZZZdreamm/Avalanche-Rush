@@ -34,16 +34,15 @@ public class GamePlayController implements EventObserver, RenderObserver {
     private PowerUpFactory powerUpFactory;
     private int obstaclesSpawned = 0;
     private int lastTrackObstacleSpawned;
-    private int addition, obstaclesThreshold, obstaclesPerPowerUp;
+    private int obstaclesThreshold, obstaclesPerPowerUp;
     public GamePlayController(){
         this.gameThread = GameThread.getInstance();
         this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.obstacleFactory = ObstacleFactory.getInstance();
         this.powerUpFactory = PowerUpFactory.getInstance();
         this.lastTrackObstacleSpawned = 0;
-        this.addition = 1;
         this.obstaclesThreshold = 10;
-        this.obstaclesPerPowerUp = 2;
+        this.obstaclesPerPowerUp = 10;
     }
     @Override
     public void notify(EventType eventType) {
@@ -74,7 +73,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
             }
         }
 
-        if (size<obstaclesThreshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - OBSTACLE_HEIGHT)) {
+        if (size<obstaclesThreshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - OBSTACLE_HEIGHT - 50)) {
             int track;
             do{
                 track = random.nextInt(3) + 1;

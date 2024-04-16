@@ -25,7 +25,14 @@ public class Textures {
     public static Texture VOLUME_DOWN_BUTTON = new Texture(Gdx.files.internal("buttonVolumeDown.png"));
     public static Texture TABLE_LOBBY = new Texture(Gdx.files.internal("table.png"));
     public static Texture MENU_BUTTON = new Texture(Gdx.files.internal("menuButton.png"));
-    public static Texture SNOWBOARD = new Texture(Gdx.files.internal("ski.png"));
+    public static Texture SNOWBOARD = new Texture(Gdx.files.internal("snowboard.png"));
     public static Texture HELMET = new Texture(Gdx.files.internal("ski-helmet.png"));
     public static Texture POWER_UP_BAR_1 = new Texture(Gdx.files.internal("power_up_bar.jpg"));
+    public static Texture POWER_UP_BAR_2 = new Texture(Gdx.files.internal("50bar.jpg"));
+    public static Texture POWER_UP_BAR_3 = new Texture(Gdx.files.internal("75bar.jpg"));
+    public static Texture POWER_UP_BAR_4 = new Texture(Gdx.files.internal("100bar.jpg"));
+
+    public static Texture SKIN = new Texture(Gdx.files.internal("skin_1.png"));
+    public static Texture SKIN_JUMP = new Texture(Gdx.files.internal("skin_1_jumping.png"));
+    public static Texture X2_SPEED = new Texture(Gdx.files.internal("x2_speed.jpg"));
 }   
