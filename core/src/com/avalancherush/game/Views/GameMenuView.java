@@ -45,9 +45,9 @@ public class GameMenuView extends ScreenAdapter {
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
 
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(1f);
+        this.fontTitle.getData().setScale(3f);
         this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontText.getData().setScale(0.90f);
+        this.fontText.getData().setScale(1.5f);
     }
 
     @Override

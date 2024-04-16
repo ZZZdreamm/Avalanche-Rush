@@ -53,10 +53,10 @@ public class MultiPlayerView extends ScreenAdapter {
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
 
         fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontText.getData().setScale(0.9f);
+        fontText.getData().setScale(1.5f);
 
         fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontTitle.getData().setScale(1f);
+        fontTitle.getData().setScale(3f);
     }
 
     @Override
@@ -77,12 +77,12 @@ public class MultiPlayerView extends ScreenAdapter {
 
         GlyphLayout joinLayout = new GlyphLayout(fontText, "join");
         float joinTextX = joinButton.x + (WOOD_BUTTON.getWidth() - joinLayout.width) / 2;
-        float joinTextY = joinButton.y + (WOOD_BUTTON.getHeight() + joinLayout.height) / 2;
+        float joinTextY = 5+joinButton.y + (WOOD_BUTTON.getHeight() + joinLayout.height) / 2;
         fontText.draw(batch, "join", joinTextX, joinTextY);
 
         GlyphLayout createLayout = new GlyphLayout(fontText, "create");
         float createTextX = createButton.x + (WOOD_BUTTON.getWidth() - createLayout.width) / 2;
-        float createTextY = createButton.y + (WOOD_BUTTON.getHeight() + createLayout.height) / 2;
+        float createTextY = 5+createButton.y + (WOOD_BUTTON.getHeight() + createLayout.height) / 2;
         fontText.draw(batch, "create", createTextX, createTextY);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);

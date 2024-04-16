@@ -50,7 +50,7 @@ import java.util.List;
 
 public class GameViewSinglePlayer extends RenderNotifier {
     private GameThread gameThread;
-    private SinglePlayerGameThread singlePlayerGameThread;
+    private static SinglePlayerGameThread singlePlayerGameThread;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private float scoreboardX, scoreboardY, totaltime;
@@ -247,6 +247,8 @@ public class GameViewSinglePlayer extends RenderNotifier {
         return null;
     }
 
-
+    public static SinglePlayerGameThread getSinglePlayerGameThread() {
+        return singlePlayerGameThread;
+    }
 }
 

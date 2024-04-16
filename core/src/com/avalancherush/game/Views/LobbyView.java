@@ -43,7 +43,7 @@ public class LobbyView extends ScreenAdapter {
     private Rectangle homeButton;
     private BitmapFont fontTitle;
     private FirebaseInterface database;
-    private float CodeX;
+
     private float woodBeamY;
     private BitmapFont fontText;
     private String username;
@@ -62,7 +62,6 @@ public class LobbyView extends ScreenAdapter {
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
 
 
-        CodeX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
         woodBeamY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - 140) / 2;
 
 
@@ -71,12 +70,14 @@ public class LobbyView extends ScreenAdapter {
             username = "Default Username";
 
         Gdx.input.setInputProcessor(new MyInputAdapter());
-        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontTitle.getData().setScale(1f);
 
-        this.fontText = new BitmapFont();
-        this.fontText.setColor(Color.WHITE);
-        this.fontText.getData().setScale(1.5f);
+        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontTitle.getData().setScale(3f);
+
+        fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontText.getData().setScale(1.3f);
+
+
         this.database = gameThread.getDatabase();
         instance = MultiPlayerGameThread.getInstance();
         this.server = instance.getServer();
@@ -101,7 +102,6 @@ public class LobbyView extends ScreenAdapter {
         float buttonPlayWidth = PLAY_BUTTON.getWidth();
         float totalWidth = woodBeamWidth + buttonPlayWidth;
         float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
-        float buttonPlayX = woodBeamX + woodBeamWidth;
         batch.draw(TABLE_LOBBY, woodBeamX, woodBeamY, woodBeamWidth, 140);
 
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Lobby");
@@ -114,8 +114,8 @@ public class LobbyView extends ScreenAdapter {
         GlyphLayout ready = new GlyphLayout(fontText, "Ready");
         GlyphLayout playerALayout = new GlyphLayout(fontText, server.playerA);
         GlyphLayout playerBLayout = new GlyphLayout(fontText, server.playerB);
-        fontText.draw(batch, playerALayout, CenterX - playerALayout.width-50, CenterY+15);
-        fontText.draw(batch, playerBLayout, CenterX - playerALayout.width-50, CenterY-15);
+        fontText.draw(batch, playerALayout, CenterX - playerALayout.width-50, CenterY+35);
+        fontText.draw(batch, playerBLayout, CenterX - playerALayout.width-50, CenterY-20);
 
 
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA") && (!server.playerAStatus.equals("True"))){
@@ -133,7 +133,9 @@ public class LobbyView extends ScreenAdapter {
 
         GlyphLayout serverId = new GlyphLayout(fontText, ("Lobby ID : "+server.id));
         System.out.println(server.id);
-        fontText.draw(batch, serverId, gameLogoX, gameLogoY-50);
+        float serverIdX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - serverId.width) / 2;
+        float serverIdY = gameLogoY - 60 - serverId.height;
+        fontText.draw(batch, serverId, serverIdX, serverIdY);
         batch.end();
 
         if(server.playerBStatus.equalsIgnoreCase("True") && server.playerAStatus.equalsIgnoreCase("True")){

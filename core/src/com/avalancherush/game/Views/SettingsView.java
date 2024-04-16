@@ -53,7 +53,7 @@ public class SettingsView extends ScreenAdapter {
         this.volumeUpButton = new Rectangle(startX, startY, VOLUME_UP_BUTTON.getWidth(), VOLUME_UP_BUTTON.getHeight());
         this.volumeDownButton = new Rectangle(startX + volumeButtonWidth + buttonSpacing, startY, VOLUME_DOWN_BUTTON.getWidth(), VOLUME_DOWN_BUTTON.getHeight());
         fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontTitle.getData().setScale(1);
+        fontTitle.getData().setScale(3);
     }
 
     @Override
