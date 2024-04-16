@@ -34,4 +34,5 @@ public class Textures {
 
     public static Texture SKIN = new Texture(Gdx.files.internal("skin_1.png"));
     public static Texture SKIN_JUMP = new Texture(Gdx.files.internal("skin_1_jumping.png"));
+    public static Texture X2_SPEED = new Texture(Gdx.files.internal("x2_speed.jpg"));
 }   
