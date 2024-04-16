@@ -90,7 +90,7 @@ public class GameViewMultiplayer extends ScreenAdapter {
         this.gameScore = 0;
 
         this.scoreFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.scoreFont.getData().setScale(0.5f);
+        this.scoreFont.getData().setScale(1f);
     }
     @Override
     public void render(float delta) {
@@ -99,10 +99,12 @@ public class GameViewMultiplayer extends ScreenAdapter {
         boolean collision = checkCollision();
         if(collision){
             MyAvalancheRushGame.INSTANCE.setScreen(new GameEndMultiplayerView());
+            MyAvalancheRushGame.INSTANCE.getMusicGame().pause();
+            MyAvalancheRushGame.INSTANCE.getMusicMenu().play();
         }
         float elapsedTime = Gdx.graphics.getDeltaTime();
         totaltime += elapsedTime;
-        gameScore+=elapsedTime*10;
+        gameScore += elapsedTime * 10;
         gameSpeed = totaltime+50 > gameSpeed ? totaltime+50 : gameSpeed;
         generateObstacle(elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
@@ -120,11 +122,11 @@ public class GameViewMultiplayer extends ScreenAdapter {
         batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 100, 50);
         batch.draw(SCOREBOARD, 10, scoreboardY,100,50);
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
-            scoreFont.draw(batch,"YOU " + server.playerAScore,10,scoreboardY);
-            scoreFont.draw(batch,"FRIEND " + server.playerBScore,scoreboardX,scoreboardY);
+            scoreFont.draw(batch,"YOU " + server.playerAScore,10 + (SCOREBOARD.getWidth() / 10),scoreboardY + (SCOREBOARD.getHeight() / 3));
+            scoreFont.draw(batch,"FRIEND " + server.playerBScore,scoreboardX + (SCOREBOARD.getWidth() / 10),scoreboardY + (SCOREBOARD.getHeight() / 3));
         } else {
-            scoreFont.draw(batch,"YOU " + Integer.toString(server.playerBScore),10,scoreboardY);
-            scoreFont.draw(batch,"FRIEND " + Integer.toString(server.playerAScore),scoreboardX,scoreboardY);
+            scoreFont.draw(batch,"YOU " + server.playerBScore,10 + (SCOREBOARD.getWidth() / 10),scoreboardY + (SCOREBOARD.getHeight() / 3));
+            scoreFont.draw(batch,"FRIEND " + server.playerAScore,scoreboardX + (SCOREBOARD.getWidth() / 10),scoreboardY + (SCOREBOARD.getHeight() / 3));
         }
 
         batch.end();

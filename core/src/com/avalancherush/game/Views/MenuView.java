@@ -47,9 +47,9 @@ public class MenuView extends ScreenAdapter {
         this.settingsButton = new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() - SETTINGS_BUTTON.getWidth() - 50, 50, SETTINGS_BUTTON.getWidth(), SETTINGS_BUTTON.getHeight());
 
         this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontText.getData().setScale(0.65f);
+        this.fontText.getData().setScale(1.2f);
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(1);
+        this.fontTitle.getData().setScale(3);
     }
 
     @Override
@@ -71,12 +71,12 @@ public class MenuView extends ScreenAdapter {
 
         GlyphLayout singlePlayerLayout = new GlyphLayout(fontText, "single player");
         float singlePlayerTextX = singlePlayerButton.x + (singlePlayerButton.getWidth() - singlePlayerLayout.width) / 2;
-        float singlePlayerTextY = singlePlayerButton.y + (singlePlayerButton.getHeight() + singlePlayerLayout.height) / 2;
+        float singlePlayerTextY = 5+singlePlayerButton.y + (singlePlayerButton.getHeight() + singlePlayerLayout.height) / 2;
         fontText.draw(batch, singlePlayerLayout, singlePlayerTextX, singlePlayerTextY);
 
         GlyphLayout multiPlayerLayout = new GlyphLayout(fontText, "multiplayer");
         float multiPlayerTextX = multiPlayerButton.x + (multiPlayerButton.getWidth() - multiPlayerLayout.width) / 2;
-        float multiPlayerTextY = multiPlayerButton.y + (multiPlayerButton.getHeight() + multiPlayerLayout.height) / 2;
+        float multiPlayerTextY = 5+multiPlayerButton.y + (multiPlayerButton.getHeight() + multiPlayerLayout.height) / 2;
         fontText.draw(batch, multiPlayerLayout, multiPlayerTextX, multiPlayerTextY);
 
         batch.draw(PROFILE_BUTTON, profileButton.x, profileButton.y);

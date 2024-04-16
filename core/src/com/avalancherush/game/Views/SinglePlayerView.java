@@ -44,10 +44,10 @@ public class SinglePlayerView extends ScreenAdapter {
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
 
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(1f);
+        this.fontTitle.getData().setScale(3f);
 
         this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontText.getData().setScale(0.9f);
+        this.fontText.getData().setScale(1.5f);
     }
 
     @Override
@@ -65,9 +65,9 @@ public class SinglePlayerView extends ScreenAdapter {
 
         batch.draw(WOOD_BUTTON, playButton.x, playButton.y);
 
-        GlyphLayout singlePlayerLayout = new GlyphLayout(fontText, "Play");
+        GlyphLayout singlePlayerLayout = new GlyphLayout(fontText, "play");
         float singlePlayerTextX = playButton.x + (playButton.getWidth() - singlePlayerLayout.width) / 2;
-        float singlePlayerTextY = playButton.y + (playButton.getHeight() + singlePlayerLayout.height) / 2;
+        float singlePlayerTextY = 5+playButton.y + (playButton.getHeight() + singlePlayerLayout.height) / 2;
         fontText.draw(batch, singlePlayerLayout, singlePlayerTextX, singlePlayerTextY);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
