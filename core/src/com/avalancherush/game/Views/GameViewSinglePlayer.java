@@ -57,11 +57,10 @@ public class GameViewSinglePlayer extends RenderNotifier {
     private BitmapFont scoreFont;
     private Player player;
     private Rectangle menuButton;
-    private Vector3 initialTouchPos = new Vector3();
-    private long lastTouchTime = 0;                                 ///////// new
-    private static final long DOUBLE_TAP_TIME_DELTA = 200;          ///////// new
+    private long lastTouchTime = 0;
+    private static final long DOUBLE_TAP_TIME_DELTA = 200;
 
-    public GameViewSinglePlayer() {
+    public GameViewSinglePlayer(Player player, List<EventObserver> eventObserverList, List<RenderObserver> renderObserverList) {
         this.gameThread = GameThread.getInstance();
         this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.orthographicCamera = GameThread.getInstance().getCamera();
@@ -76,10 +75,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
         LANES[1] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2);
         LANES[2] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() * 5 / 6);
 
-        this.player = new Player();
-        this.player.setTrack(2);
-        this.player.setSkin(SkinType.BASIC);
-        this.player.setTexture(SINGLE_PLAYER);
+        this.player = player;
         float playerY = (float)this.player.getTexture().getHeight()/2;
         float playerX = LANES[1] - SINGLE_PLAYER_WIDTH/2;
         Rectangle rectangle = new Rectangle(playerX, playerY, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT);
@@ -89,15 +85,8 @@ public class GameViewSinglePlayer extends RenderNotifier {
 
         this.menuButton = new Rectangle(10, MyAvalancheRushGame.INSTANCE.getScreenHeight() - MENU_BUTTON.getHeight() - 10, MENU_BUTTON.getWidth(), MENU_BUTTON.getHeight());
 
-        GamePlayController gamePlayController = new GamePlayController();
-        PlayerController playerController = new PlayerController();
-        playerController.setPlayers(Collections.singletonList(this.player));
-        observers = new ArrayList<>();
-        observers.add(gamePlayController);
-        observers.add(playerController);
-        renderObservers = new ArrayList<>();
-        renderObservers.add(gamePlayController);
-
+        this.observers = eventObserverList;
+        this.renderObservers = renderObserverList;
     }
 
     @Override
@@ -248,8 +237,5 @@ public class GameViewSinglePlayer extends RenderNotifier {
         return null;
     }
 
-    public static SinglePlayerGameThread getSinglePlayerGameThread() {
-        return singlePlayerGameThread;
-    }
 }
 

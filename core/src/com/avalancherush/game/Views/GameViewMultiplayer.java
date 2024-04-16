@@ -51,7 +51,6 @@ public class GameViewMultiplayer extends ScreenAdapter {
     private float gameScore;
     private BitmapFont scoreFont;
 
-
     public GameViewMultiplayer(){
         instance = GameThread.getInstance();
         database = instance.getDatabase();
