@@ -8,6 +8,7 @@ import com.avalancherush.game.Controllers.GameEndController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
+import com.avalancherush.game.Singletons.SinglePlayerGameThread;
 import com.avalancherush.game.Views.SinglePlayerView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -67,7 +68,7 @@ public class GameEndView extends ScreenAdapter {
         float textX = buttonX + (LOST_BUTTON.getWidth() - layout.width - 80) / 2;
         float textY = buttonY + (LOST_BUTTON.getHeight() + layout.height) / 2;
 
-        scoreFont.draw(batch, "SCORE  " + Math.round(GameViewSinglePlayer.getSinglePlayerGameThread().gameScore) , textX, textY);
+        scoreFont.draw(batch, "SCORE  " + Math.round(SinglePlayerGameThread.getInstance().gameScore) , textX, textY);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
 

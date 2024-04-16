@@ -5,6 +5,7 @@ import com.avalancherush.game.Enums.EventType;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.MODIFY_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.TABLE_LOBBY;
 import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.MyAvalancheRushGame;
@@ -54,16 +55,10 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(0, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
 
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
-
-        //GlyphLayout glyphLayout = new GlyphLayout();
-        //glyphLayout.setText(font, "Username: " + getUsername());
 
         float usernameX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
 
@@ -75,6 +70,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
         batch.draw(WOOD_BUTTON, usernameX - 32, woodBeamY, 150 + 64, 74);
         batch.draw(WOOD_BUTTON,usernameX - 32,woodBeamY - 100,150+64,74);
+        batch.draw(TABLE_LOBBY,usernameX - 32,woodBeamY - 300, TABLE_LOBBY.getWidth(),TABLE_LOBBY.getHeight());
         font.draw(batch,"HIGHEST SCORE",usernameX,woodBeamY - 100 + 50);
 
         float changeButtonX = usernameX + 150 + 50;
@@ -83,7 +79,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
 
         batch.draw(MODIFY_BUTTON, changeUsernameButton.x, changeUsernameButton.y);
         font.draw(batch, "USERNAME\n" + getUsername(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
-
+        font.draw(batch,"GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN",usernameX,woodBeamY - TABLE_LOBBY.getHeight() - 32);
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
 
         batch.end();
