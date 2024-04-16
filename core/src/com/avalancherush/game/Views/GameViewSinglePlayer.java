@@ -127,6 +127,8 @@ public class GameViewSinglePlayer extends RenderNotifier {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
+        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
+        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
         for(Obstacle obstacle: singlePlayerGameThread.obstacles){
             obstacle.draw(batch);
         }
@@ -142,6 +144,8 @@ public class GameViewSinglePlayer extends RenderNotifier {
                 batch.draw(Textures.HELMET, 10, Gdx.graphics.getHeight() - yOffset, 30, 30);
             } else if (takenPowerUp.getPowerUpType() == PowerUpType.SNOWBOARD) {
                 batch.draw(Textures.SNOWBOARD, 10, Gdx.graphics.getHeight() - yOffset, 30, 30);
+                batch.draw(Textures.X2_SPEED, scoreboardX - 50, scoreboardY, 50, 50);
+                scoreFont.draw(batch, "X2", scoreboardX - 40, scoreboardY + 35);
             }
 
             float timePercentage = takenPowerUp.getTime() / POWER_UP_HELMET_TIME;
@@ -159,8 +163,6 @@ public class GameViewSinglePlayer extends RenderNotifier {
             }
         }
 
-        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
-        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
         batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 150, 50);
         scoreFont.draw(batch, "Score: " + Math.round(singlePlayerGameThread.gameScore), scoreboardX + 25, scoreboardY + SCOREBOARD.getHeight()/2.5f);
         batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
