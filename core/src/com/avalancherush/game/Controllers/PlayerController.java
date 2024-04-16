@@ -52,7 +52,7 @@ public class PlayerController implements EventObserver {
                         player.setTexture(textureBeforeJump);
 
                     }
-                }, 3.0f);
+                }, 1.5f);
                 break;
             }
             case SLIDED_LEFT: {
