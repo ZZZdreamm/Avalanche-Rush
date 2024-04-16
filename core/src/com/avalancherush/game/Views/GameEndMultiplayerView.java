@@ -60,24 +60,24 @@ public class GameEndMultiplayerView extends ScreenAdapter {
                 resultString = "YOU LOST";
             } else if(server.playerAScore == server.playerBScore) {
                 resultString = "TIE";
-            } else if (server.playerAScore > server.playerBScore) {
+            } else {
                 resultString = "YOU WON";
             }
 
-            personalScore = "YOU " + Integer.toString(server.playerAScore);
-            enemyScore = "FRIEND " + Integer.toString(server.playerBScore);
+            personalScore = "YOU " + server.playerAScore;
+            enemyScore = "FRIEND " + server.playerBScore;
 
         } else {
             if(server.playerAScore > server.playerBScore){
                 resultString = "YOU LOST";
             } else if(server.playerAScore == server.playerBScore) {
                 resultString = "TIE";
-            } else if (server.playerAScore < server.playerBScore) {
+            } else {
                 resultString = "YOU WON";
             }
 
-            personalScore = "YOU " + Integer.toString(server.playerBScore);
-            enemyScore = "FRIEND " + Integer.toString(server.playerAScore);
+            personalScore = "YOU " + server.playerBScore;
+            enemyScore = "FRIEND " + server.playerAScore;
         }
         GlyphLayout resultLayout = new GlyphLayout(resultFont, resultString);
         float resultX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - resultLayout.width) / 2;

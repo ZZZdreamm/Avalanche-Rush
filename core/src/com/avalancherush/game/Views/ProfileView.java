@@ -10,9 +10,11 @@ import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -22,7 +24,7 @@ import com.badlogic.gdx.math.Vector3;
 
 
 
-public class ProfileView extends ScreenAdapter {
+public class ProfileView extends ScreenAdapter implements Input.TextInputListener {
 
     private GameThread gameThread;
     private ProfileController profileController;
@@ -31,8 +33,6 @@ public class ProfileView extends ScreenAdapter {
     private Rectangle homeButton;
     private BitmapFont font;
     public static String username;
-    private boolean editingUsername = false;
-    private StringBuilder usernameBuilder;
     private Rectangle changeUsernameButton;
     private BitmapFont fontTitle;
 
@@ -43,25 +43,27 @@ public class ProfileView extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
         username = "Default Username";
-        this.usernameBuilder = new StringBuilder();
         this.font = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.font.getData().setScale(1f);
+        this.font.getData().setScale(0.5f);
         this.changeUsernameButton = new Rectangle(50, 150, 100, 50);
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(3);
+        this.fontTitle.getData().setScale(1);
 
     }
 
     @Override
     public void render(float delta) {
 
+        Gdx.gl.glClearColor(0, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
 
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        GlyphLayout glyphLayout = new GlyphLayout();
-        glyphLayout.setText(font, "Username: " + username);
+        //GlyphLayout glyphLayout = new GlyphLayout();
+        //glyphLayout.setText(font, "Username: " + getUsername());
 
         float usernameX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
 
@@ -70,25 +72,19 @@ public class ProfileView extends ScreenAdapter {
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
-
-
-        float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 250;
+        float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
         batch.draw(WOOD_BUTTON, usernameX - 32, woodBeamY, 150 + 64, 74);
         batch.draw(WOOD_BUTTON,usernameX - 32,woodBeamY - 100,150+64,74);
-        font.draw(batch,"Highest Score",usernameX,woodBeamY - 100 + 50);
+        font.draw(batch,"HIGHEST SCORE",usernameX,woodBeamY - 100 + 50);
 
         float changeButtonX = usernameX + 150 + 50;
-        changeUsernameButton.setPosition(changeButtonX, woodBeamY+10);
+        float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
+        changeUsernameButton.setPosition(changeButtonX, changeButtonY);
 
         batch.draw(MODIFY_BUTTON, changeUsernameButton.x, changeUsernameButton.y);
+        font.draw(batch, "USERNAME\n" + getUsername(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
-
-        if (editingUsername) {
-            font.draw(batch, "New Username\n" + usernameBuilder.toString(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 190);
-        } else {
-            font.draw(batch, "Username\n" + username, usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 190);
-        }
 
         batch.end();
     }
@@ -107,41 +103,15 @@ public class ProfileView extends ScreenAdapter {
                 }
 
                 if (changeUsernameButton.contains(touchPos.x, touchPos.y)) {
-                    editingUsername = true;
+                    Gdx.input.getTextInput(new ProfileView(),"Enter Username", "", "Default_Username");
+                    Gdx.app.log("Text", username);
                     return true;
                 }
 
-                return false;
-            }
-
-            @Override
-            public boolean keyTyped(char character) {
-                if (editingUsername) {
-                    if (character == '\n') {
-                        username = usernameBuilder.toString();
-                        usernameBuilder.setLength(0);
-                        editingUsername = false;
-                        return true;
-                    } else if (character == '\b' && usernameBuilder.length() > 0) {
-                        usernameBuilder.deleteCharAt(usernameBuilder.length() - 1);
-                    } else if (character != '\b' && usernameBuilder.length() < 16) {
-                        usernameBuilder.append(character);
-                    }
-                    return true;
-                }
                 return false;
             }
 
         });
-    }
-
-    @Override
-    public void hide() {
-        if (editingUsername) {
-            username = usernameBuilder.toString();
-            usernameBuilder.setLength(0);
-            editingUsername = false;
-        }
     }
 
     public static String getUsername() {
@@ -158,4 +128,13 @@ public class ProfileView extends ScreenAdapter {
         fontTitle.dispose();
     }
 
+    @Override
+    public void input(String text) {
+        this.username = text;
+    }
+
+    @Override
+    public void canceled() {
+
+    }
 }

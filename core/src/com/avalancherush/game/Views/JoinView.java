@@ -42,13 +42,9 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
     private float woodBeamY;
     private BitmapFont fontText;
     private MultiPlayerGameThread instance;
-    private static final int CODE_LENGTH = 5;
     private FirebaseInterface database;
     private Server server;
-    private com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle style;
-//    private TextField field;
 
-//    private Stage stage;
     public JoinView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
@@ -73,20 +69,6 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
 
         Gdx.input.getTextInput(this,"Enter Game Code", "", "23");
         Gdx.app.log("Text", code);
-
-
-//        style = new TextField.TextFieldStyle();
-//        style.font = new BitmapFont();
-//        style.fontColor = Color.CHARTREUSE;
-
-//        field = new TextField("", style);
-//        field.setText("Test");
-//        field.setWidth(150);
-//        field.setHeight(50);
-//        field.setPosition(500, 500);
-//        stage = new Stage(new ScreenViewport());
-//        stage.addActor(field);
-//        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -94,20 +76,15 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
 
         Gdx.gl.glClearColor(0, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        stage.act(Gdx.graphics.getDeltaTime());
-//        stage.draw();
+
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
-//        field.draw(batch, 1f);
-
-
 
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
         float woodBeamWidth = 150 + 64;
         float totalWidth = woodBeamWidth + PLAY_BUTTON.getWidth();
         float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
-
 
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Join");
         float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
@@ -119,8 +96,6 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
         fontText.draw(batch, "Insert code: " + code, CodeX - 30, woodBeamY + 50);
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
         batch.draw(PLAY_BUTTON, playButton.x, playButton.y, playButton.getWidth(), 74);
-
-
 
         batch.end();
     }
