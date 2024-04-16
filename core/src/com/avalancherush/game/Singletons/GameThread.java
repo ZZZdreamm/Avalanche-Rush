@@ -1,6 +1,8 @@
 package com.avalancherush.game.Singletons;
 
 
+import static com.avalancherush.game.Configuration.GlobalVariables.BASIC_GAME_SPEED;
+
 import com.avalancherush.game.FirebaseInterface;
 
 import com.avalancherush.game.Models.Obstacle;
@@ -23,7 +25,7 @@ public class GameThread {
     }
 
     private GameThread(){
-        this.gameSpeed = 150;
+        this.gameSpeed = BASIC_GAME_SPEED;
     }
     public void setCamera(OrthographicCamera inputCamera) {
         camera = inputCamera;

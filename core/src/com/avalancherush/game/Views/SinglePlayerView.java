@@ -2,6 +2,7 @@ package com.avalancherush.game.Views;
 
 import static com.avalancherush.game.Configuration.GlobalVariables.BASE_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.BASE_WIDTH;
+import static com.avalancherush.game.Configuration.GlobalVariables.BASIC_GAME_SPEED;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
@@ -101,6 +102,7 @@ public class SinglePlayerView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (playButton.contains(touchPos.x, touchPos.y)) {
+                    gameThread.gameSpeed = BASIC_GAME_SPEED;
                     singlePlayerGameThread.obstacles = new Queue<>();
                     singlePlayerGameThread.powerUps = new Queue<>();
                     singlePlayerGameThread.gameScore = 0;

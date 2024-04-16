@@ -175,12 +175,12 @@ public class GameViewMultiplayer extends RenderNotifier {
         }
 
         batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 100, 50);
-        batch.draw(SCOREBOARD, 10, scoreboardY,100,50);
+        batch.draw(SCOREBOARD, scoreboardX, scoreboardY - 65,100,50);
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
-            scoreFont.draw(batch,"YOU " + server.playerAScore,10 + (SCOREBOARD.getWidth() / 10),scoreboardY + (SCOREBOARD.getHeight() / 3));
-            scoreFont.draw(batch,"FRIEND " + server.playerBScore,scoreboardX + (SCOREBOARD.getWidth() / 10),scoreboardY + (SCOREBOARD.getHeight() / 3));
+            scoreFont.draw(batch,"YOU " + server.playerAScore,scoreboardX + (SCOREBOARD.getWidth() / 10),scoreboardY + (SCOREBOARD.getHeight() / 3));
+            scoreFont.draw(batch,"FRIEND " + server.playerBScore,scoreboardX + (SCOREBOARD.getWidth() / 10),scoreboardY + (SCOREBOARD.getHeight() / 3) - 65);
         } else {
-            scoreFont.draw(batch,"YOU " + server.playerBScore,10 + (SCOREBOARD.getWidth() / 10),scoreboardY + (SCOREBOARD.getHeight() / 3));
+            scoreFont.draw(batch,"YOU " + server.playerBScore,scoreboardX + (SCOREBOARD.getWidth() / 10),scoreboardY + (SCOREBOARD.getHeight() / 3) - 65);
             scoreFont.draw(batch,"FRIEND " + server.playerAScore,scoreboardX + (SCOREBOARD.getWidth() / 10),scoreboardY + (SCOREBOARD.getHeight() / 3));
         }
 //        batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
