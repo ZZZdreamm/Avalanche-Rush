@@ -1,5 +1,9 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.BASE_HEIGHT;
+import static com.avalancherush.game.Configuration.GlobalVariables.BASE_WIDTH;
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
@@ -40,14 +44,26 @@ public class SinglePlayerView extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.singlePlayerController = new SinglePlayerController();
 
+        this.playButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight() * heightScale) / 2, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
+
+        this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontTitle.getData().setScale(1.2f * heightScale);
+
+        this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontText.getData().setScale(0.9f * heightScale);
+
+        /*
         this.playButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight()) / 2, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
 
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(3f);
+        this.fontTitle.getData().setScale(1f);
 
         this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontText.getData().setScale(1.5f);
+        this.fontText.getData().setScale(0.9f);
+
+         */
     }
 
     @Override
@@ -63,14 +79,14 @@ public class SinglePlayerView extends ScreenAdapter {
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
-        batch.draw(WOOD_BUTTON, playButton.x, playButton.y);
+        batch.draw(WOOD_BUTTON, playButton.x, playButton.y, playButton.getWidth(), playButton.getHeight());
 
         GlyphLayout singlePlayerLayout = new GlyphLayout(fontText, "play");
         float singlePlayerTextX = playButton.x + (playButton.getWidth() - singlePlayerLayout.width) / 2;
-        float singlePlayerTextY = 5+playButton.y + (playButton.getHeight() + singlePlayerLayout.height) / 2;
+        float singlePlayerTextY = playButton.y + (playButton.getHeight() + singlePlayerLayout.height) / 2;
         fontText.draw(batch, singlePlayerLayout, singlePlayerTextX, singlePlayerTextY);
 
-        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.getWidth(), homeButton.getHeight());
 
         batch.end();
     }

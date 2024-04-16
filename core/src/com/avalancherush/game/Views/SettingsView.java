@@ -2,6 +2,9 @@ package com.avalancherush.game.Views;
 
 import com.avalancherush.game.Controllers.SettingsController;
 import com.avalancherush.game.Enums.EventType;
+
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.VOLUME_DOWN_BUTTON;
@@ -39,21 +42,22 @@ public class SettingsView extends ScreenAdapter {
         this.orthographicCamera = gameThread.getCamera();
         this.settingsController = new SettingsController();
         this.batch = new SpriteBatch();
-        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
-        int totalButtonHeight = VOLUME_UP_BUTTON.getHeight() + VOLUME_DOWN_BUTTON.getHeight() - 30;
-        int startY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - totalButtonHeight) / 2 + VOLUME_DOWN_BUTTON.getHeight();
 
-        this.volumeUpButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - VOLUME_UP_BUTTON.getWidth()) / 2, startY, VOLUME_UP_BUTTON.getWidth(), VOLUME_UP_BUTTON.getHeight());
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
+        int totalButtonHeight = (int) ((VOLUME_UP_BUTTON.getHeight() + VOLUME_DOWN_BUTTON.getHeight() - 30) * heightScale);
+        int startY = (int) ((MyAvalancheRushGame.INSTANCE.getScreenHeight() - totalButtonHeight) / 2 + VOLUME_DOWN_BUTTON.getHeight() * heightScale / 2);
+
+        this.volumeUpButton = new Rectangle((float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - VOLUME_UP_BUTTON.getWidth() * widthScale) / 2, startY, VOLUME_UP_BUTTON.getWidth() * widthScale, VOLUME_UP_BUTTON.getHeight() * heightScale);
 
 
         int buttonSpacing = 40;
-        int volumeButtonWidth = VOLUME_UP_BUTTON.getWidth();
+        int volumeButtonWidth = (int) (VOLUME_UP_BUTTON.getWidth() * widthScale);
         int totalWidth = volumeButtonWidth * 2 + buttonSpacing;
         int startX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
-        this.volumeUpButton = new Rectangle(startX, startY, VOLUME_UP_BUTTON.getWidth(), VOLUME_UP_BUTTON.getHeight());
-        this.volumeDownButton = new Rectangle(startX + volumeButtonWidth + buttonSpacing, startY, VOLUME_DOWN_BUTTON.getWidth(), VOLUME_DOWN_BUTTON.getHeight());
+        this.volumeUpButton = new Rectangle(startX, startY, VOLUME_UP_BUTTON.getWidth() * widthScale, VOLUME_UP_BUTTON.getHeight() * heightScale);
+        this.volumeDownButton = new Rectangle(startX + volumeButtonWidth + buttonSpacing, startY, VOLUME_DOWN_BUTTON.getWidth() * widthScale, VOLUME_DOWN_BUTTON.getHeight() * heightScale);
         fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontTitle.getData().setScale(3);
+        fontTitle.getData().setScale(1 * heightScale);
     }
 
     @Override
@@ -68,9 +72,9 @@ public class SettingsView extends ScreenAdapter {
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
-        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
-        batch.draw(VOLUME_UP_BUTTON, volumeUpButton.x, volumeUpButton.y);
-        batch.draw(VOLUME_DOWN_BUTTON, volumeDownButton.x, volumeDownButton.y);
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.getWidth(), homeButton.getHeight());
+        batch.draw(VOLUME_UP_BUTTON, volumeUpButton.x, volumeUpButton.y, volumeUpButton.getWidth(), volumeUpButton.getHeight());
+        batch.draw(VOLUME_DOWN_BUTTON, volumeDownButton.x, volumeDownButton.y, volumeDownButton.getWidth(), volumeDownButton.getHeight());
 
         batch.end();
     }

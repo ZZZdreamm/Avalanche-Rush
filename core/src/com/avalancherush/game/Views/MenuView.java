@@ -1,5 +1,10 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.BASE_HEIGHT;
+import static com.avalancherush.game.Configuration.GlobalVariables.BASE_WIDTH;
+import static com.avalancherush.game.Configuration.GlobalVariables.calculateScales;
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.PROFILE_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.SETTINGS_BUTTON;
@@ -41,15 +46,32 @@ public class MenuView extends ScreenAdapter {
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
 
+        calculateScales();
+        this.singlePlayerButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
+        this.multiPlayerButton = new Rectangle(singlePlayerButton.x, singlePlayerButton.y - WOOD_BUTTON.getHeight() * heightScale - 12, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
+        this.profileButton = new Rectangle(50, 50, PROFILE_BUTTON.getWidth() * widthScale, PROFILE_BUTTON.getHeight() * heightScale);
+        this.settingsButton = new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() - SETTINGS_BUTTON.getWidth() * widthScale - 50, 50, SETTINGS_BUTTON.getWidth() * widthScale, SETTINGS_BUTTON.getHeight() * heightScale);
+
+
+        /*
         this.singlePlayerButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
         this.multiPlayerButton = new Rectangle(singlePlayerButton.x, singlePlayerButton.y - WOOD_BUTTON.getHeight() - 12, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
         this.profileButton = new Rectangle(50, 50, PROFILE_BUTTON.getWidth(), PROFILE_BUTTON.getHeight());
         this.settingsButton = new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() - SETTINGS_BUTTON.getWidth() - 50, 50, SETTINGS_BUTTON.getWidth(), SETTINGS_BUTTON.getHeight());
 
+         */
         this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontText.getData().setScale(1.2f);
+        this.fontText.getData().setScale(1.2f * heightScale);
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(3);
+        this.fontTitle.getData().setScale(1 * heightScale);
+
+        /*
+        this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontText.getData().setScale(0.65f);
+        this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontTitle.getData().setScale(1);
+
+         */
     }
 
     @Override
@@ -66,21 +88,27 @@ public class MenuView extends ScreenAdapter {
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
-        batch.draw(WOOD_BUTTON, singlePlayerButton.x, singlePlayerButton.y);
-        batch.draw(WOOD_BUTTON, multiPlayerButton.x, multiPlayerButton.y);
+        batch.draw(WOOD_BUTTON, singlePlayerButton.x, singlePlayerButton.y, singlePlayerButton.getWidth(), singlePlayerButton.getHeight());
+        batch.draw(WOOD_BUTTON, multiPlayerButton.x, multiPlayerButton.y, multiPlayerButton.getWidth(), multiPlayerButton.getHeight());
+        //batch.draw(WOOD_BUTTON, singlePlayerButton.x, singlePlayerButton.y);
+        //batch.draw(WOOD_BUTTON, multiPlayerButton.x, multiPlayerButton.y);
 
         GlyphLayout singlePlayerLayout = new GlyphLayout(fontText, "single player");
         float singlePlayerTextX = singlePlayerButton.x + (singlePlayerButton.getWidth() - singlePlayerLayout.width) / 2;
-        float singlePlayerTextY = 5+singlePlayerButton.y + (singlePlayerButton.getHeight() + singlePlayerLayout.height) / 2;
+        float singlePlayerTextY = singlePlayerButton.y + (singlePlayerButton.getHeight() + singlePlayerLayout.height) / 2;
         fontText.draw(batch, singlePlayerLayout, singlePlayerTextX, singlePlayerTextY);
 
         GlyphLayout multiPlayerLayout = new GlyphLayout(fontText, "multiplayer");
         float multiPlayerTextX = multiPlayerButton.x + (multiPlayerButton.getWidth() - multiPlayerLayout.width) / 2;
-        float multiPlayerTextY = 5+multiPlayerButton.y + (multiPlayerButton.getHeight() + multiPlayerLayout.height) / 2;
+        float multiPlayerTextY = multiPlayerButton.y + (multiPlayerButton.getHeight() + multiPlayerLayout.height) / 2;
         fontText.draw(batch, multiPlayerLayout, multiPlayerTextX, multiPlayerTextY);
 
-        batch.draw(PROFILE_BUTTON, profileButton.x, profileButton.y);
-        batch.draw(SETTINGS_BUTTON, settingsButton.x, settingsButton.y);
+
+
+        batch.draw(PROFILE_BUTTON, profileButton.x, profileButton.y, profileButton.getWidth(), profileButton.getHeight());
+        batch.draw(SETTINGS_BUTTON, settingsButton.x, settingsButton.y, settingsButton.getWidth(), settingsButton.getHeight());
+        //batch.draw(PROFILE_BUTTON, profileButton.x, profileButton.y);
+        //batch.draw(SETTINGS_BUTTON, settingsButton.x, settingsButton.y);
 
         batch.end();
     }

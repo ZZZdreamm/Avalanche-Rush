@@ -1,5 +1,7 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
@@ -48,15 +50,27 @@ public class MultiPlayerView extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.instance = MultiPlayerGameThread.getInstance();
 
+        this.joinButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight() * heightScale) / 2 + 50, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
+        this.createButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2, joinButton.y - WOOD_BUTTON.getHeight() * heightScale - 20, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
+
+        this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontTitle.getData().setScale(1.2f * heightScale);
+
+        this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontText.getData().setScale(0.9f * heightScale);
+
+        /*
         this.joinButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight()) / 2 + 50, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
         this.createButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, joinButton.y - WOOD_BUTTON.getHeight() - 20, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
 
         fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontText.getData().setScale(1.5f);
+        fontText.getData().setScale(0.9f);
 
         fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontTitle.getData().setScale(3f);
+        fontTitle.getData().setScale(1f);
+         */
     }
 
     @Override
@@ -67,8 +81,8 @@ public class MultiPlayerView extends ScreenAdapter {
 
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        batch.draw(WOOD_BUTTON, joinButton.x, joinButton.y);
-        batch.draw(WOOD_BUTTON, createButton.x, createButton.y);
+        batch.draw(WOOD_BUTTON, joinButton.x, joinButton.y, joinButton.width, joinButton.height);
+        batch.draw(WOOD_BUTTON, createButton.x, createButton.y, createButton.width, createButton.height);
 
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Multiplayer");
         float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
@@ -76,16 +90,16 @@ public class MultiPlayerView extends ScreenAdapter {
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
         GlyphLayout joinLayout = new GlyphLayout(fontText, "join");
-        float joinTextX = joinButton.x + (WOOD_BUTTON.getWidth() - joinLayout.width) / 2;
-        float joinTextY = 5+joinButton.y + (WOOD_BUTTON.getHeight() + joinLayout.height) / 2;
+        float joinTextX = joinButton.x + (WOOD_BUTTON.getWidth() * widthScale - joinLayout.width) / 2;
+        float joinTextY = joinButton.y + (WOOD_BUTTON.getHeight() * heightScale + joinLayout.height) / 2;
         fontText.draw(batch, "join", joinTextX, joinTextY);
 
         GlyphLayout createLayout = new GlyphLayout(fontText, "create");
-        float createTextX = createButton.x + (WOOD_BUTTON.getWidth() - createLayout.width) / 2;
-        float createTextY = 5+createButton.y + (WOOD_BUTTON.getHeight() + createLayout.height) / 2;
+        float createTextX = createButton.x + (WOOD_BUTTON.getWidth() * widthScale - createLayout.width) / 2;
+        float createTextY = createButton.y + (WOOD_BUTTON.getHeight() * heightScale + createLayout.height) / 2;
         fontText.draw(batch, "create", createTextX, createTextY);
 
-        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
 
         batch.end();
     }
