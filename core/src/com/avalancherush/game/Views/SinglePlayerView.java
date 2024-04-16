@@ -81,7 +81,7 @@ public class SinglePlayerView extends ScreenAdapter {
 
         batch.draw(WOOD_BUTTON, playButton.x, playButton.y, playButton.getWidth(), playButton.getHeight());
 
-        GlyphLayout singlePlayerLayout = new GlyphLayout(fontText, "Play");
+        GlyphLayout singlePlayerLayout = new GlyphLayout(fontText, "play");
         float singlePlayerTextX = playButton.x + (playButton.getWidth() - singlePlayerLayout.width) / 2;
         float singlePlayerTextY = playButton.y + (playButton.getHeight() + singlePlayerLayout.height) / 2;
         fontText.draw(batch, singlePlayerLayout, singlePlayerTextX, singlePlayerTextY);
