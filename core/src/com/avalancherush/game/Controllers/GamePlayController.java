@@ -43,7 +43,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
         this.lastTrackObstacleSpawned = 0;
         this.addition = 1;
         this.obstaclesThreshold = 10;
-        this.obstaclesPerPowerUp = 2;
+        this.obstaclesPerPowerUp = 10;
     }
     @Override
     public void notify(EventType eventType) {

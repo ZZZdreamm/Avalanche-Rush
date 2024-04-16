@@ -57,9 +57,8 @@ public class GameViewSinglePlayer extends RenderNotifier {
     private BitmapFont scoreFont;
     private Player player;
     private Rectangle menuButton;
-    private Vector3 initialTouchPos = new Vector3();
-    private long lastTouchTime = 0;                                 ///////// new
-    private static final long DOUBLE_TAP_TIME_DELTA = 200;          ///////// new
+    private long lastTouchTime = 0;
+    private static final long DOUBLE_TAP_TIME_DELTA = 200;
 
     public GameViewSinglePlayer() {
         this.gameThread = GameThread.getInstance();
@@ -91,7 +90,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
 
         GamePlayController gamePlayController = new GamePlayController();
         PlayerController playerController = new PlayerController();
-        playerController.setPlayers(Collections.singletonList(this.player));
+        playerController.setPlayer(this.player);
         observers = new ArrayList<>();
         observers.add(gamePlayController);
         observers.add(playerController);

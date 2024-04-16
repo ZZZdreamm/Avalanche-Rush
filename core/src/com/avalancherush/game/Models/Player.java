@@ -11,7 +11,6 @@ import java.util.List;
 public class Player extends Collidable {
     private int playerId;
     private int track;
-
     private boolean jumping;
     private SkinType skin;
     private List<TakenPowerUp> powerUps;

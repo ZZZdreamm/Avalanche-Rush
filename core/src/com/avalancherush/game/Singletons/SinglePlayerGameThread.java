@@ -1,6 +1,8 @@
 package com.avalancherush.game.Singletons;
 
+import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Models.Obstacle;
+import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.Models.PowerUp;
 import com.badlogic.gdx.utils.Queue;
 
