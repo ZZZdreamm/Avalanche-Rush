@@ -102,10 +102,6 @@ public class SinglePlayerView extends ScreenAdapter {
                 orthographicCamera.unproject(touchPos);
 
                 if (playButton.contains(touchPos.x, touchPos.y)) {
-                    gameThread.gameSpeed = BASIC_GAME_SPEED;
-                    singlePlayerGameThread.obstacles = new Queue<>();
-                    singlePlayerGameThread.powerUps = new Queue<>();
-                    singlePlayerGameThread.gameScore = 0;
                     singlePlayerController.notify(EventType.GAME_SINGLE_PLAYER_CLICK);
                     return true;
 

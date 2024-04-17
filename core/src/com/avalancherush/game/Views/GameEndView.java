@@ -5,8 +5,10 @@ import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.LOST_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.MODIFY_BUTTON;
 
 import com.avalancherush.game.Controllers.GameEndController;
+import com.avalancherush.game.Controllers.SinglePlayerController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
@@ -29,9 +31,11 @@ public class GameEndView extends ScreenAdapter {
 
     private GameThread gameThread;
     private GameEndController gameEndController;
+    private SinglePlayerController singlePlayerController;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private Rectangle homeButton;
+    private Rectangle restartButton;
     private BitmapFont scoreFont;
     private BitmapFont gameOverFont;
 
@@ -39,8 +43,10 @@ public class GameEndView extends ScreenAdapter {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
         this.gameEndController = new GameEndController();
+        this.singlePlayerController = new SinglePlayerController();
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
+        this.restartButton = new Rectangle(Gdx.graphics.getWidth() * widthScale/3, 140, 50, 50);
         this.scoreFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
         this.scoreFont.getData().setScale(0.75f * heightScale);
         this.gameOverFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
@@ -73,6 +79,7 @@ public class GameEndView extends ScreenAdapter {
         scoreFont.draw(batch, "SCORE  " + Math.round(SinglePlayerGameThread.getInstance().gameScore) , textX, textY);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height );
+        batch.draw(MODIFY_BUTTON, restartButton.x, restartButton.y, restartButton.width, restartButton.height);
 
         batch.end();
     }
@@ -87,6 +94,10 @@ public class GameEndView extends ScreenAdapter {
 
                 if (homeButton.contains(touchPos.x, touchPos.y)) {
                     gameEndController.notify(EventType.HOME_BUTTON_CLICK);
+                    return true;
+                }
+                if(restartButton.contains(touchPos.x, touchPos.y)){
+                    singlePlayerController.notify(EventType.GAME_SINGLE_PLAYER_CLICK);
                     return true;
                 }
                 return false;
