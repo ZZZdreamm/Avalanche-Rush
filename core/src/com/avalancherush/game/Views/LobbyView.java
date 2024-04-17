@@ -58,9 +58,9 @@ public class LobbyView extends ScreenAdapter {
         this.lobbyController = new LobbyController();
         this.batch = new SpriteBatch();
 
-        float buttonX = 214 + ((MyAvalancheRushGame.INSTANCE.getScreenWidth() - PLAY_BUTTON.getWidth() * widthScale +214) / 2);
+        float buttonX = MyAvalancheRushGame.INSTANCE.getScreenWidth() - HOME_BUTTON.getWidth() * widthScale - 20;
         float buttonY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - PLAY_BUTTON.getHeight() * heightScale) / 2;
-        this.playButton = new Rectangle(buttonX+50, buttonY, PLAY_BUTTON.getWidth() * widthScale, PLAY_BUTTON.getHeight() * heightScale);
+        this.playButton = new Rectangle(buttonX, buttonY, PLAY_BUTTON.getWidth() * widthScale, PLAY_BUTTON.getHeight() * heightScale);
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
 
 
@@ -77,7 +77,7 @@ public class LobbyView extends ScreenAdapter {
         fontTitle.getData().setScale(3f * heightScale);
 
         fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontText.getData().setScale(1.3f * heightScale);
+        fontText.getData().setScale(1.0f * heightScale);
 
 
         this.database = gameThread.getDatabase();
@@ -111,11 +111,13 @@ public class LobbyView extends ScreenAdapter {
         float CenterX = (float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2;
         float CenterY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2;
 
+        float playerX = (float) MyAvalancheRushGame.INSTANCE.getScreenWidth()/4;
+
         GlyphLayout ready = new GlyphLayout(fontText, "Ready");
         GlyphLayout playerALayout = new GlyphLayout(fontText, server.playerA);
         GlyphLayout playerBLayout = new GlyphLayout(fontText, server.playerB);
-        fontText.draw(batch, playerALayout, CenterX - (playerALayout.width + 50), CenterY+35);
-        fontText.draw(batch, playerBLayout, CenterX - (playerALayout.width + 50), CenterY-20);
+        fontText.draw(batch, playerALayout, playerX, CenterY + playerALayout.height + 5);
+        fontText.draw(batch, playerBLayout, playerX, CenterY - playerBLayout.height - 5);
 
 
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA") && (!server.playerAStatus.equals("True"))){
@@ -125,10 +127,10 @@ public class LobbyView extends ScreenAdapter {
             batch.draw(PLAY_BUTTON, playButton.x,playButton.y, buttonPlayWidth, PLAY_BUTTON.getHeight() * heightScale);
         }
         if(server.playerAStatus.equals("True")) {
-            fontText.draw(batch, ready,CenterX +(playerALayout.width- 70), CenterY + 15);
+            fontText.draw(batch, ready,playerX + playerALayout.width + 15, CenterY + playerALayout.height + 5);
         }
         else if((server.playerBStatus.equals("True"))){
-            fontText.draw(batch, ready,CenterX + (playerALayout.width-70),CenterY-15);
+            fontText.draw(batch, ready,+ playerX + playerBLayout.width + 15,CenterY - playerBLayout.height - 5);
         }
 
         GlyphLayout serverId = new GlyphLayout(fontText, ("Lobby ID : "+server.id));
