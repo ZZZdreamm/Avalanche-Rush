@@ -9,6 +9,7 @@ import com.avalancherush.game.Views.MultiPlayerView;
 import com.avalancherush.game.Views.ProfileView;
 import com.avalancherush.game.Views.SettingsView;
 import com.avalancherush.game.Views.SinglePlayerView;
+import com.avalancherush.game.Views.TutorialView;
 
 
 public class MainMenuController implements EventObserver {
@@ -22,6 +23,8 @@ public class MainMenuController implements EventObserver {
             MyAvalancheRushGame.INSTANCE.setScreen(new ProfileView());
         } else if (eventType == EventType.SETTINGS_BUTTON_CLICK) {
             MyAvalancheRushGame.INSTANCE.setScreen(new SettingsView());
+        } else if (eventType == EventType.TUTORIAL_BUTTON_CLICK) {
+            MyAvalancheRushGame.INSTANCE.setScreen(new TutorialView());
         }
     }
 }

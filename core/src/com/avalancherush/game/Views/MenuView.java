@@ -34,6 +34,7 @@ public class MenuView extends ScreenAdapter {
     private SpriteBatch batch;
     private Rectangle singlePlayerButton;
     private Rectangle multiPlayerButton;
+    private Rectangle tutorialButton;
     private Rectangle profileButton;
     private Rectangle settingsButton;
     private BitmapFont fontText;
@@ -51,7 +52,7 @@ public class MenuView extends ScreenAdapter {
         this.multiPlayerButton = new Rectangle(singlePlayerButton.x, singlePlayerButton.y - WOOD_BUTTON.getHeight() * heightScale - 12, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
         this.profileButton = new Rectangle(50, 50, PROFILE_BUTTON.getWidth() * widthScale, PROFILE_BUTTON.getHeight() * heightScale);
         this.settingsButton = new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() - SETTINGS_BUTTON.getWidth() * widthScale - 50, 50, SETTINGS_BUTTON.getWidth() * widthScale, SETTINGS_BUTTON.getHeight() * heightScale);
-
+        this.tutorialButton = new Rectangle(multiPlayerButton.x, multiPlayerButton.y - WOOD_BUTTON.getHeight() * heightScale - 12, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
 
         /*
         this.singlePlayerButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
@@ -60,6 +61,7 @@ public class MenuView extends ScreenAdapter {
         this.settingsButton = new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() - SETTINGS_BUTTON.getWidth() - 50, 50, SETTINGS_BUTTON.getWidth(), SETTINGS_BUTTON.getHeight());
 
          */
+
         this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
         this.fontText.getData().setScale(1.2f * heightScale);
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
@@ -90,6 +92,8 @@ public class MenuView extends ScreenAdapter {
 
         batch.draw(WOOD_BUTTON, singlePlayerButton.x, singlePlayerButton.y, singlePlayerButton.getWidth(), singlePlayerButton.getHeight());
         batch.draw(WOOD_BUTTON, multiPlayerButton.x, multiPlayerButton.y, multiPlayerButton.getWidth(), multiPlayerButton.getHeight());
+        batch.draw(WOOD_BUTTON, tutorialButton.x, tutorialButton.y, tutorialButton.getWidth(), tutorialButton.getHeight());
+
         //batch.draw(WOOD_BUTTON, singlePlayerButton.x, singlePlayerButton.y);
         //batch.draw(WOOD_BUTTON, multiPlayerButton.x, multiPlayerButton.y);
 
@@ -103,7 +107,10 @@ public class MenuView extends ScreenAdapter {
         float multiPlayerTextY = multiPlayerButton.y + (multiPlayerButton.getHeight() + multiPlayerLayout.height) / 2;
         fontText.draw(batch, multiPlayerLayout, multiPlayerTextX, multiPlayerTextY);
 
-
+        GlyphLayout tutorialLayout = new GlyphLayout(fontText, "tutorial");
+        float tutorialX = tutorialButton.x + (tutorialButton.getWidth() - tutorialLayout.width) / 2;
+        float tutorialY = tutorialButton.y + (tutorialButton.getHeight() + tutorialLayout.height) / 2;
+        fontText.draw(batch, tutorialLayout, tutorialX, tutorialY);
 
         batch.draw(PROFILE_BUTTON, profileButton.x, profileButton.y, profileButton.getWidth(), profileButton.getHeight());
         batch.draw(SETTINGS_BUTTON, settingsButton.x, settingsButton.y, settingsButton.getWidth(), settingsButton.getHeight());
@@ -126,6 +133,9 @@ public class MenuView extends ScreenAdapter {
                     return true;
                 } else if (multiPlayerButton.contains(touchPos.x, touchPos.y)) {
                     mainMenuController.notify(EventType.MULTIPLAYER_BUTTON_CLICK);
+                    return true;
+                } else if (tutorialButton.contains(touchPos.x, touchPos.y)) {
+                    mainMenuController.notify(EventType.TUTORIAL_BUTTON_CLICK);
                     return true;
                 } else if (profileButton.contains(touchPos.x, touchPos.y)) {
                     mainMenuController.notify(EventType.PROFILE_BUTTON_CLICK);
