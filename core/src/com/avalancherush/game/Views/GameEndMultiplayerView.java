@@ -1,5 +1,6 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
@@ -39,9 +40,9 @@ public class GameEndMultiplayerView extends ScreenAdapter {
         this.gameEndController = new GameEndController();
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
-        this.scoreFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.scoreFont = BIG_BLACK_FONT;
         this.scoreFont.getData().setScale(1 * heightScale);
-        this.resultFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.resultFont = BIG_BLACK_FONT;
         this.resultFont.getData().setScale(3f * heightScale);
         multiPlayerGameThread = MultiPlayerGameThread.getInstance();
         server = multiPlayerGameThread.getServer();

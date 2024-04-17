@@ -1,5 +1,6 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
@@ -61,9 +62,9 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
         this.woodBeamY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2;
         this.playButton = new Rectangle(buttonPlayX, woodBeamY, PLAY_BUTTON.getWidth() * widthScale, PLAY_BUTTON.getHeight() * heightScale);
 
-        this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontTitle = BIG_BLACK_FONT;
         this.fontTitle.getData().setScale(3f * heightScale);
-        this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontText = BIG_BLACK_FONT;
         this.fontText.getData().setScale(1 * heightScale);
         instance = MultiPlayerGameThread.getInstance();
         this.database = gameThread.getDatabase();

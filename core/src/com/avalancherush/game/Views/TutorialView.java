@@ -3,6 +3,7 @@ package com.avalancherush.game.Views;
 import com.avalancherush.game.Controllers.TutorialController;
 import com.avalancherush.game.Enums.EventType;
 
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
@@ -43,10 +44,10 @@ public class TutorialView extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
 
-        this.font = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.font = BIG_BLACK_FONT;
         this.font.getData().setScale(0.9f * heightScale);
 
-        this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontTitle = BIG_BLACK_FONT;
         this.fontTitle.getData().setScale(1 * heightScale);
 
 

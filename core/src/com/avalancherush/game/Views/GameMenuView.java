@@ -1,5 +1,6 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
@@ -46,9 +47,9 @@ public class GameMenuView extends ScreenAdapter {
         this.volumeDownButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2 + 150 * widthScale, volumeUpButton.y, VOLUME_DOWN_BUTTON.getWidth() * widthScale, VOLUME_DOWN_BUTTON.getHeight() *heightScale);
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() *widthScale, HOME_BUTTON.getHeight() *heightScale);
 
-        this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontTitle = BIG_BLACK_FONT;
         this.fontTitle.getData().setScale(3f * heightScale);
-        this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontText = BIG_BLACK_FONT;
         this.fontText.getData().setScale(1.5f * heightScale);
     }
 

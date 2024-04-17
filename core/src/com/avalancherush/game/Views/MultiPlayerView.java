@@ -1,5 +1,6 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
@@ -54,10 +55,10 @@ public class MultiPlayerView extends ScreenAdapter {
         this.createButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2, joinButton.y - WOOD_BUTTON.getHeight() * heightScale - 20, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
 
-        this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontTitle = BIG_BLACK_FONT;
         this.fontTitle.getData().setScale(1.2f * heightScale);
 
-        this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontText = BIG_BLACK_FONT;
         this.fontText.getData().setScale(1.2f * heightScale);
 
         /*

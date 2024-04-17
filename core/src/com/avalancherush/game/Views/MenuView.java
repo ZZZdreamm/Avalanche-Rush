@@ -1,5 +1,6 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.BASE_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.BASE_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.calculateScales;
@@ -62,9 +63,9 @@ public class MenuView extends ScreenAdapter {
 
          */
 
-        this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontText = BIG_BLACK_FONT;
         this.fontText.getData().setScale(1.2f * heightScale);
-        this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontTitle = BIG_BLACK_FONT;
         this.fontTitle.getData().setScale(1 * heightScale);
 
         /*

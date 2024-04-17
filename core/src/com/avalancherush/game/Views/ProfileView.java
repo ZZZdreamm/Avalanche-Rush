@@ -3,6 +3,7 @@ package com.avalancherush.game.Views;
 import com.avalancherush.game.Controllers.ProfileController;
 import com.avalancherush.game.Enums.EventType;
 
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
@@ -57,12 +58,12 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         username = gameThread.getJsonIntance().getName();
-        this.font = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.font = BIG_BLACK_FONT;
         this.font.getData().setScale(0.9f * heightScale);
         this.changeUsernameButton = new Rectangle((float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() + WOOD_BUTTON.getWidth() * widthScale + MODIFY_BUTTON.getWidth() * widthScale) / 2, (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30, MODIFY_BUTTON.getWidth() * widthScale, MODIFY_BUTTON.getHeight() * heightScale);
-        this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.fontTitle = BIG_BLACK_FONT;
         this.fontTitle.getData().setScale(1 * heightScale);
-        this.gameRulesFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.gameRulesFont = BIG_BLACK_FONT;
         this.gameRulesFont.getData().setScale(0.6f * heightScale);
         this.basicSkin = (new Rectangle(250,20, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT));
         this.masterSkin = (new Rectangle(250 + SINGLE_PLAYER_WIDTH + 10, 20, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT));

@@ -3,6 +3,7 @@ package com.avalancherush.game.Views;
 import com.avalancherush.game.Controllers.SettingsController;
 import com.avalancherush.game.Enums.EventType;
 
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
@@ -56,7 +57,7 @@ public class SettingsView extends ScreenAdapter {
         int startX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
         this.volumeUpButton = new Rectangle(startX, startY, VOLUME_UP_BUTTON.getWidth() * widthScale, VOLUME_UP_BUTTON.getHeight() * heightScale);
         this.volumeDownButton = new Rectangle(startX + volumeButtonWidth + buttonSpacing, startY, VOLUME_DOWN_BUTTON.getWidth() * widthScale, VOLUME_DOWN_BUTTON.getHeight() * heightScale);
-        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontTitle = BIG_BLACK_FONT;
         fontTitle.getData().setScale(1 * heightScale);
     }
 

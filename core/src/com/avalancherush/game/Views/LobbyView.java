@@ -1,5 +1,6 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
@@ -73,10 +74,10 @@ public class LobbyView extends ScreenAdapter {
 
         Gdx.input.setInputProcessor(new MyInputAdapter());
 
-        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontTitle = BIG_BLACK_FONT;
         fontTitle.getData().setScale(3f * heightScale);
 
-        fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        fontText = BIG_BLACK_FONT;
         fontText.getData().setScale(1.0f * heightScale);
 
 
