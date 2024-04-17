@@ -47,6 +47,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -68,6 +69,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
     private Rectangle menuButton;
     private long lastTouchTime = 0;
     private static final long DOUBLE_TAP_TIME_DELTA = 200;
+    GlyphLayout scoreText;
 
     public GameViewSinglePlayer(Player player, List<EventObserver> eventObserverList, List<RenderObserver> renderObserverList) {
         this.gameThread = GameThread.getInstance();
@@ -78,7 +80,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
         this.scoreFont = BIG_BLACK_FONT;
         this.scoreFont.getData().setScale(1.2f * heightScale);
 
-        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() * widthScale / 2) - 60);
+        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (250 * widthScale ));
         this.scoreboardY = (float) (MyAvalancheRushGame.INSTANCE.getScreenHeight() - (SCOREBOARD.getHeight() * heightScale / 2) - 10);
 
         LANES[0] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() / 6);
@@ -172,9 +174,9 @@ public class GameViewSinglePlayer extends RenderNotifier {
                 batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, POWER_UP_BAR_4.getWidth() * widthScale, POWER_UP_BAR_4.getHeight() * heightScale);
             }
         }
-
-        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 150 * widthScale, 50 * heightScale);
-        scoreFont.draw(batch, "Score: " + Math.round(singlePlayerGameThread.gameScore), scoreboardX + 25, scoreboardY + SCOREBOARD.getHeight() * heightScale/2.5f);
+        scoreText = new GlyphLayout(scoreFont, "Score: " + Math.round(singlePlayerGameThread.gameScore));
+        batch.draw(SCOREBOARD, scoreboardX, scoreboardY-10, 250 * widthScale, 50 * heightScale);
+        scoreFont.draw(batch, scoreText, scoreboardX + (250*widthScale)/2 - scoreText.width/2 , scoreboardY + SCOREBOARD.getHeight() * heightScale/2.5f-10);
         batch.draw(MENU_BUTTON, menuButton.x, menuButton.y, menuButton.width, menuButton.height);
         batch.end();
     }
@@ -196,13 +198,13 @@ public class GameViewSinglePlayer extends RenderNotifier {
                     notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_LEFT);
                 } else if(screenX > laneRightPosition){
                     notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_RIGHT);
+                } else {
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTouchTime < DOUBLE_TAP_TIME_DELTA) {
+                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_UP);
+                    }
+                    lastTouchTime = currentTime;
                 }
-
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastTouchTime < DOUBLE_TAP_TIME_DELTA) {
-                    notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_UP);
-                }
-                lastTouchTime = currentTime;
 
                 if (menuButton.contains(touchPos.x, touchPos.y)) {
                     notifyObservers(observers, EventType.GAME_MENU_BUTTON);
