@@ -99,6 +99,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
 
         this.observers = eventObserverList;
         this.renderObservers = renderObserverList;
+
     }
 
     @Override
@@ -133,7 +134,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
         }
         totaltime += elapsedTime;
         singlePlayerGameThread.gameScore += elapsedTime * 10 * vehicleMultiplier;
-        gameThread.gameSpeed += elapsedTime * 3;
+        gameThread.gameSpeed += elapsedTime * 6;
         notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -151,27 +152,30 @@ public class GameViewSinglePlayer extends RenderNotifier {
 
         for (int i = 0; i < player.getPowerUps().size(); i++) {
             TakenPowerUp takenPowerUp = player.getPowerUps().get(i);
-            int yOffset = 50 * i + 100;
+            int yOffset = MyAvalancheRushGame.INSTANCE.getScreenWidth()/20 * i + 100;
             if (takenPowerUp.getPowerUpType() == PowerUpType.HELMET) {
-                batch.draw(Textures.HELMET, 10, Gdx.graphics.getHeight() - yOffset, HELMET.getWidth() * widthScale, HELMET.getHeight() * heightScale);
+                batch.draw(Textures.HELMET, 10 + MyAvalancheRushGame.INSTANCE.getScreenWidth()/8, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
             } else if (takenPowerUp.getPowerUpType() == PowerUpType.SNOWBOARD) {
-                batch.draw(Textures.SNOWBOARD, 10, Gdx.graphics.getHeight() - yOffset, SNOWBOARD.getWidth() * widthScale, SNOWBOARD.getHeight() * heightScale);
+                batch.draw(Textures.SNOWBOARD, 10 + MyAvalancheRushGame.INSTANCE.getScreenWidth()/8, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
                 batch.draw(Textures.X2_SPEED, scoreboardX - 50, scoreboardY, X2_SPEED.getWidth() * widthScale, X2_SPEED.getHeight() * heightScale);
-                scoreFont.draw(batch, "X2", scoreboardX - 40, scoreboardY + 35);
+                GlyphLayout x2 = new GlyphLayout(scoreFont,"x2");
+                scoreFont.draw(batch, "X2", Gdx.graphics.getWidth() - x2.width - 20, scoreboardY - x2.height+20 - 10);
             }
 
             float timePercentage = takenPowerUp.getTime() / POWER_UP_HELMET_TIME;
+//           POWER_UP_BAR_1.getWidth()
+//            POWER_UP_BAR_1.getHeight()
             if (timePercentage <= 0.25){
-                batch.draw(Textures.POWER_UP_BAR_1, 40, Gdx.graphics.getHeight() - yOffset, POWER_UP_BAR_1.getWidth() * widthScale, POWER_UP_BAR_1.getHeight() * heightScale);
+                batch.draw(Textures.POWER_UP_BAR_1, 10, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/8  , MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
             }
             else if (timePercentage <= 0.5){
-                batch.draw(Textures.POWER_UP_BAR_2, 40, Gdx.graphics.getHeight() - yOffset, POWER_UP_BAR_2.getWidth() * widthScale, POWER_UP_BAR_2.getHeight() * heightScale);
+                batch.draw(Textures.POWER_UP_BAR_2, 10, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/8 , MyAvalancheRushGame.INSTANCE.getScreenWidth()/20 );
             }
             else if(timePercentage <= 0.75) {
-                batch.draw(Textures.POWER_UP_BAR_3, 40, Gdx.graphics.getHeight() - yOffset, POWER_UP_BAR_3.getWidth() * widthScale, POWER_UP_BAR_3.getHeight() * heightScale);
+                batch.draw(Textures.POWER_UP_BAR_3, 10, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/8, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
             }
             else{
-                batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, POWER_UP_BAR_4.getWidth() * widthScale, POWER_UP_BAR_4.getHeight() * heightScale);
+                batch.draw(Textures.POWER_UP_BAR_4, 10, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/8, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
             }
         }
         scoreText = new GlyphLayout(scoreFont, "Score: " + Math.round(singlePlayerGameThread.gameScore));
