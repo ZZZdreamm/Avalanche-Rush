@@ -15,7 +15,7 @@ public class GlobalVariables {
     public static float[] LANES = new float[3];
     public static final float BASE_WIDTH = 480;
     public static final float BASE_HEIGHT = 820;
-    public static final float BASIC_GAME_SPEED = 250;
+    public static final float BASIC_GAME_SPEED = 200;
 
     public static float widthScale;
     public static float heightScale;

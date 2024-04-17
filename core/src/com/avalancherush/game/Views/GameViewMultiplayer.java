@@ -14,6 +14,7 @@ import static com.avalancherush.game.Configuration.Textures.LINE;
 import static com.avalancherush.game.Configuration.Textures.MENU_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
 import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.X2_SPEED;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 import com.avalancherush.game.Configuration.Textures;
@@ -44,6 +45,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -154,27 +156,30 @@ public class GameViewMultiplayer extends RenderNotifier {
 
         for (int i = 0; i < player.getPowerUps().size(); i++) {
             TakenPowerUp takenPowerUp = player.getPowerUps().get(i);
-            int yOffset = 50 * i + 100;
+            int yOffset = MyAvalancheRushGame.INSTANCE.getScreenWidth()/20 * i + 100;
             if (takenPowerUp.getPowerUpType() == PowerUpType.HELMET) {
-                batch.draw(Textures.HELMET, 10, Gdx.graphics.getHeight() - yOffset, 30 * widthScale, 30 * heightScale);
+                batch.draw(Textures.HELMET, 10 + MyAvalancheRushGame.INSTANCE.getScreenWidth()/8, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
             } else if (takenPowerUp.getPowerUpType() == PowerUpType.SNOWBOARD) {
-                batch.draw(Textures.SNOWBOARD, 10, Gdx.graphics.getHeight() - yOffset, 30 * widthScale, 30 * heightScale);
-                batch.draw(Textures.X2_SPEED, scoreboardX - 50, scoreboardY, 50 * widthScale, 50 * heightScale);
-                scoreFont.draw(batch, "X2", scoreboardX - 40, scoreboardY + 35);
+                batch.draw(Textures.SNOWBOARD, 10 + MyAvalancheRushGame.INSTANCE.getScreenWidth()/8, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
+                batch.draw(Textures.X2_SPEED, scoreboardX - 50, scoreboardY, X2_SPEED.getWidth() * widthScale, X2_SPEED.getHeight() * heightScale);
+                GlyphLayout x2 = new GlyphLayout(scoreFont,"x2");
+                scoreFont.draw(batch, "X2", Gdx.graphics.getWidth() - x2.width - 20, scoreboardY - x2.height+20 - 10);
             }
 
             float timePercentage = takenPowerUp.getTime() / POWER_UP_HELMET_TIME;
+//           POWER_UP_BAR_1.getWidth()
+//            POWER_UP_BAR_1.getHeight()
             if (timePercentage <= 0.25){
-                batch.draw(Textures.POWER_UP_BAR_1, 40, Gdx.graphics.getHeight() - yOffset, 150 * widthScale, 30 * heightScale);
+                batch.draw(Textures.POWER_UP_BAR_1, 10, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/8  , MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
             }
             else if (timePercentage <= 0.5){
-                batch.draw(Textures.POWER_UP_BAR_2, 40, Gdx.graphics.getHeight() - yOffset, 150 * widthScale, 30 * heightScale);
+                batch.draw(Textures.POWER_UP_BAR_2, 10, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/8 , MyAvalancheRushGame.INSTANCE.getScreenWidth()/20 );
             }
             else if(timePercentage <= 0.75) {
-                batch.draw(Textures.POWER_UP_BAR_3, 40, Gdx.graphics.getHeight() - yOffset, 150 * widthScale, 30 * heightScale);
+                batch.draw(Textures.POWER_UP_BAR_3, 10, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/8, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
             }
             else{
-                batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, 150 * widthScale, 30 * heightScale);
+                batch.draw(Textures.POWER_UP_BAR_4, 10, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/8, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
             }
         }
 
