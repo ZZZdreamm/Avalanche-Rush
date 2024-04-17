@@ -13,6 +13,7 @@ import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.LINE;
 import static com.avalancherush.game.Configuration.Textures.MENU_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
+import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 import com.avalancherush.game.Configuration.Textures;
@@ -80,9 +81,9 @@ public class GameViewMultiplayer extends RenderNotifier {
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
         this.scoreFont = BIG_BLACK_FONT;
-        this.scoreFont.getData().setScale(1.2f * heightScale);
+        this.scoreFont.getData().setScale(0.60f * heightScale);
 
-        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() * widthScale / 2) - 60);
+        this.scoreboardX = (float) ((MyAvalancheRushGame.INSTANCE.getScreenWidth() * 4 / 6) + 10);
         this.scoreboardY = (float) (MyAvalancheRushGame.INSTANCE.getScreenHeight() - (SCOREBOARD.getHeight() * heightScale / 2) - 10);
 
         LANES[0] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() / 6);
@@ -108,7 +109,7 @@ public class GameViewMultiplayer extends RenderNotifier {
         show();
         boolean collision = checkCollision();
         if(collision){
-            MyAvalancheRushGame.INSTANCE.setScreen(new GameEndView());
+            MyAvalancheRushGame.INSTANCE.setScreen(new GameEndMultiplayerView());
             MyAvalancheRushGame.INSTANCE.getMusicGame().pause();
             MyAvalancheRushGame.INSTANCE.getMusicMenu().play();
         }
@@ -177,8 +178,8 @@ public class GameViewMultiplayer extends RenderNotifier {
             }
         }
 
-        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 100 * widthScale, 50 * heightScale);
-        batch.draw(SCOREBOARD, scoreboardX, scoreboardY - 65,100 * widthScale,50 * heightScale);
+        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, MyAvalancheRushGame.INSTANCE.getScreenWidth() / 3 - 20, 50 * heightScale);
+        batch.draw(SCOREBOARD, scoreboardX, scoreboardY - 65,MyAvalancheRushGame.INSTANCE.getScreenWidth() / 3 - 20,50 * heightScale);
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
             scoreFont.draw(batch,"YOU " + server.playerAScore,scoreboardX + (SCOREBOARD.getWidth() * widthScale / 10),scoreboardY + (SCOREBOARD.getHeight() * heightScale/ 3));
             scoreFont.draw(batch,"FRIEND " + server.playerBScore,scoreboardX + (SCOREBOARD.getWidth() * widthScale / 10),scoreboardY + (SCOREBOARD.getHeight() * heightScale / 3) - 65);
