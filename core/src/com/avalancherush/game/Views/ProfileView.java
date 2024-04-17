@@ -1,6 +1,5 @@
 package com.avalancherush.game.Views;
 
-import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Controllers.ProfileController;
 import com.avalancherush.game.Enums.EventType;
 
@@ -9,7 +8,6 @@ import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
-import static com.avalancherush.game.Configuration.Textures.CHOSEN_RECTANGLE_ENLIGHTMENT;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.MODIFY_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
@@ -25,8 +23,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -34,14 +30,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
-import org.w3c.dom.css.Rect;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 
 public class ProfileView extends ScreenAdapter implements Input.TextInputListener {
