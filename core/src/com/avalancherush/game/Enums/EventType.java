@@ -19,5 +19,6 @@ public enum EventType {
     LOBBY_BUTTON_CLICK,
     GAME_MENU_BUTTON,
     GAME_MULTI_PLAYER,
+    CHANGE_SKIN
 
 }

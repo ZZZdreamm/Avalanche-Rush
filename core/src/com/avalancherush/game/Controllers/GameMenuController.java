@@ -9,7 +9,7 @@ import com.avalancherush.game.Views.SinglePlayerView;
 
 public class GameMenuController implements EventObserver {
     @Override
-    public void notify(EventType eventType) {
+    public void notify(EventType eventType, Object... object) {
         if (eventType == EventType.HOME_BUTTON_CLICK) {
             MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
             MyAvalancheRushGame.INSTANCE.getMusicGame().pause();

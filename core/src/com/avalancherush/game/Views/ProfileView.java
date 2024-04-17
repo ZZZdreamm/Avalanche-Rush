@@ -1,16 +1,22 @@
 package com.avalancherush.game.Views;
 
+import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Controllers.ProfileController;
 import com.avalancherush.game.Enums.EventType;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
+import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.MODIFY_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
+import static com.avalancherush.game.Configuration.Textures.SKIN;
 import static com.avalancherush.game.Configuration.Textures.TABLE_LOBBY;
 import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
+import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
@@ -25,7 +31,14 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import org.w3c.dom.css.Rect;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 
 public class ProfileView extends ScreenAdapter implements Input.TextInputListener {
@@ -40,6 +53,9 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
     private Rectangle changeUsernameButton;
     private BitmapFont fontTitle;
     private BitmapFont gameRulesFont;
+    private Rectangle basicSkin;
+    private Rectangle masterSkin;
+
 
     public ProfileView() {
         this.gameThread = GameThread.getInstance();
@@ -55,7 +71,8 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         this.fontTitle.getData().setScale(1 * heightScale);
         this.gameRulesFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
         this.gameRulesFont.getData().setScale(0.6f * heightScale);
-
+        this.basicSkin = (new Rectangle(250,20, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT));
+        this.masterSkin = (new Rectangle(250 + SINGLE_PLAYER_WIDTH + 10, 20, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT));
     }
 
     @Override
@@ -105,7 +122,10 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         float gameRulesY = woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - TABLE_LOBBY.getHeight() * heightScale /2 - 12 + (TABLE_LOBBY.getHeight() * heightScale + gameRulesLayout.height) / 2;
         gameRulesFont.draw(batch, gameRulesLayout, gameRulesX, gameRulesY);
         //font.draw(batch,"GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN",usernameX,woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - 12);
+        font.draw(batch,"Choose skin", basicSkin.x + 30, basicSkin.y + 75);
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
+        batch.draw(SINGLE_PLAYER, basicSkin.x, basicSkin.y);
+        batch.draw(SKIN, masterSkin.x, masterSkin.y);
 
         batch.end();
     }
@@ -126,6 +146,15 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
                 if (changeUsernameButton.contains(touchPos.x, touchPos.y)) {
                     Gdx.input.getTextInput(new ProfileView(),"Enter Username", "", "Default_Username");
                     Gdx.app.log("Text", username);
+                    return true;
+                }
+
+                if(basicSkin.contains(touchPos.x, touchPos.y)){
+                    profileController.notify(EventType.CHANGE_SKIN, SkinType.BASIC);
+                    return true;
+                }
+                if(masterSkin.contains(touchPos.x, touchPos.y)){
+                    profileController.notify(EventType.CHANGE_SKIN, SkinType.MASTER);
                     return true;
                 }
 

@@ -45,7 +45,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
         this.obstaclesPerPowerUp = 10;
     }
     @Override
-    public void notify(EventType eventType) {
+    public void notify(EventType eventType, Object... object) {
         if(eventType == EventType.GAME_MENU_BUTTON){
             MyAvalancheRushGame.INSTANCE.setScreen(new GameMenuView());
         }

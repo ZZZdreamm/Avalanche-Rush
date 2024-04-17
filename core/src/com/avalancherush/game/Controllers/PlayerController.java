@@ -40,7 +40,7 @@ public class PlayerController implements EventObserver {
     }
 
     @Override
-    public void notify(EventType eventType) {
+    public void notify(EventType eventType, Object... object) {
         switch (eventType){
             case SLIDED_UP: {
                 player.setJumping(true);

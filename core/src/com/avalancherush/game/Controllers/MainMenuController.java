@@ -13,7 +13,7 @@ import com.avalancherush.game.Views.SinglePlayerView;
 
 public class MainMenuController implements EventObserver {
     @Override
-    public void notify(EventType eventType) {
+    public void notify(EventType eventType, Object... object) {
         if(eventType == EventType.SINGLE_PLAYER_BUTTON_CLICK){
             MyAvalancheRushGame.INSTANCE.setScreen(new SinglePlayerView());
         } else if (eventType == EventType.MULTIPLAYER_BUTTON_CLICK) {

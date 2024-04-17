@@ -11,7 +11,7 @@ import com.avalancherush.game.Views.MenuView;
 
 public class MultiPlayerController implements EventObserver {
     @Override
-    public void notify(EventType eventType) {
+    public void notify(EventType eventType, Object... object) {
         if(eventType == EventType.HOME_BUTTON_CLICK) {
             MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
         } else if (eventType == EventType.JOIN_BUTTON_CLICK) {
