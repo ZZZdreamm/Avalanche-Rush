@@ -9,6 +9,7 @@ import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
+import static com.avalancherush.game.Configuration.Textures.CHOSEN_RECTANGLE_ENLIGHTMENT;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.MODIFY_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
@@ -30,6 +31,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -48,6 +50,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
     private ProfileController profileController;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
+    private ShapeRenderer shapeRenderer;
     private Rectangle homeButton;
     private BitmapFont font;
     public static String username;
@@ -62,6 +65,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
         this.profileController = new ProfileController();
+        this.shapeRenderer = new ShapeRenderer();
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         username = gameThread.getJsonIntance().getName();
@@ -124,9 +128,16 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         gameRulesFont.draw(batch, gameRulesLayout, gameRulesX, gameRulesY);
         //font.draw(batch,"GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN",usernameX,woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - 12);
         font.draw(batch,"Choose skin", basicSkin.x + 30, basicSkin.y + 75);
+        String skinJsonName = gameThread.getJsonIntance().getSkin();
+        if(skinJsonName.equals("BASIC")){
+            batch.draw(TABLE_LOBBY, basicSkin.x, basicSkin.y, basicSkin.width/2, basicSkin.height/2);
+        }else if (skinJsonName.equals("MASTER")){
+            batch.draw(TABLE_LOBBY, masterSkin.x, masterSkin.y, basicSkin.width/2, basicSkin.height/2);
+        }
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
         batch.draw(SINGLE_PLAYER, basicSkin.x, basicSkin.y);
         batch.draw(SKIN, masterSkin.x, masterSkin.y);
+
 
         batch.end();
     }
@@ -172,6 +183,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
     @Override
     public void dispose() {
         batch.dispose();
+        shapeRenderer.dispose();
         BACKGROUND.dispose();
         HOME_BUTTON.dispose();
         MODIFY_BUTTON.dispose();
