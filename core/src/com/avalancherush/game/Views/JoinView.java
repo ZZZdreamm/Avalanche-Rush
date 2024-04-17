@@ -122,7 +122,7 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
                     server.id = code;
                     server.CurrentPlayer = "PlayerB";
                     database.serverChangeListener(server);
-                    database.setValueToServerDataBase(server.id, "playerB", "playerB");
+                    database.setValueToServerDataBase(server.id, "playerB", gameThread.getJsonIntance().getName());
                     instance.setServer(server);
                     joinController.notify(EventType.LOBBY_BUTTON_CLICK);
 

@@ -86,7 +86,7 @@ public class LobbyView extends ScreenAdapter {
         code = (server.id);
         database.serverChangeListener(this.server);
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
-            database.setValueToServerDataBase(server.id, "playerA", "Player-A");
+            database.setValueToServerDataBase(server.id, "playerA", gameThread.getJsonIntance().getName());
         }
     }
 

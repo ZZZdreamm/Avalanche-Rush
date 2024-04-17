@@ -17,6 +17,7 @@ import static com.avalancherush.game.Configuration.Textures.TABLE_LOBBY;
 import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.Enums.SkinType;
+import com.avalancherush.game.Models.JsonEditor;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
@@ -63,7 +64,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         this.profileController = new ProfileController();
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
-        username = "Default Username";
+        username = gameThread.getJsonIntance().getName();
         this.font = new BitmapFont(Gdx.files.internal("font2.fnt"));
         this.font.getData().setScale(0.9f * heightScale);
         this.changeUsernameButton = new Rectangle((float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() + WOOD_BUTTON.getWidth() * widthScale + MODIFY_BUTTON.getWidth() * widthScale) / 2, (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30, MODIFY_BUTTON.getWidth() * widthScale, MODIFY_BUTTON.getHeight() * heightScale);
@@ -181,6 +182,10 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
     @Override
     public void input(String text) {
         this.username = text;
+        JsonEditor jsonEditor = gameThread.getJsonIntance();
+        jsonEditor.setName(text);
+        gameThread.setData(jsonEditor.getName(), jsonEditor.getSkin());
+
     }
 
     @Override
