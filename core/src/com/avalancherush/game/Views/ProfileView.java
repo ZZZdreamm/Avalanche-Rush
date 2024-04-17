@@ -144,7 +144,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
                 }
 
                 if (changeUsernameButton.contains(touchPos.x, touchPos.y)) {
-                    Gdx.input.getTextInput(new ProfileView(),"Enter Username", "", "Default_Username");
+                    Gdx.input.getTextInput(new ProfileView(),"Enter Username", gameThread.getJsonIntance().getName(), "");
                     Gdx.app.log("Text", username);
                     return true;
                 }
