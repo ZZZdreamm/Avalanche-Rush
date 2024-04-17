@@ -53,7 +53,7 @@ public class PlayerController implements EventObserver {
                         player.setTexture(player.getSkin() == SkinType.BASIC ? SINGLE_PLAYER : SKIN);
 
                     }
-                }, 1.5f);
+                }, 2.5f);
                 break;
             }
             case SLIDED_LEFT: {

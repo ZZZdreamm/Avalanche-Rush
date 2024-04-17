@@ -196,13 +196,13 @@ public class GameViewSinglePlayer extends RenderNotifier {
                     notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_LEFT);
                 } else if(screenX > laneRightPosition){
                     notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_RIGHT);
+                } else {
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - lastTouchTime < DOUBLE_TAP_TIME_DELTA) {
+                        notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_UP);
+                    }
+                    lastTouchTime = currentTime;
                 }
-
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastTouchTime < DOUBLE_TAP_TIME_DELTA) {
-                    notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_UP);
-                }
-                lastTouchTime = currentTime;
 
                 if (menuButton.contains(touchPos.x, touchPos.y)) {
                     notifyObservers(observers, EventType.GAME_MENU_BUTTON);
