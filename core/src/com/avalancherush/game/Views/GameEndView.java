@@ -47,7 +47,7 @@ public class GameEndView extends ScreenAdapter {
         this.singlePlayerController = new SinglePlayerController();
         this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
-        this.restartButton = new Rectangle(Gdx.graphics.getWidth() * widthScale/3, 140, 50, 50);
+        this.restartButton = new Rectangle(Gdx.graphics.getWidth() * widthScale/3, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         this.scoreFont = BIG_BLACK_FONT;
         this.scoreFont.getData().setScale(0.75f * heightScale);
         this.gameOverFont = BIG_BLACK_FONT;
@@ -74,11 +74,11 @@ public class GameEndView extends ScreenAdapter {
 
         batch.draw(LOST_BUTTON, buttonX, buttonY, LOST_BUTTON.getWidth() * widthScale, LOST_BUTTON.getHeight() * heightScale);
 
-        GlyphLayout layout = new GlyphLayout(scoreFont, "SCORE ");
-        float textX = buttonX + (LOST_BUTTON.getWidth() * widthScale - layout.width - 80 * widthScale) / 2;
-        float textY = buttonY + (LOST_BUTTON.getHeight() * heightScale + layout.height) / 2;
+        GlyphLayout scoreLayout = new GlyphLayout(scoreFont, "SCORE " + Math.round(SinglePlayerGameThread.getInstance().gameScore));
+        float textX = buttonX + (LOST_BUTTON.getWidth() * widthScale - scoreLayout.width) / 2;
+        float textY = buttonY + (LOST_BUTTON.getHeight() * heightScale + scoreLayout.height) / 2;
 
-        scoreFont.draw(batch, "SCORE  " + Math.round(SinglePlayerGameThread.getInstance().gameScore) , textX, textY);
+        scoreFont.draw(batch, scoreLayout , textX, textY);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height );
         batch.draw(MODIFY_BUTTON, restartButton.x, restartButton.y, restartButton.width, restartButton.height);
