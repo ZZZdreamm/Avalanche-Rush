@@ -68,7 +68,7 @@ public class HighestScore  extends ScreenAdapter {
         database.ScoreChangeListener();
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
-        batch.draw(BACKGROUND, 0, 0);
+        batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
         batch.draw(WOOD_BUTTON, highScore1.x, highScore1.y, highScore1.width, highScore1.height);
         batch.draw(WOOD_BUTTON, highScore2.x, highScore2.y, highScore2.width, highScore2.height);
