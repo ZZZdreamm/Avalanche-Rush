@@ -86,7 +86,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         float woodBeamY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30;
         batch.draw(WOOD_BUTTON, usernameX, woodBeamY, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
         batch.draw(WOOD_BUTTON,usernameX,woodBeamY - WOOD_BUTTON.getHeight() * heightScale - 12,WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
-        batch.draw(TABLE_LOBBY,usernameX,woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - TABLE_LOBBY.getHeight() * heightScale /2 - 12, TABLE_LOBBY.getWidth() * widthScale,TABLE_LOBBY.getHeight() * heightScale);
+//        batch.draw(TABLE_LOBBY,usernameX,woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - TABLE_LOBBY.getHeight() * heightScale /2 - 12, TABLE_LOBBY.getWidth() * widthScale,TABLE_LOBBY.getHeight() * heightScale);
 
         GlyphLayout highestScoreLayout = new GlyphLayout(font, "HIGHEST SCORE");
         float highestScoreX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - highestScoreLayout.width) / 2;
@@ -106,14 +106,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         font.draw(batch, usernameLayout, usernameTextX, usernameTextY);
         //font.draw(batch, "USERNAME\n" + getUsername(), usernameX, woodBeamY);
 
-        GlyphLayout gameRulesLayout = new GlyphLayout(gameRulesFont, "GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN");
-        while (gameRulesLayout.width >TABLE_LOBBY.getWidth() * widthScale - 12) {
-            gameRulesFont.getData().setScale(gameRulesFont.getData().scaleX * 0.9f);
-            gameRulesLayout = new GlyphLayout(gameRulesFont, "GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN");
-        }
-        float gameRulesX = usernameX + (TABLE_LOBBY.getWidth() * widthScale - gameRulesLayout.width) / 2;
-        float gameRulesY = woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - TABLE_LOBBY.getHeight() * heightScale /2 - 12 + (TABLE_LOBBY.getHeight() * heightScale + gameRulesLayout.height) / 2;
-        gameRulesFont.draw(batch, gameRulesLayout, gameRulesX, gameRulesY);
+
         //font.draw(batch,"GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN",usernameX,woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - 12);
         font.draw(batch,"Choose skin", basicSkin.x + 30, basicSkin.y + 75);
         String skinJsonName = gameThread.getJsonIntance().getSkin();
