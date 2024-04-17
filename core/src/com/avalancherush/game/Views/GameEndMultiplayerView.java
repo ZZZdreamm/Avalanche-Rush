@@ -86,20 +86,21 @@ public class GameEndMultiplayerView extends ScreenAdapter {
         float resultY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - resultLayout.height - 50;
         resultFont.draw(batch, resultString, resultX, resultY);
 
-        float buttonX = (float)(MyAvalancheRushGame.INSTANCE.getScreenWidth() - LOST_BUTTON.getWidth() * widthScale) / 2;
-        float buttonY = (float)(MyAvalancheRushGame.INSTANCE.getScreenHeight() - LOST_BUTTON.getHeight() * heightScale) / 2;
+        float lostButtonWidth = Gdx.graphics.getHeight()/5;
 
-        batch.draw(LOST_BUTTON, buttonX, buttonY, LOST_BUTTON.getWidth() * widthScale, LOST_BUTTON.getHeight() * heightScale);
-        batch.draw(LOST_BUTTON, buttonX, buttonY - 20, LOST_BUTTON.getWidth() * widthScale, LOST_BUTTON.getHeight() * heightScale);
+        float buttonX = (float)(MyAvalancheRushGame.INSTANCE.getScreenWidth() - LOST_BUTTON.getWidth() * widthScale) / 2;
+        float buttonY = (float)(MyAvalancheRushGame.INSTANCE.getScreenHeight() - lostButtonWidth) / 2;
+
+        batch.draw(LOST_BUTTON, buttonX, buttonY, LOST_BUTTON.getWidth() * widthScale, lostButtonWidth);
 
         GlyphLayout personalLayout = new GlyphLayout(scoreFont, personalScore);
         float personalTextX = buttonX + (LOST_BUTTON.getWidth() * widthScale - personalLayout.width) / 2;
-        float personalTextY = buttonY + (LOST_BUTTON.getHeight() * heightScale + personalLayout.height) / 2 + personalLayout.height;
+        float personalTextY = MyAvalancheRushGame.INSTANCE.getScreenHeight()/2  + personalLayout.height + 5;
         scoreFont.draw(batch, personalScore, personalTextX, personalTextY);
 
         GlyphLayout enemyLayout = new GlyphLayout(scoreFont, enemyScore);
         float enemyTextX = buttonX + (LOST_BUTTON.getWidth() * widthScale - enemyLayout.width) / 2;
-        float enemyTextY = buttonY - 30 + (LOST_BUTTON.getHeight() * heightScale + enemyLayout.height) / 2 + enemyLayout.height;
+        float enemyTextY = Gdx.graphics.getHeight()/2 - enemyLayout.height - 5;
         scoreFont.draw(batch, enemyScore, enemyTextX, enemyTextY);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
