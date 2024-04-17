@@ -2,7 +2,9 @@ package com.avalancherush.game;
 
 import android.util.Log;
 
+import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.MultiPlayerGameThread;
+import com.badlogic.gdx.Game;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -95,6 +97,107 @@ public class DatbaseReference implements FirebaseInterface{
     }
 
     @Override
+    public void ScoreChangeListener() {
+        GameThread instance = GameThread.getInstance();
+        DatabaseReference myRef = database.getReference("score1");
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if(snapshot.getKey().toString().equalsIgnoreCase("name")){
+                    instance.score1Name = snapshot.getValue().toString();
+                }
+                else if(snapshot.getKey().toString().equalsIgnoreCase("score")){
+                    instance.score1Score = snapshot.getValue().toString();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        myRef = database.getReference("score2");
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if(snapshot.getKey().toString().equalsIgnoreCase("name")){
+                    instance.score2Name = snapshot.getValue().toString();
+                }
+                else if(snapshot.getKey().toString().equalsIgnoreCase("score")){
+                    instance.score2Score = snapshot.getValue().toString();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        myRef = database.getReference("score3");
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if(snapshot.getKey().toString().equalsIgnoreCase("name")){
+                    instance.score3Name = snapshot.getValue().toString();
+                }
+                else if(snapshot.getKey().toString().equalsIgnoreCase("score")){
+                    instance.score3Score = snapshot.getValue().toString();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
     public void idChangeListener(String key) {
         DatabaseReference myRef = database.getReference(key);
         myRef.addValueEventListener(new ValueEventListener() {
@@ -109,5 +212,7 @@ public class DatbaseReference implements FirebaseInterface{
             }
         });
     }
+
+
 
 }

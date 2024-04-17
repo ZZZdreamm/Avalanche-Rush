@@ -50,6 +50,7 @@ public class MyAvalancheRushGame extends Game {
 		this.instance = GameThread.getInstance();
 		this.instance.setCamera(orthographicCamera);
 		instance.setDatabase(this.database);
+		database.ScoreChangeListener();
 		System.out.println("Going to Menu View.........................................");
 		setScreen(new MenuView());
 	}

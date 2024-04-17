@@ -6,5 +6,6 @@ public interface FirebaseInterface {
     public void setValueToDataBase(String key, String value);
     public void idChangeListener(String key);
 
+    public void ScoreChangeListener();
 
 }

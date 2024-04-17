@@ -47,7 +47,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
     private BitmapFont fontTitle;
     private BitmapFont gameRulesFont;
     private Rectangle basicSkin;
-    private Rectangle masterSkin;
+    private Rectangle masterSkin, high;
 
 
     public ProfileView() {
@@ -67,6 +67,10 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         this.gameRulesFont.getData().setScale(0.6f * heightScale);
         this.basicSkin = (new Rectangle(250,20, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT));
         this.masterSkin = (new Rectangle(250 + SINGLE_PLAYER_WIDTH + 10, 20, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT));
+        float usernameX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2;
+        float woodBeamY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30;
+        this.high = new Rectangle(usernameX,woodBeamY - WOOD_BUTTON.getHeight() * heightScale - 12,WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
+
     }
 
     @Override
@@ -119,7 +123,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
         batch.draw(SINGLE_PLAYER, basicSkin.x, basicSkin.y);
         batch.draw(SKIN, masterSkin.x, masterSkin.y);
-
+//        this.high = new Rectangle(usernameX,woodBeamY - WOOD_BUTTON.getHeight() * heightScale - 12,WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
 
         batch.end();
     }
@@ -151,6 +155,11 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
                     profileController.notify(EventType.CHANGE_SKIN, SkinType.MASTER);
                     return true;
                 }
+                if(high.contains(touchPos.x, touchPos.y)){
+                    profileController.notify(EventType.HIGH_SCORE);
+                    return true;
+                }
+
 
                 return false;
             }
@@ -178,7 +187,6 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         this.username = text;
         JsonEditor jsonEditor = gameThread.getJsonIntance();
         jsonEditor.setName(text);
-        gameThread.setData(jsonEditor.getName(), jsonEditor.getSkin());
 
     }
 

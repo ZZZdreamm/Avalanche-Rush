@@ -21,4 +21,6 @@ public enum EventType {
     GAME_MULTI_PLAYER,
     CHANGE_SKIN,
     TUTORIAL_BUTTON_CLICK
+    HIGH_SCORE
+
 }

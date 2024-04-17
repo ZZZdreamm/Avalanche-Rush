@@ -6,9 +6,8 @@ import com.avalancherush.game.Interfaces.EventObserver;
 import com.avalancherush.game.Models.JsonEditor;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
+import com.avalancherush.game.Views.HighestScore;
 import com.avalancherush.game.Views.MenuView;
-import com.avalancherush.game.Views.ProfileView;
-import com.avalancherush.game.Views.SinglePlayerView;
 
 public class ProfileController implements EventObserver {
     private JsonEditor jsonEditor;
@@ -31,6 +30,9 @@ public class ProfileController implements EventObserver {
                 }
                 GameThread.getInstance().setData(jsonEditor.getName(), jsonEditor.getSkin());
             }
+        }
+        else if (eventType == EventType.HIGH_SCORE){
+            MyAvalancheRushGame.INSTANCE.setScreen(new HighestScore());
         }
     }
 }

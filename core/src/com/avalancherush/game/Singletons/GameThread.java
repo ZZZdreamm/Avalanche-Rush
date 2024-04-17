@@ -31,6 +31,9 @@ public class GameThread {
 
     private JsonEditor jsonInstance;
 
+    public String score1Name, score2Name, score3Name;
+    public String score1Score, score2Score, score3Score;
+
     public static GameThread getInstance() {
         if (instance == null) {
             instance = new GameThread();
@@ -79,5 +82,33 @@ public class GameThread {
         System.out.println(json.prettyPrint(instance.jsonInstance));
         String jsonStr = json.toJson(instance.getJsonIntance());
         file.writeString(jsonStr, false);
+    }
+
+    public void UpdateHighScore(){
+        float score = SinglePlayerGameThread.getInstance().gameScore;
+        if(score > Integer.parseInt(score1Score)){
+            System.out.println("1----------------------------------------------------------->");
+            database.setValueToDataBase("score3/name", score2Name);
+            database.setValueToDataBase("score3/score", score2Score);
+            database.setValueToDataBase("score2/name", score1Name);
+            database.setValueToDataBase("score2/score", score1Score);
+            database.setValueToDataBase("score1/name", this.jsonInstance.getName());
+            database.setValueToDataBase("score1/score", String.valueOf((int)(score)));
+        }
+        else if(score > Integer.parseInt(score2Score)){
+
+            System.out.println("2----------------------------------------------------------->");
+            database.setValueToDataBase("score3/name", score2Name);
+            database.setValueToDataBase("score3/score", score2Score);
+            database.setValueToDataBase("score2/name", this.jsonInstance.getName());
+            database.setValueToDataBase("score2/score", String.valueOf((int)(score)));
+        }
+        else if(score > Integer.parseInt(score3Score)){
+
+            System.out.println("3----------------------------------------------------------->");
+            database.setValueToDataBase("score3/name", this.jsonInstance.getName());
+            database.setValueToDataBase("score3/score", String.valueOf((int)(score)));
+        }
+        database.ScoreChangeListener();
     }
 }

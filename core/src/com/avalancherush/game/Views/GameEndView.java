@@ -52,6 +52,7 @@ public class GameEndView extends ScreenAdapter {
         this.scoreFont.getData().setScale(0.75f * heightScale);
         this.gameOverFont = BIG_BLACK_FONT;
         this.gameOverFont.getData().setScale(1.5f * heightScale);
+        gameThread.UpdateHighScore();
     }
 
     @Override
