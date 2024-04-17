@@ -1,5 +1,7 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.VOLUME_DOWN_BUTTON;
@@ -39,15 +41,15 @@ public class GameMenuView extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.gameMenuController = new GameMenuController();
 
-        this.resumeButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, ((float)MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight()) / 2 + 50, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
-        this.volumeUpButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, resumeButton.y - WOOD_BUTTON.getHeight() - 20, VOLUME_UP_BUTTON.getWidth(), VOLUME_UP_BUTTON.getHeight());
-        this.volumeDownButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2 + 150, volumeUpButton.y, VOLUME_DOWN_BUTTON.getWidth(), VOLUME_DOWN_BUTTON.getHeight());
-        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
+        this.resumeButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2, ((float)MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight() * heightScale) / 2 + 50, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
+        this.volumeUpButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2, resumeButton.y - WOOD_BUTTON.getHeight() *heightScale - 20, VOLUME_UP_BUTTON.getWidth() * widthScale, VOLUME_UP_BUTTON.getHeight() *heightScale);
+        this.volumeDownButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2 + 150 * widthScale, volumeUpButton.y, VOLUME_DOWN_BUTTON.getWidth() * widthScale, VOLUME_DOWN_BUTTON.getHeight() *heightScale);
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() *widthScale, HOME_BUTTON.getHeight() *heightScale);
 
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(3f);
+        this.fontTitle.getData().setScale(3f * heightScale);
         this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontText.getData().setScale(1.5f);
+        this.fontText.getData().setScale(1.5f * heightScale);
     }
 
     @Override
@@ -63,16 +65,16 @@ public class GameMenuView extends ScreenAdapter {
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
-        batch.draw(WOOD_BUTTON, resumeButton.x, resumeButton.y);
+        batch.draw(WOOD_BUTTON, resumeButton.x, resumeButton.y, resumeButton.width, resumeButton.height);
         GlyphLayout resumeLayout = new GlyphLayout(fontText, "Resume");
         float resumeTextX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - resumeLayout.width) / 2;
         float resumeTextY = resumeButton.y + (resumeButton.getHeight() + resumeLayout.height - 30) / 2 + 20;
         fontText.draw(batch, resumeLayout, resumeTextX, resumeTextY);
 
-        batch.draw(VOLUME_UP_BUTTON, volumeUpButton.x, volumeUpButton.y);
-        batch.draw(VOLUME_DOWN_BUTTON, volumeDownButton.x, volumeDownButton.y);
+        batch.draw(VOLUME_UP_BUTTON, volumeUpButton.x, volumeUpButton.y, volumeUpButton.width, volumeUpButton.height);
+        batch.draw(VOLUME_DOWN_BUTTON, volumeDownButton.x, volumeDownButton.y, volumeDownButton.width, volumeDownButton.height);
 
-        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
 
         batch.end();
     }

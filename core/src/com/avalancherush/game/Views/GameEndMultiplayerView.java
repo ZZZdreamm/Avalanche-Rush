@@ -1,5 +1,7 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.LOST_BUTTON;
@@ -36,11 +38,11 @@ public class GameEndMultiplayerView extends ScreenAdapter {
         this.orthographicCamera = gameThread.getCamera();
         this.gameEndController = new GameEndController();
         this.batch = new SpriteBatch();
-        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         this.scoreFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.scoreFont.getData().setScale(1f);
+        this.scoreFont.getData().setScale(1 * heightScale);
         this.resultFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.resultFont.getData().setScale(3f);
+        this.resultFont.getData().setScale(3f * heightScale);
         multiPlayerGameThread = MultiPlayerGameThread.getInstance();
         server = multiPlayerGameThread.getServer();
     }
@@ -84,23 +86,23 @@ public class GameEndMultiplayerView extends ScreenAdapter {
         float resultY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - resultLayout.height - 50;
         resultFont.draw(batch, resultString, resultX, resultY);
 
-        float buttonX = (float)(MyAvalancheRushGame.INSTANCE.getScreenWidth() - LOST_BUTTON.getWidth()) / 2;
-        float buttonY = (float)(MyAvalancheRushGame.INSTANCE.getScreenHeight() - LOST_BUTTON.getHeight()) / 2;
+        float buttonX = (float)(MyAvalancheRushGame.INSTANCE.getScreenWidth() - LOST_BUTTON.getWidth() * widthScale) / 2;
+        float buttonY = (float)(MyAvalancheRushGame.INSTANCE.getScreenHeight() - LOST_BUTTON.getHeight() * heightScale) / 2;
 
-        batch.draw(LOST_BUTTON, buttonX, buttonY);
-        batch.draw(LOST_BUTTON, buttonX, buttonY - 20);
+        batch.draw(LOST_BUTTON, buttonX, buttonY, LOST_BUTTON.getWidth() * widthScale, LOST_BUTTON.getHeight() * heightScale);
+        batch.draw(LOST_BUTTON, buttonX, buttonY - 20, LOST_BUTTON.getWidth() * widthScale, LOST_BUTTON.getHeight() * heightScale);
 
         GlyphLayout personalLayout = new GlyphLayout(scoreFont, personalScore);
-        float personalTextX = buttonX + (LOST_BUTTON.getWidth() - personalLayout.width) / 2;
-        float personalTextY = buttonY + (LOST_BUTTON.getHeight() + personalLayout.height) / 2 + personalLayout.height;
+        float personalTextX = buttonX + (LOST_BUTTON.getWidth() * widthScale - personalLayout.width) / 2;
+        float personalTextY = buttonY + (LOST_BUTTON.getHeight() * heightScale + personalLayout.height) / 2 + personalLayout.height;
         scoreFont.draw(batch, personalScore, personalTextX, personalTextY);
 
         GlyphLayout enemyLayout = new GlyphLayout(scoreFont, enemyScore);
-        float enemyTextX = buttonX + (LOST_BUTTON.getWidth() - enemyLayout.width) / 2;
-        float enemyTextY = buttonY - 30 + (LOST_BUTTON.getHeight() + enemyLayout.height) / 2 + enemyLayout.height;
+        float enemyTextX = buttonX + (LOST_BUTTON.getWidth() * widthScale - enemyLayout.width) / 2;
+        float enemyTextY = buttonY - 30 + (LOST_BUTTON.getHeight() * heightScale + enemyLayout.height) / 2 + enemyLayout.height;
         scoreFont.draw(batch, enemyScore, enemyTextX, enemyTextY);
 
-        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
 
         batch.end();
     }

@@ -5,10 +5,19 @@ import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
+import static com.avalancherush.game.Configuration.Textures.HELMET;
 import static com.avalancherush.game.Configuration.Textures.LINE;
 import static com.avalancherush.game.Configuration.Textures.MENU_BUTTON;
+import static com.avalancherush.game.Configuration.Textures.POWER_UP_BAR_1;
+import static com.avalancherush.game.Configuration.Textures.POWER_UP_BAR_2;
+import static com.avalancherush.game.Configuration.Textures.POWER_UP_BAR_3;
+import static com.avalancherush.game.Configuration.Textures.POWER_UP_BAR_4;
 import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
 import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
+import static com.avalancherush.game.Configuration.Textures.SNOWBOARD;
+import static com.avalancherush.game.Configuration.Textures.X2_SPEED;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 import com.avalancherush.game.Configuration.GlobalVariables;
@@ -67,23 +76,24 @@ public class GameViewSinglePlayer extends RenderNotifier {
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
         this.scoreFont = BIG_BLACK_FONT;
+        this.scoreFont.getData().setScale(1.2f * heightScale);
 
-        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() / 2) - 60);
-        this.scoreboardY = (float) (MyAvalancheRushGame.INSTANCE.getScreenHeight() - (SCOREBOARD.getHeight() / 2) - 10);
+        this.scoreboardX = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() - (SCOREBOARD.getWidth() * widthScale / 2) - 60);
+        this.scoreboardY = (float) (MyAvalancheRushGame.INSTANCE.getScreenHeight() - (SCOREBOARD.getHeight() * heightScale / 2) - 10);
 
         LANES[0] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() / 6);
         LANES[1] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2);
         LANES[2] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() * 5 / 6);
 
         this.player = player;
-        float playerY = (float)this.player.getTexture().getHeight()/2;
-        float playerX = LANES[1] - SINGLE_PLAYER_WIDTH/2;
-        Rectangle rectangle = new Rectangle(playerX, playerY, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT);
+        float playerY = (float)this.player.getTexture().getHeight() * heightScale/2;
+        float playerX = LANES[1] - SINGLE_PLAYER_WIDTH * widthScale/2;
+        Rectangle rectangle = new Rectangle(playerX, playerY, SINGLE_PLAYER_WIDTH * widthScale, SINGLE_PLAYER_HEIGHT * heightScale);
         this.player.setRectangle(rectangle);
 
         this.totaltime = 0;
 
-        this.menuButton = new Rectangle(10, MyAvalancheRushGame.INSTANCE.getScreenHeight() - MENU_BUTTON.getHeight() - 10, MENU_BUTTON.getWidth(), MENU_BUTTON.getHeight());
+        this.menuButton = new Rectangle(10, MyAvalancheRushGame.INSTANCE.getScreenHeight() - MENU_BUTTON.getHeight() * heightScale - 10, MENU_BUTTON.getWidth() * widthScale, MENU_BUTTON.getHeight() * heightScale);
 
         this.observers = eventObserverList;
         this.renderObservers = renderObserverList;
@@ -127,8 +137,8 @@ public class GameViewSinglePlayer extends RenderNotifier {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
-        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()/3, 0 );
-        batch.draw(LINE,MyAvalancheRushGame.INSTANCE.getScreenWidth()*2/3, 0 );
+        batch.draw(LINE, (float) MyAvalancheRushGame.INSTANCE.getScreenWidth() /3, 0, LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
+        batch.draw(LINE, (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() * 2) /3, 0, LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
         for(Obstacle obstacle: singlePlayerGameThread.obstacles){
             obstacle.draw(batch);
         }
@@ -141,31 +151,31 @@ public class GameViewSinglePlayer extends RenderNotifier {
             TakenPowerUp takenPowerUp = player.getPowerUps().get(i);
             int yOffset = 50 * i + 100;
             if (takenPowerUp.getPowerUpType() == PowerUpType.HELMET) {
-                batch.draw(Textures.HELMET, 10, Gdx.graphics.getHeight() - yOffset, 30, 30);
+                batch.draw(Textures.HELMET, 10, Gdx.graphics.getHeight() - yOffset, HELMET.getWidth() * widthScale, HELMET.getHeight() * heightScale);
             } else if (takenPowerUp.getPowerUpType() == PowerUpType.SNOWBOARD) {
-                batch.draw(Textures.SNOWBOARD, 10, Gdx.graphics.getHeight() - yOffset, 30, 30);
-                batch.draw(Textures.X2_SPEED, scoreboardX - 50, scoreboardY, 50, 50);
+                batch.draw(Textures.SNOWBOARD, 10, Gdx.graphics.getHeight() - yOffset, SNOWBOARD.getWidth() * widthScale, SNOWBOARD.getHeight() * heightScale);
+                batch.draw(Textures.X2_SPEED, scoreboardX - 50, scoreboardY, X2_SPEED.getWidth() * widthScale, X2_SPEED.getHeight() * heightScale);
                 scoreFont.draw(batch, "X2", scoreboardX - 40, scoreboardY + 35);
             }
 
             float timePercentage = takenPowerUp.getTime() / POWER_UP_HELMET_TIME;
             if (timePercentage <= 0.25){
-                batch.draw(Textures.POWER_UP_BAR_1, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+                batch.draw(Textures.POWER_UP_BAR_1, 40, Gdx.graphics.getHeight() - yOffset, POWER_UP_BAR_1.getWidth() * widthScale, POWER_UP_BAR_1.getHeight() * heightScale);
             }
             else if (timePercentage <= 0.5){
-                batch.draw(Textures.POWER_UP_BAR_2, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+                batch.draw(Textures.POWER_UP_BAR_2, 40, Gdx.graphics.getHeight() - yOffset, POWER_UP_BAR_2.getWidth() * widthScale, POWER_UP_BAR_2.getHeight() * heightScale);
             }
             else if(timePercentage <= 0.75) {
-                batch.draw(Textures.POWER_UP_BAR_3, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+                batch.draw(Textures.POWER_UP_BAR_3, 40, Gdx.graphics.getHeight() - yOffset, POWER_UP_BAR_3.getWidth() * widthScale, POWER_UP_BAR_3.getHeight() * heightScale);
             }
             else{
-                batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, 150, 30);
+                batch.draw(Textures.POWER_UP_BAR_4, 40, Gdx.graphics.getHeight() - yOffset, POWER_UP_BAR_4.getWidth() * widthScale, POWER_UP_BAR_4.getHeight() * heightScale);
             }
         }
 
-        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 150, 50);
-        scoreFont.draw(batch, "Score: " + Math.round(singlePlayerGameThread.gameScore), scoreboardX + 25, scoreboardY + SCOREBOARD.getHeight()/2.5f);
-        batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
+        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, 150 * widthScale, 50 * heightScale);
+        scoreFont.draw(batch, "Score: " + Math.round(singlePlayerGameThread.gameScore), scoreboardX + 25, scoreboardY + SCOREBOARD.getHeight() * heightScale/2.5f);
+        batch.draw(MENU_BUTTON, menuButton.x, menuButton.y, menuButton.width, menuButton.height);
         batch.end();
     }
 

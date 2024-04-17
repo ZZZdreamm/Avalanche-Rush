@@ -1,5 +1,7 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.PLAY_BUTTON;
@@ -56,13 +58,13 @@ public class LobbyView extends ScreenAdapter {
         this.lobbyController = new LobbyController();
         this.batch = new SpriteBatch();
 
-        float buttonX = 214 + ((MyAvalancheRushGame.INSTANCE.getScreenWidth() - (PLAY_BUTTON.getWidth()+214)) / 2);
-        float buttonY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - PLAY_BUTTON.getHeight()) / 2;
-        this.playButton = new Rectangle(buttonX+50, buttonY, PLAY_BUTTON.getWidth(), PLAY_BUTTON.getHeight());
-        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
+        float buttonX = 214 + ((MyAvalancheRushGame.INSTANCE.getScreenWidth() - PLAY_BUTTON.getWidth() * widthScale +214) / 2);
+        float buttonY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - PLAY_BUTTON.getHeight() * heightScale) / 2;
+        this.playButton = new Rectangle(buttonX+50, buttonY, PLAY_BUTTON.getWidth() * widthScale, PLAY_BUTTON.getHeight() * heightScale);
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
 
 
-        woodBeamY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - 140) / 2;
+        woodBeamY = (float) (MyAvalancheRushGame.INSTANCE.getScreenHeight() - 140) / 2;
 
 
         username = ProfileView.getUsername();
@@ -72,10 +74,10 @@ public class LobbyView extends ScreenAdapter {
         Gdx.input.setInputProcessor(new MyInputAdapter());
 
         fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontTitle.getData().setScale(3f);
+        fontTitle.getData().setScale(3f * heightScale);
 
         fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontText.getData().setScale(1.3f);
+        fontText.getData().setScale(1.3f * heightScale);
 
 
         this.database = gameThread.getDatabase();
@@ -86,8 +88,6 @@ public class LobbyView extends ScreenAdapter {
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
             database.setValueToServerDataBase(server.id, "playerA", "Player-A");
         }
-
-
     }
 
     @Override
@@ -97,44 +97,44 @@ public class LobbyView extends ScreenAdapter {
         batch.setProjectionMatrix(orthographicCamera.combined);
         batch.begin();
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
-        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
-        float woodBeamWidth = 150 + 150;
-        float buttonPlayWidth = PLAY_BUTTON.getWidth();
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
+        float woodBeamWidth = (150 + 150) * widthScale;
+        float buttonPlayWidth = PLAY_BUTTON.getWidth() * widthScale;
         float totalWidth = woodBeamWidth + buttonPlayWidth;
         float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
-        batch.draw(TABLE_LOBBY, woodBeamX, woodBeamY, woodBeamWidth, 140);
+        batch.draw(TABLE_LOBBY, woodBeamX, ((float) MyAvalancheRushGame.INSTANCE.getScreenHeight() - TABLE_LOBBY.getHeight() * heightScale)/ 2, woodBeamWidth, 140 * heightScale);
 
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Lobby");
         float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
-        float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
+        float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height + 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
-        float CenterX = MyAvalancheRushGame.INSTANCE.getScreenWidth()/2;
-        float CenterY = MyAvalancheRushGame.INSTANCE.getScreenHeight()/2;
+        float CenterX = (float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2;
+        float CenterY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2;
 
         GlyphLayout ready = new GlyphLayout(fontText, "Ready");
         GlyphLayout playerALayout = new GlyphLayout(fontText, server.playerA);
         GlyphLayout playerBLayout = new GlyphLayout(fontText, server.playerB);
-        fontText.draw(batch, playerALayout, CenterX - playerALayout.width-50, CenterY+35);
-        fontText.draw(batch, playerBLayout, CenterX - playerALayout.width-50, CenterY-20);
+        fontText.draw(batch, playerALayout, CenterX - (playerALayout.width + 50), CenterY+35);
+        fontText.draw(batch, playerBLayout, CenterX - (playerALayout.width + 50), CenterY-20);
 
 
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA") && (!server.playerAStatus.equals("True"))){
-            batch.draw(PLAY_BUTTON, playButton.x, playButton.y, buttonPlayWidth, 74);
+            batch.draw(PLAY_BUTTON, playButton.x, playButton.y, buttonPlayWidth, PLAY_BUTTON.getHeight() * heightScale);
         }
         else if(server.CurrentPlayer.equalsIgnoreCase("PlayerB") && (!server.playerBStatus.equals("True"))){
-            batch.draw(PLAY_BUTTON, playButton.x,playButton.y, buttonPlayWidth, 74);
+            batch.draw(PLAY_BUTTON, playButton.x,playButton.y, buttonPlayWidth, PLAY_BUTTON.getHeight() * heightScale);
         }
         if(server.playerAStatus.equals("True")) {
-            fontText.draw(batch, ready,CenterX + playerALayout.width-70, CenterY + 15);
+            fontText.draw(batch, ready,CenterX +(playerALayout.width- 70), CenterY + 15);
         }
         else if((server.playerBStatus.equals("True"))){
-            fontText.draw(batch, ready,CenterX + playerALayout.width-70,CenterY-15);
+            fontText.draw(batch, ready,CenterX + (playerALayout.width-70),CenterY-15);
         }
 
         GlyphLayout serverId = new GlyphLayout(fontText, ("Lobby ID : "+server.id));
         System.out.println(server.id);
         float serverIdX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - serverId.width) / 2;
-        float serverIdY = gameLogoY - 60 - serverId.height;
+        float serverIdY = gameLogoY - (gameLogoLayout.height + serverId.height);
         fontText.draw(batch, serverId, serverIdX, serverIdY);
         batch.end();
 

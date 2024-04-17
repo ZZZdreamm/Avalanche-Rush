@@ -49,10 +49,10 @@ public class SinglePlayerView extends ScreenAdapter {
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
 
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(1.2f * heightScale);
+        this.fontTitle.getData().setScale(1 * heightScale);
 
         this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontText.getData().setScale(0.9f * heightScale);
+        this.fontText.getData().setScale(1.2f * heightScale);
 
         /*
         this.playButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight()) / 2, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());

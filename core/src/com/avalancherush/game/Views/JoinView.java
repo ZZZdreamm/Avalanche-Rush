@@ -1,5 +1,7 @@
 package com.avalancherush.game.Views;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.PLAY_BUTTON;
@@ -50,19 +52,19 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
         this.orthographicCamera = gameThread.getCamera();
         this.joinController = new JoinController();
         this.batch = new SpriteBatch();
-        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
-        float woodBeamWidth = 150 + 64;
-        float totalWidth = woodBeamWidth + PLAY_BUTTON.getWidth();
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
+        float woodBeamWidth = (150 + 64) * widthScale;
+        float totalWidth = woodBeamWidth + PLAY_BUTTON.getWidth() * widthScale;
         float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
         float buttonPlayX = woodBeamX + woodBeamWidth;
         this.CodeX = ((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
-        this.woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 250;
-        this.playButton = new Rectangle(buttonPlayX, woodBeamY, PLAY_BUTTON.getWidth(), PLAY_BUTTON.getHeight());
+        this.woodBeamY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2;
+        this.playButton = new Rectangle(buttonPlayX, woodBeamY, PLAY_BUTTON.getWidth() * widthScale, PLAY_BUTTON.getHeight() * heightScale);
 
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(3f);
+        this.fontTitle.getData().setScale(3f * heightScale);
         this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontText.getData().setScale(1f);
+        this.fontText.getData().setScale(1 * heightScale);
         instance = MultiPlayerGameThread.getInstance();
         this.database = gameThread.getDatabase();
         this.server = new Server(code);
@@ -82,20 +84,24 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
 
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        float woodBeamWidth = 150 + 64;
-        float totalWidth = woodBeamWidth + PLAY_BUTTON.getWidth();
+        float woodBeamWidth = (150 + 64) * widthScale;
+        float totalWidth = woodBeamWidth + PLAY_BUTTON.getWidth() * widthScale;
         float woodBeamX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - totalWidth) / 2;
 
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Join");
         float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
-        float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
+        float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height + 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
-        batch.draw(WOOD_BUTTON, woodBeamX, woodBeamY, woodBeamWidth, 74);
+        batch.draw(WOOD_BUTTON, woodBeamX, woodBeamY, woodBeamWidth, 74 * heightScale);
 
-        fontText.draw(batch, "Insert code: " + code, CodeX - 30, woodBeamY + 50);
-        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
-        batch.draw(PLAY_BUTTON, playButton.x, playButton.y, playButton.getWidth(), 74);
+        GlyphLayout insertCodeLayout = new GlyphLayout(fontText, "Insert code: " + code);
+        float insertCodeX = woodBeamX + (woodBeamWidth - insertCodeLayout.width) / 2;
+        float insertCodeY = woodBeamY + (74 * heightScale + insertCodeLayout.height) / 2;
+        fontText.draw(batch, insertCodeLayout, insertCodeX, insertCodeY);
+        //fontText.draw(batch, "Insert code: " + code, CodeX - 30 * widthScale, woodBeamY + 50 * heightScale);
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
+        batch.draw(PLAY_BUTTON, playButton.x, playButton.y, playButton.width, 74 * heightScale);
 
         batch.end();
     }

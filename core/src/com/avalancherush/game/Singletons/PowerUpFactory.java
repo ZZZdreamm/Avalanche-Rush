@@ -2,6 +2,8 @@ package com.avalancherush.game.Singletons;
 
 import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_WIDTH;
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 
 import com.avalancherush.game.Configuration.GlobalVariables;
 import com.avalancherush.game.Configuration.Textures;
@@ -29,7 +31,7 @@ public class PowerUpFactory {
         }catch (Exception e){
             System.out.println(e);
         }
-        Rectangle rectangle = new Rectangle(x, y, POWER_UP_WIDTH, POWER_UP_HEIGHT);
+        Rectangle rectangle = new Rectangle(x, y, POWER_UP_WIDTH * widthScale, POWER_UP_HEIGHT * heightScale);
         powerUp.setRectangle(rectangle);
         powerUp.setTime(time);
         if(powerUpType == PowerUpType.HELMET){

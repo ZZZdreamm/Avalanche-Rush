@@ -58,7 +58,7 @@ public class MultiPlayerView extends ScreenAdapter {
         this.fontTitle.getData().setScale(1.2f * heightScale);
 
         this.fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontText.getData().setScale(0.9f * heightScale);
+        this.fontText.getData().setScale(1.2f * heightScale);
 
         /*
         this.joinButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight()) / 2 + 50, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());

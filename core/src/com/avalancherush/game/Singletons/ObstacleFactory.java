@@ -3,6 +3,8 @@ package com.avalancherush.game.Singletons;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_ROCK_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_TREE_WIDTH;
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 
 import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Enums.ObstacleType;
@@ -29,13 +31,13 @@ public class ObstacleFactory {
         if(obstacleType == ObstacleType.ROCK){
             obstacle.setType(ObstacleType.ROCK);
             obstacle.setJumpable(true);
-            Rectangle rectangle = new Rectangle(x, y, OBSTACLE_ROCK_WIDTH, OBSTACLE_HEIGHT);
+            Rectangle rectangle = new Rectangle(x, y, OBSTACLE_ROCK_WIDTH * widthScale, OBSTACLE_HEIGHT * heightScale);
             obstacle.setRectangle(rectangle);
             obstacle.setTexture(Textures.STONE);
         }else if (obstacleType == ObstacleType.TREE){
             obstacle.setType(ObstacleType.TREE);
             obstacle.setJumpable(false);
-            Rectangle rectangle = new Rectangle(x, y, OBSTACLE_TREE_WIDTH, OBSTACLE_HEIGHT);
+            Rectangle rectangle = new Rectangle(x, y, OBSTACLE_TREE_WIDTH * widthScale, OBSTACLE_HEIGHT * heightScale);
             obstacle.setRectangle(rectangle);
             obstacle.setTexture(Textures.TREE);
         }

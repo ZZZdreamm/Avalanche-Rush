@@ -2,6 +2,9 @@ package com.avalancherush.game.Views;
 
 import com.avalancherush.game.Controllers.ProfileController;
 import com.avalancherush.game.Enums.EventType;
+
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.MODIFY_BUTTON;
@@ -36,19 +39,22 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
     public static String username;
     private Rectangle changeUsernameButton;
     private BitmapFont fontTitle;
+    private BitmapFont gameRulesFont;
 
     public ProfileView() {
         this.gameThread = GameThread.getInstance();
         this.orthographicCamera = gameThread.getCamera();
         this.profileController = new ProfileController();
         this.batch = new SpriteBatch();
-        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
+        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         username = "Default Username";
         this.font = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.font.getData().setScale(0.5f);
-        this.changeUsernameButton = new Rectangle(50, 150, 100, 50);
+        this.font.getData().setScale(0.9f * heightScale);
+        this.changeUsernameButton = new Rectangle((float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() + WOOD_BUTTON.getWidth() * widthScale + MODIFY_BUTTON.getWidth() * widthScale) / 2, (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30, MODIFY_BUTTON.getWidth() * widthScale, MODIFY_BUTTON.getHeight() * heightScale);
         this.fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        this.fontTitle.getData().setScale(1);
+        this.fontTitle.getData().setScale(1 * heightScale);
+        this.gameRulesFont = new BitmapFont(Gdx.files.internal("font2.fnt"));
+        this.gameRulesFont.getData().setScale(0.6f * heightScale);
 
     }
 
@@ -60,27 +66,46 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
 
         batch.draw(BACKGROUND, 0, 0, MyAvalancheRushGame.INSTANCE.getScreenWidth(), MyAvalancheRushGame.INSTANCE.getScreenHeight());
 
-        float usernameX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - 150) / 2;
+        float usernameX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2;
 
         GlyphLayout gameLogoLayout = new GlyphLayout(fontTitle, "Profile");
         float gameLogoX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - gameLogoLayout.width) / 2;
         float gameLogoY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - gameLogoLayout.height - 20;
         fontTitle.draw(batch, gameLogoLayout, gameLogoX, gameLogoY);
 
-        float woodBeamY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
-        batch.draw(WOOD_BUTTON, usernameX - 32, woodBeamY, 150 + 64, 74);
-        batch.draw(WOOD_BUTTON,usernameX - 32,woodBeamY - 100,150+64,74);
-        batch.draw(TABLE_LOBBY,usernameX - 32,woodBeamY - 300, TABLE_LOBBY.getWidth(),TABLE_LOBBY.getHeight());
-        font.draw(batch,"HIGHEST SCORE",usernameX,woodBeamY - 100 + 50);
+        float woodBeamY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30;
+        batch.draw(WOOD_BUTTON, usernameX, woodBeamY, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
+        batch.draw(WOOD_BUTTON,usernameX,woodBeamY - WOOD_BUTTON.getHeight() * heightScale - 12,WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
+        batch.draw(TABLE_LOBBY,usernameX,woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - TABLE_LOBBY.getHeight() * heightScale /2 - 12, TABLE_LOBBY.getWidth() * widthScale,TABLE_LOBBY.getHeight() * heightScale);
 
-        float changeButtonX = usernameX + 150 + 50;
-        float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200;
-        changeUsernameButton.setPosition(changeButtonX, changeButtonY);
+        GlyphLayout highestScoreLayout = new GlyphLayout(font, "HIGHEST SCORE");
+        float highestScoreX = (MyAvalancheRushGame.INSTANCE.getScreenWidth() - highestScoreLayout.width) / 2;
+        float highestScoreY = woodBeamY - WOOD_BUTTON.getHeight() * heightScale - 12 + WOOD_BUTTON.getHeight() * heightScale / 2 + highestScoreLayout.height / 2;
+        font.draw(batch, highestScoreLayout, highestScoreX, highestScoreY);
+        //font.draw(batch,"HIGHEST SCORE",usernameX + (WOOD_BUTTON.getWidth() * widthScale - )/ 2,(woodBeamY - WOOD_BUTTON.getHeight() * heightScale - 12) + WOOD_BUTTON.getHeight() * heightScale / 2);
 
-        batch.draw(MODIFY_BUTTON, changeUsernameButton.x, changeUsernameButton.y);
-        font.draw(batch, "USERNAME\n" + getUsername(), usernameX, MyAvalancheRushGame.INSTANCE.getScreenHeight() - 150);
-        font.draw(batch,"GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN",usernameX,woodBeamY - TABLE_LOBBY.getHeight() - 32);
-        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y);
+        //float changeButtonX = usernameX + WOOD_BUTTON.getWidth() * widthScale + 20;
+        //float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - MODIFY_BUTTON.getHeight() * heightScale;
+        //float changeButtonY = MyAvalancheRushGame.INSTANCE.getScreenHeight() - 200 * heightScale;
+        //changeUsernameButton.setPosition(changeButtonX, changeButtonY);
+
+        batch.draw(MODIFY_BUTTON, changeUsernameButton.x, changeUsernameButton.y, changeUsernameButton.width, changeUsernameButton.height);
+        GlyphLayout usernameLayout = new GlyphLayout(font, "USERNAME\n" + getUsername());
+        float usernameTextX = usernameX + (WOOD_BUTTON.getWidth() * widthScale - usernameLayout.width) / 2;
+        float usernameTextY = woodBeamY + WOOD_BUTTON.getHeight() * heightScale / 2 + usernameLayout.height / 2;
+        font.draw(batch, usernameLayout, usernameTextX, usernameTextY);
+        //font.draw(batch, "USERNAME\n" + getUsername(), usernameX, woodBeamY);
+
+        GlyphLayout gameRulesLayout = new GlyphLayout(gameRulesFont, "GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN");
+        while (gameRulesLayout.width >TABLE_LOBBY.getWidth() * widthScale - 12) {
+            gameRulesFont.getData().setScale(gameRulesFont.getData().scaleX * 0.9f);
+            gameRulesLayout = new GlyphLayout(gameRulesFont, "GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN");
+        }
+        float gameRulesX = usernameX + (TABLE_LOBBY.getWidth() * widthScale - gameRulesLayout.width) / 2;
+        float gameRulesY = woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - TABLE_LOBBY.getHeight() * heightScale /2 - 12 + (TABLE_LOBBY.getHeight() * heightScale + gameRulesLayout.height) / 2;
+        gameRulesFont.draw(batch, gameRulesLayout, gameRulesX, gameRulesY);
+        //font.draw(batch,"GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN",usernameX,woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - 12);
+        batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
 
         batch.end();
     }
