@@ -6,6 +6,7 @@ import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Interfaces.EventObserver;
 import com.avalancherush.game.Interfaces.RenderObserver;
+import com.avalancherush.game.Models.JsonEditor;
 import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
@@ -19,6 +20,10 @@ import java.util.List;
 
 public class LobbyController implements EventObserver{
     private SinglePlayerGameThread singlePlayerGameThread;
+    private JsonEditor jsonEditor;
+    public LobbyController(){
+        this.jsonEditor = GameThread.getInstance().getJsonIntance();
+    }
     @Override
     public void notify(EventType eventType, Object... object) {
         if(eventType == EventType.HOME_BUTTON_CLICK){
@@ -30,7 +35,7 @@ public class LobbyController implements EventObserver{
             PlayerController playerController = new PlayerController();
             Player player = new Player();
             player.setTrack(2);
-            player.setSkin(SkinType.BASIC);
+            player.setSkin(jsonEditor.getSkin() == "BASIC" ? SkinType.BASIC : SkinType.MASTER);
             playerController.setPlayer(player);
             List<EventObserver> eventObserverList = new ArrayList<>();
             eventObserverList.add(gamePlayController);
