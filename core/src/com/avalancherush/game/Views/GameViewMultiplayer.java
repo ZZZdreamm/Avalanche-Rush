@@ -71,6 +71,8 @@ public class GameViewMultiplayer extends RenderNotifier {
     private SinglePlayerGameThread singlePlayerGameThread;
     private long lastTouchTime;
     private static final long DOUBLE_TAP_TIME_DELTA = 200;
+    GlyphLayout scoreYou;
+    GlyphLayout scoreFriend;
 
 
     public GameViewMultiplayer(Player player, List<EventObserver> eventObserverList, List<RenderObserver> renderObserverList){
@@ -182,16 +184,21 @@ public class GameViewMultiplayer extends RenderNotifier {
                 batch.draw(Textures.POWER_UP_BAR_4, 10, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/8, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
             }
         }
+        float scoreboardWidth = MyAvalancheRushGame.INSTANCE.getScreenWidth() / 3 - 20;
+        float scoreboardHeight = 50 * heightScale;
 
-        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, MyAvalancheRushGame.INSTANCE.getScreenWidth() / 3 - 20, 50 * heightScale);
-        batch.draw(SCOREBOARD, scoreboardX, scoreboardY - 65,MyAvalancheRushGame.INSTANCE.getScreenWidth() / 3 - 20,50 * heightScale);
+        batch.draw(SCOREBOARD, scoreboardX, scoreboardY, scoreboardWidth, scoreboardHeight);
+        batch.draw(SCOREBOARD, scoreboardX, scoreboardY - scoreboardHeight - 5,scoreboardWidth, scoreboardHeight);
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
-            scoreFont.draw(batch,"YOU " + server.playerAScore,scoreboardX + (SCOREBOARD.getWidth() * widthScale / 10),scoreboardY + (SCOREBOARD.getHeight() * heightScale/ 3));
-            scoreFont.draw(batch,"FRIEND " + server.playerBScore,scoreboardX + (SCOREBOARD.getWidth() * widthScale / 10),scoreboardY + (SCOREBOARD.getHeight() * heightScale / 3) - 65);
+            scoreYou = new GlyphLayout(scoreFont, "YOU " + server.playerAScore);
+            scoreFriend = new GlyphLayout(scoreFont, "Friend " + server.playerBScore);
+
         } else {
-            scoreFont.draw(batch,"YOU " + server.playerBScore,scoreboardX + (SCOREBOARD.getWidth() * widthScale/ 10),scoreboardY + (SCOREBOARD.getHeight() * heightScale/ 3) - 65);
-            scoreFont.draw(batch,"FRIEND " + server.playerAScore,scoreboardX + (SCOREBOARD.getWidth() * widthScale / 10),scoreboardY + (SCOREBOARD.getHeight() * heightScale / 3));
+            scoreYou = new GlyphLayout(scoreFont, "YOU " + server.playerBScore);
+            scoreFriend = new GlyphLayout(scoreFont, "Friend " + server.playerAScore);
         }
+        scoreFont.draw(batch,scoreYou,scoreboardX+scoreboardWidth/2 - scoreYou.width/2,scoreboardY + scoreboardHeight/2 + scoreYou.height/2);
+        scoreFont.draw(batch, scoreFriend,scoreboardX+scoreboardWidth/2 - scoreFriend.width/2,scoreboardY + scoreFriend.height/2 - scoreboardHeight/2 - 5 );
 //        batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
         batch.end();
 
