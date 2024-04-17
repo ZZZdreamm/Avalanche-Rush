@@ -7,6 +7,8 @@ import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_TREE
 import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
 import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_SNOWBOARD_TIME;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
+import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
+import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 import com.avalancherush.game.Enums.EventType;
@@ -73,7 +75,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
             }
         }
 
-        if (size<obstaclesThreshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT - OBSTACLE_HEIGHT - 50)) {
+        if (size<obstaclesThreshold && head.getRectangle().y < (MyAvalancheRushGame.INSTANCE.getScreenHeight() - SINGLE_PLAYER_HEIGHT*heightScale - OBSTACLE_HEIGHT*widthScale - 50)) {
             int track;
             do{
                 track = random.nextInt(3) + 1;
