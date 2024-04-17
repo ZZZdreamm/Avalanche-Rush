@@ -65,8 +65,8 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         this.fontTitle.getData().setScale(1 * heightScale);
         this.gameRulesFont = BIG_BLACK_FONT;
         this.gameRulesFont.getData().setScale(0.6f * heightScale);
-        this.basicSkin = (new Rectangle(250,20, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT));
-        this.masterSkin = (new Rectangle(250 + SINGLE_PLAYER_WIDTH + 10, 20, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT));
+        this.basicSkin = (new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() /2.5f,MyAvalancheRushGame.INSTANCE.getScreenHeight() / 3, SINGLE_PLAYER_WIDTH * widthScale /2, SINGLE_PLAYER_HEIGHT * heightScale/2));
+        this.masterSkin = (new Rectangle(MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2.5f + (SINGLE_PLAYER_WIDTH + 10) * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight() / 3, SINGLE_PLAYER_WIDTH * widthScale/2, SINGLE_PLAYER_HEIGHT * heightScale/2));
         float usernameX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2;
         float woodBeamY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30;
         this.high = new Rectangle(usernameX,woodBeamY - WOOD_BUTTON.getHeight() * heightScale - 12,WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
@@ -113,7 +113,7 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
 
 
         //font.draw(batch,"GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN",usernameX,woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - 12);
-        font.draw(batch,"Choose skin", basicSkin.x + 30, basicSkin.y + 75);
+        font.draw(batch,"Choose skin", basicSkin.x + 12 * widthScale, basicSkin.y + 40 * heightScale);
         String skinJsonName = gameThread.getJsonIntance().getSkin();
         if(skinJsonName.equals("BASIC")){
             batch.draw(TABLE_LOBBY, basicSkin.x, basicSkin.y, basicSkin.width/2, basicSkin.height/2);
