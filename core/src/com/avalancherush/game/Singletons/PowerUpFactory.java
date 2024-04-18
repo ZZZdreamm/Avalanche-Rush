@@ -1,19 +1,16 @@
 package com.avalancherush.game.Singletons;
 
 import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HEIGHT;
+import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
+import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_SNOWBOARD_TIME;
 import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 
-import com.avalancherush.game.Configuration.GlobalVariables;
 import com.avalancherush.game.Configuration.Textures;
 import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Models.PowerUp;
-import com.avalancherush.game.Models.TakenPowerUp;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-
-import org.w3c.dom.Text;
 
 
 public class PowerUpFactory {
@@ -24,7 +21,7 @@ public class PowerUpFactory {
         }
         return instance;
     }
-    public PowerUp createPowerUp (PowerUpType powerUpType, int track, float x, float y, int time){
+    public PowerUp createPowerUp (PowerUpType powerUpType, int track, float x, float y){
         PowerUp powerUp = new PowerUp();
         try {
             powerUp.setTrack(track);
@@ -33,18 +30,22 @@ public class PowerUpFactory {
         }
         Rectangle rectangle = new Rectangle(x, y, POWER_UP_WIDTH * widthScale, POWER_UP_HEIGHT * heightScale);
         powerUp.setRectangle(rectangle);
-        powerUp.setTime(time);
         if(powerUpType == PowerUpType.HELMET){
             powerUp.setType(PowerUpType.HELMET);
             powerUp.setTexture(Textures.HELMET);
+            powerUp.setTime(POWER_UP_HELMET_TIME);
         } if(powerUpType == PowerUpType.SNOWBOARD){
             powerUp.setType(PowerUpType.SNOWBOARD);
             powerUp.setTexture(Textures.SNOWBOARD);
+            powerUp.setTime(POWER_UP_SNOWBOARD_TIME);
         }
         return powerUp;
     };
 
-    public TakenPowerUp givePlayerPowerUp(PowerUpType powerUpType, float time){
-        return new TakenPowerUp(powerUpType, time);
+    public PowerUp givePlayerPowerUp(PowerUpType powerUpType, float time){
+        PowerUp powerUp = new PowerUp();
+        powerUp.setType(powerUpType);
+        powerUp.setTime(time);
+        return powerUp;
     }
 }

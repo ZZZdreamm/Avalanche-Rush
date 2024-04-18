@@ -2,28 +2,20 @@ package com.avalancherush.game.Views;
 
 import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_ROCK_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_TREE_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
 import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
 import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.LINE;
-import static com.avalancherush.game.Configuration.Textures.MENU_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
-import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.X2_SPEED;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 import com.avalancherush.game.Configuration.Textures;
-import com.avalancherush.game.Controllers.GamePlayController;
-import com.avalancherush.game.Controllers.PlayerController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.ObstacleType;
 import com.avalancherush.game.Enums.PowerUpType;
-import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.FirebaseInterface;
 import com.avalancherush.game.Interfaces.EventObserver;
 import com.avalancherush.game.Interfaces.RenderNotifier;
@@ -32,25 +24,20 @@ import com.avalancherush.game.Models.GameMap;
 import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.Models.PowerUp;
-import com.avalancherush.game.Models.TakenPowerUp;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Server;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.MultiPlayerGameThread;
-import com.avalancherush.game.Singletons.ObstacleFactory;
 import com.avalancherush.game.Singletons.SinglePlayerGameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Queue;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -128,17 +115,17 @@ public class GameViewMultiplayer extends RenderNotifier {
         }
         float elapsedTime = Gdx.graphics.getDeltaTime();
         float vehicleMultiplier = 1.0f;
-        List<TakenPowerUp> powerUpsToRemove = new ArrayList<>();
-        for (TakenPowerUp powerUp: player.getPowerUps()){
+        List<PowerUp> powerUpsToRemove = new ArrayList<>();
+        for (PowerUp powerUp: player.getPowerUps()){
             powerUp.setTime(powerUp.getTime() - elapsedTime);
             if(powerUp.getTime() < 0){
                 powerUpsToRemove.add(powerUp);
             }
-            if(powerUp.getPowerUpType() == PowerUpType.SNOWBOARD){
+            if(powerUp.getType() == PowerUpType.SNOWBOARD){
                 vehicleMultiplier = 2.0f;
             }
         }
-        for(TakenPowerUp powerUpToRemove: powerUpsToRemove){
+        for(PowerUp powerUpToRemove: powerUpsToRemove){
             player.getPowerUps().remove(powerUpToRemove);
         }
         totaltime += elapsedTime;
@@ -160,11 +147,11 @@ public class GameViewMultiplayer extends RenderNotifier {
         player.draw(batch);
 
         for (int i = 0; i < player.getPowerUps().size(); i++) {
-            TakenPowerUp takenPowerUp = player.getPowerUps().get(i);
+            PowerUp takenPowerUp = player.getPowerUps().get(i);
             int yOffset = MyAvalancheRushGame.INSTANCE.getScreenWidth()/20 * i + 100;
-            if (takenPowerUp.getPowerUpType() == PowerUpType.HELMET) {
+            if (takenPowerUp.getType() == PowerUpType.HELMET) {
                 batch.draw(Textures.HELMET, 10 + MyAvalancheRushGame.INSTANCE.getScreenWidth()/8, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
-            } else if (takenPowerUp.getPowerUpType() == PowerUpType.SNOWBOARD) {
+            } else if (takenPowerUp.getType() == PowerUpType.SNOWBOARD) {
                 batch.draw(Textures.SNOWBOARD, 10 + MyAvalancheRushGame.INSTANCE.getScreenWidth()/8, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20, MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
                 batch.draw(Textures.X2_SPEED, scoreboardX - 50, scoreboardY, X2_SPEED.getWidth() * widthScale, X2_SPEED.getHeight() * heightScale);
                 GlyphLayout x2 = new GlyphLayout(scoreFont,"x2");
@@ -262,8 +249,8 @@ public class GameViewMultiplayer extends RenderNotifier {
                 if(obstacle.getType() == ObstacleType.ROCK && player.getJumping()){
                     return false;
                 }
-                for (TakenPowerUp powerUp : player.getPowerUps()){
-                    if(powerUp.getPowerUpType() == PowerUpType.HELMET){
+                for (PowerUp powerUp : player.getPowerUps()){
+                    if(powerUp.getType() == PowerUpType.HELMET){
                         gameMap.obstacles.removeValue(obstacle, true);
                         player.removePowerUp(powerUp);
                         return false;

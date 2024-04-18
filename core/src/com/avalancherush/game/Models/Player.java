@@ -17,7 +17,7 @@ public class Player extends Collidable {
     private int track;
     private boolean jumping;
     private SkinType skin;
-    private List<TakenPowerUp> powerUps;
+    private List<PowerUp> powerUps;
     public Player(){
         this.powerUps = new ArrayList<>();
     }
@@ -59,15 +59,15 @@ public class Player extends Collidable {
 
     }
 
-    public List<TakenPowerUp> getPowerUps(){
+    public List<PowerUp> getPowerUps(){
         return powerUps;
     }
 
-    public void addPowerUp(TakenPowerUp powerUp) {
+    public void addPowerUp(PowerUp powerUp) {
         this.powerUps.add(powerUp);
     }
 
-    public void removePowerUp(TakenPowerUp powerUp) {
+    public void removePowerUp(PowerUp powerUp) {
         this.powerUps.remove(powerUp);
     }
 

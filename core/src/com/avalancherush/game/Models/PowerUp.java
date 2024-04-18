@@ -13,7 +13,7 @@ public class PowerUp extends Collidable {
 
     private int track;
 
-    private int time;
+    private float time;
 
     public PowerUpType getType() {
         return type;
@@ -23,9 +23,9 @@ public class PowerUp extends Collidable {
         this.type = type;
     }
 
-    public int getTime() { return time; }
+    public float getTime() { return time; }
 
-    public void setTime(int time) {
+    public void setTime(float time) {
         this.time = time;
     }
 
