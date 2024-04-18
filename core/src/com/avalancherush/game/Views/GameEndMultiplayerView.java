@@ -95,13 +95,21 @@ public class GameEndMultiplayerView extends ScreenAdapter {
         batch.draw(LOST_BUTTON, buttonX, buttonY, LOST_BUTTON.getWidth() * widthScale, lostButtonWidth);
 
         GlyphLayout personalLayout = new GlyphLayout(scoreFont, personalScore);
+        while (personalLayout.width > LOST_BUTTON.getWidth() * widthScale - 50) {
+            scoreFont.getData().setScale(scoreFont.getData().scaleX - 0.1f);
+            personalLayout = new GlyphLayout(scoreFont, personalScore);
+        }
         float personalTextX = buttonX + (LOST_BUTTON.getWidth() * widthScale - personalLayout.width) / 2;
-        float personalTextY = MyAvalancheRushGame.INSTANCE.getScreenHeight()/2  + personalLayout.height + 5;
+        float personalTextY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() /2  + personalLayout.height + 5;
         scoreFont.draw(batch, personalScore, personalTextX, personalTextY);
 
         GlyphLayout enemyLayout = new GlyphLayout(scoreFont, enemyScore);
+        while (enemyLayout.width > (LOST_BUTTON.getWidth() * widthScale) - 50) {
+            scoreFont.getData().setScale(scoreFont.getData().scaleX - 0.1f);
+            enemyLayout = new GlyphLayout(scoreFont, enemyScore);
+        }
         float enemyTextX = buttonX + (LOST_BUTTON.getWidth() * widthScale - enemyLayout.width) / 2;
-        float enemyTextY = Gdx.graphics.getHeight()/2 - enemyLayout.height - 5;
+        float enemyTextY = (float) Gdx.graphics.getHeight() /2 - enemyLayout.height - 5;
         scoreFont.draw(batch, enemyScore, enemyTextX, enemyTextY);
 
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
