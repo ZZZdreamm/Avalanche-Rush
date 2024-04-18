@@ -42,7 +42,7 @@ public class SinglePlayerController implements EventObserver {
             singlePlayerGameThread.getGameMap().obstacles = new Queue<>();
             singlePlayerGameThread.getGameMap().powerUps = new Queue<>();
             singlePlayerGameThread.gameScore = 0;
-            GamePlayController gamePlayController = new GamePlayController();
+            GamePlayController gamePlayController = new GamePlayController(SinglePlayerGameThread.getInstance());
             PlayerController playerController = new PlayerController();
             Player player = new Player();
             player.setTrack(2);
@@ -61,5 +61,4 @@ public class SinglePlayerController implements EventObserver {
         }
     }
     public static GameViewSinglePlayer getGameViewSinglePlayer() {return gameViewSinglePlayer;}
-    public static void setGameViewSinglePlayer(GameViewSinglePlayer gameViewSinglePlayer) {SinglePlayerController.gameViewSinglePlayer = gameViewSinglePlayer;}
 }

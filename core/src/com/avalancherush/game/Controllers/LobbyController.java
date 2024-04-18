@@ -10,6 +10,7 @@ import com.avalancherush.game.Models.JsonEditor;
 import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
+import com.avalancherush.game.Singletons.MultiPlayerGameThread;
 import com.avalancherush.game.Singletons.SinglePlayerGameThread;
 import com.avalancherush.game.Views.GameViewMultiplayer;
 import com.avalancherush.game.Views.MenuView;
@@ -31,7 +32,7 @@ public class LobbyController implements EventObserver{
         } else if(eventType == EventType.GAME_MULTI_PLAYER) {
             MyAvalancheRushGame.INSTANCE.getMusicMenu().pause();
             MyAvalancheRushGame.INSTANCE.getMusicGame().play();
-            GamePlayController gamePlayController = new GamePlayController();
+            GamePlayController gamePlayController = new GamePlayController(MultiPlayerGameThread.getInstance());
             PlayerController playerController = new PlayerController();
             Player player = new Player();
             player.setTrack(2);

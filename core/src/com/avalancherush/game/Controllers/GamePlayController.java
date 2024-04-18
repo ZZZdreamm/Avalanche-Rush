@@ -15,6 +15,7 @@ import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.ObstacleType;
 import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Interfaces.EventObserver;
+import com.avalancherush.game.Interfaces.PlayerGameThread;
 import com.avalancherush.game.Interfaces.RenderObserver;
 import com.avalancherush.game.Models.GameMap;
 import com.avalancherush.game.Models.Obstacle;
@@ -32,17 +33,17 @@ import com.badlogic.gdx.utils.Queue;
 
 public class GamePlayController implements EventObserver, RenderObserver {
     private GameThread gameThread;
-    private SinglePlayerGameThread singlePlayerGameThread;
+    private PlayerGameThread playerGameThread;
     private GameMap gameMap;
     private ObstacleFactory obstacleFactory;
     private PowerUpFactory powerUpFactory;
     private int obstaclesSpawned = 0;
     private int lastTrackObstacleSpawned;
     private int obstaclesThreshold, obstaclesPerPowerUp;
-    public GamePlayController(){
+    public GamePlayController(PlayerGameThread playerGameThread){
         this.gameThread = GameThread.getInstance();
-        this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
-        this.gameMap = singlePlayerGameThread.getGameMap();
+        this.playerGameThread = playerGameThread;
+        this.gameMap = playerGameThread.getGameMap();
         this.obstacleFactory = ObstacleFactory.getInstance();
         this.powerUpFactory = PowerUpFactory.getInstance();
         this.lastTrackObstacleSpawned = 0;
