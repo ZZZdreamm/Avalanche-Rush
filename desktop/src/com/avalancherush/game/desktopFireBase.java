@@ -21,4 +21,9 @@ public class desktopFireBase implements FirebaseInterface{
     public void idChangeListener(String key) {
 
     }
+
+    @Override
+    public void ScoreChangeListener() {
+
+    }
 }
