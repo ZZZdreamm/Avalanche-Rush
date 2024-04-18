@@ -28,6 +28,7 @@ import com.avalancherush.game.FirebaseInterface;
 import com.avalancherush.game.Interfaces.EventObserver;
 import com.avalancherush.game.Interfaces.RenderNotifier;
 import com.avalancherush.game.Interfaces.RenderObserver;
+import com.avalancherush.game.Models.GameMap;
 import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.Models.PowerUp;
@@ -69,6 +70,7 @@ public class GameViewMultiplayer extends RenderNotifier {
 //    private Rectangle menuButton;
     private BitmapFont scoreFont;
     private SinglePlayerGameThread singlePlayerGameThread;
+    private GameMap gameMap;
     private long lastTouchTime;
     private static final long DOUBLE_TAP_TIME_DELTA = 200;
     GlyphLayout scoreYou;
@@ -79,6 +81,7 @@ public class GameViewMultiplayer extends RenderNotifier {
         gameThread = GameThread.getInstance();
         database = gameThread.getDatabase();
         this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
+        this.gameMap = singlePlayerGameThread.getGameMap();
         multiPlayerGameThread = MultiPlayerGameThread.getInstance();
         server = multiPlayerGameThread.getServer();
         this.orthographicCamera = GameThread.getInstance().getCamera();
@@ -148,10 +151,10 @@ public class GameViewMultiplayer extends RenderNotifier {
         batch.begin();
         batch.draw(LINE, (float) MyAvalancheRushGame.INSTANCE.getScreenWidth() /3, 0 , LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
         batch.draw(LINE, (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() * 2) /3, 0 , LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
-        for(Obstacle obstacle: singlePlayerGameThread.obstacles){
+        for(Obstacle obstacle: gameMap.obstacles){
             obstacle.draw(batch);
         }
-        for (PowerUp powerUp: singlePlayerGameThread.powerUps){
+        for (PowerUp powerUp: gameMap.powerUps){
             powerUp.draw(batch);
         }
         player.draw(batch);
@@ -251,7 +254,7 @@ public class GameViewMultiplayer extends RenderNotifier {
     }
 
     public boolean checkCollision(){
-        for(Obstacle obstacle: singlePlayerGameThread.obstacles){
+        for(Obstacle obstacle: gameMap.obstacles){
             if(obstacle.getTrack() != player.getTrack()){
                 continue;
             }
@@ -261,7 +264,7 @@ public class GameViewMultiplayer extends RenderNotifier {
                 }
                 for (TakenPowerUp powerUp : player.getPowerUps()){
                     if(powerUp.getPowerUpType() == PowerUpType.HELMET){
-                        singlePlayerGameThread.obstacles.removeValue(obstacle, true);
+                        gameMap.obstacles.removeValue(obstacle, true);
                         player.removePowerUp(powerUp);
                         return false;
                     }
@@ -273,9 +276,9 @@ public class GameViewMultiplayer extends RenderNotifier {
     }
 
     public PowerUpType checkGettingPowerUp(){
-        for(PowerUp powerUp: singlePlayerGameThread.powerUps){
+        for(PowerUp powerUp: gameMap.powerUps){
             if(player.collides(powerUp.getRectangle())){
-                singlePlayerGameThread.powerUps.removeValue(powerUp, true);
+                gameMap.powerUps.removeValue(powerUp, true);
                 return powerUp.getType();
             }
         }

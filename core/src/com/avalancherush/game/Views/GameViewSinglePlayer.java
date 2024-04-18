@@ -31,14 +31,13 @@ import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Interfaces.EventObserver;
 import com.avalancherush.game.Interfaces.RenderNotifier;
 import com.avalancherush.game.Interfaces.RenderObserver;
+import com.avalancherush.game.Models.GameMap;
 import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.Models.PowerUp;
 import com.avalancherush.game.Models.TakenPowerUp;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
-import com.avalancherush.game.Singletons.ObstacleFactory;
-import com.avalancherush.game.Singletons.PowerUpFactory;
 import com.avalancherush.game.Singletons.SinglePlayerGameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -61,6 +60,7 @@ import java.util.List;
 public class GameViewSinglePlayer extends RenderNotifier {
     private GameThread gameThread;
     private static SinglePlayerGameThread singlePlayerGameThread;
+    private GameMap gameMap;
     private OrthographicCamera orthographicCamera;
     private SpriteBatch batch;
     private float scoreboardX, scoreboardY, totaltime;
@@ -74,6 +74,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
     public GameViewSinglePlayer(Player player, List<EventObserver> eventObserverList, List<RenderObserver> renderObserverList) {
         this.gameThread = GameThread.getInstance();
         this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
+        this.gameMap = singlePlayerGameThread.getGameMap();
         this.orthographicCamera = GameThread.getInstance().getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.batch = new SpriteBatch();
@@ -142,10 +143,10 @@ public class GameViewSinglePlayer extends RenderNotifier {
         batch.begin();
         batch.draw(LINE, (float) MyAvalancheRushGame.INSTANCE.getScreenWidth() /3, 0, LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
         batch.draw(LINE, (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() * 2) /3, 0, LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
-        for(Obstacle obstacle: singlePlayerGameThread.obstacles){
+        for(Obstacle obstacle: gameMap.obstacles){
             obstacle.draw(batch);
         }
-        for (PowerUp powerUp: singlePlayerGameThread.powerUps){
+        for (PowerUp powerUp: gameMap.powerUps){
             powerUp.draw(batch);
         }
         player.draw(batch);
@@ -225,7 +226,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
         batch.dispose();
     }
     public boolean checkCollision(){
-        for(Obstacle obstacle: singlePlayerGameThread.obstacles){
+        for(Obstacle obstacle: gameMap.obstacles){
             if(obstacle.getTrack() != player.getTrack()){
                 continue;
             }
@@ -235,7 +236,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
                 }
                 for (TakenPowerUp powerUp : player.getPowerUps()){
                     if(powerUp.getPowerUpType() == PowerUpType.HELMET){
-                        singlePlayerGameThread.obstacles.removeValue(obstacle, true);
+                        gameMap.obstacles.removeValue(obstacle, true);
                         player.removePowerUp(powerUp);
                         return false;
                     }
@@ -246,9 +247,9 @@ public class GameViewSinglePlayer extends RenderNotifier {
         return false;
     }
     public PowerUpType checkGettingPowerUp(){
-        for(PowerUp powerUp: singlePlayerGameThread.powerUps){
+        for(PowerUp powerUp: gameMap.powerUps){
             if(player.collides(powerUp.getRectangle())){
-                singlePlayerGameThread.powerUps.removeValue(powerUp, true);
+                gameMap.powerUps.removeValue(powerUp, true);
                 return powerUp.getType();
             }
         }

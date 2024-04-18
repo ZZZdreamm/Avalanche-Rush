@@ -44,8 +44,8 @@ public class LobbyController implements EventObserver{
             renderObserverList.add(gamePlayController);
             this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
             GameThread.getInstance().gameSpeed = BASIC_GAME_SPEED;
-            singlePlayerGameThread.obstacles = new Queue<>();
-            singlePlayerGameThread.powerUps = new Queue<>();
+            singlePlayerGameThread.getGameMap().obstacles = new Queue<>();
+            singlePlayerGameThread.getGameMap().powerUps = new Queue<>();
             singlePlayerGameThread.gameScore = 0;
             MyAvalancheRushGame.INSTANCE.setScreen(new GameViewMultiplayer(player, eventObserverList, renderObserverList));
         }

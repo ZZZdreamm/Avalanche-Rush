@@ -16,6 +16,7 @@ import com.avalancherush.game.Enums.ObstacleType;
 import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Interfaces.EventObserver;
 import com.avalancherush.game.Interfaces.RenderObserver;
+import com.avalancherush.game.Models.GameMap;
 import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Models.PowerUp;
 import com.avalancherush.game.MyAvalancheRushGame;
@@ -32,6 +33,7 @@ import com.badlogic.gdx.utils.Queue;
 public class GamePlayController implements EventObserver, RenderObserver {
     private GameThread gameThread;
     private SinglePlayerGameThread singlePlayerGameThread;
+    private GameMap gameMap;
     private ObstacleFactory obstacleFactory;
     private PowerUpFactory powerUpFactory;
     private int obstaclesSpawned = 0;
@@ -40,6 +42,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
     public GamePlayController(){
         this.gameThread = GameThread.getInstance();
         this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
+        this.gameMap = singlePlayerGameThread.getGameMap();
         this.obstacleFactory = ObstacleFactory.getInstance();
         this.powerUpFactory = PowerUpFactory.getInstance();
         this.lastTrackObstacleSpawned = 0;
@@ -59,15 +62,15 @@ public class GamePlayController implements EventObserver, RenderObserver {
     }
 
     public void generateObstacle(float time){
-        int size = singlePlayerGameThread.obstacles.size;
+        int size = gameMap.obstacles.size;
 
         Queue<Obstacle> obstacleTemp = new Queue<>();
 
         Obstacle head = new Obstacle();
         Rectangle rectangle = new Rectangle(0,0,0,0);
         head.setRectangle(rectangle);
-        while(!singlePlayerGameThread.obstacles.isEmpty()){
-            head = singlePlayerGameThread.obstacles.removeFirst();
+        while(!gameMap.obstacles.isEmpty()){
+            head = gameMap.obstacles.removeFirst();
             Rectangle headRectangle = head.getRectangle();
             if(headRectangle.y > -50){
                 head.getRectangle().y = headRectangle.y - time * gameThread.gameSpeed;
@@ -93,7 +96,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
             obstaclesSpawned++;
         }
 
-        singlePlayerGameThread.obstacles = obstacleTemp;
+        gameMap.obstacles = obstacleTemp;
     }
 
     public void generatePowerUp(float time){
@@ -102,8 +105,8 @@ public class GamePlayController implements EventObserver, RenderObserver {
         PowerUp head = new PowerUp();
         Rectangle rectangle = new Rectangle(0,0,0,0);
         head.setRectangle(rectangle);
-        while(!singlePlayerGameThread.powerUps.isEmpty()){
-            head = singlePlayerGameThread.powerUps.removeFirst();
+        while(!gameMap.powerUps.isEmpty()){
+            head = gameMap.powerUps.removeFirst();
             Rectangle headRectangle = head.getRectangle();
             if(headRectangle.y > -50){
                 head.getRectangle().y = headRectangle.y - time * gameThread.gameSpeed;
@@ -128,7 +131,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
             obstaclesSpawned = 0;
         }
 
-        singlePlayerGameThread.powerUps = powerUpTemp;
+        gameMap.powerUps = powerUpTemp;
     }
 
 }
