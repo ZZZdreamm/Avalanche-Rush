@@ -59,14 +59,14 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         username = gameThread.getJsonIntance().getName();
         this.font = BIG_BLACK_FONT;
-        this.font.getData().setScale(0.9f * heightScale);
+        this.font.getData().setScale(1.2f * heightScale);
         this.changeUsernameButton = new Rectangle((float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() + WOOD_BUTTON.getWidth() * widthScale + MODIFY_BUTTON.getWidth() * widthScale) / 2, (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30, MODIFY_BUTTON.getWidth() * widthScale, MODIFY_BUTTON.getHeight() * heightScale);
         this.fontTitle = BIG_BLACK_FONT;
         this.fontTitle.getData().setScale(1 * heightScale);
-        this.gameRulesFont = BIG_BLACK_FONT;
-        this.gameRulesFont.getData().setScale(0.6f * heightScale);
-        this.basicSkin = (new Rectangle(250,20, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT));
-        this.masterSkin = (new Rectangle(250 + SINGLE_PLAYER_WIDTH + 10, 20, SINGLE_PLAYER_WIDTH, SINGLE_PLAYER_HEIGHT));
+        //this.gameRulesFont = BIG_BLACK_FONT;
+        //this.gameRulesFont.getData().setScale(0.6f * heightScale);
+        this.basicSkin = (new Rectangle((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2 - (SINGLE_PLAYER_WIDTH - 5) * widthScale, (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 3 - SINGLE_PLAYER_HEIGHT * heightScale, SINGLE_PLAYER_WIDTH * widthScale , SINGLE_PLAYER_HEIGHT * heightScale));
+        this.masterSkin = (new Rectangle((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2 + 5 * widthScale, (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 3 - SINGLE_PLAYER_HEIGHT * heightScale, SINGLE_PLAYER_WIDTH * widthScale, SINGLE_PLAYER_HEIGHT * heightScale));
         float usernameX = ((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2;
         float woodBeamY = (float) MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30;
         this.high = new Rectangle(usernameX,woodBeamY - WOOD_BUTTON.getHeight() * heightScale - 12,WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
@@ -113,16 +113,18 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
 
 
         //font.draw(batch,"GAME RULES\nThe aim of the game is to get the highest score\npossible while avoiding trees and rocks\n(you can also jump over them by double tapping)\nYou won't be alone because thanks to the\nsnowboard your score will be doubled while the\nhelmet will allow you to hit an obstacle without\ndying\nHAVE FUN",usernameX,woodBeamY - 2 * WOOD_BUTTON.getHeight() * heightScale - 12);
-        font.draw(batch,"Choose skin", basicSkin.x + 30, basicSkin.y + 75);
+
+        GlyphLayout chooseSkinLayout = new GlyphLayout(font, "Choose skin");
+        font.draw(batch,"Choose skin", usernameX + usernameX/2, woodBeamY - WOOD_BUTTON.getHeight() * heightScale - chooseSkinLayout.height - 10);
         String skinJsonName = gameThread.getJsonIntance().getSkin();
         if(skinJsonName.equals("BASIC")){
-            batch.draw(TABLE_LOBBY, basicSkin.x, basicSkin.y, basicSkin.width/2, basicSkin.height/2);
+            batch.draw(TABLE_LOBBY, basicSkin.x, basicSkin.y, basicSkin.width, basicSkin.height);
         }else if (skinJsonName.equals("MASTER")){
-            batch.draw(TABLE_LOBBY, masterSkin.x, masterSkin.y, basicSkin.width/2, basicSkin.height/2);
+            batch.draw(TABLE_LOBBY, masterSkin.x, masterSkin.y, basicSkin.width, basicSkin.height);
         }
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
-        batch.draw(SINGLE_PLAYER, basicSkin.x, basicSkin.y);
-        batch.draw(SKIN, masterSkin.x, masterSkin.y);
+        batch.draw(SINGLE_PLAYER, basicSkin.x, basicSkin.y, basicSkin.width, basicSkin.height);
+        batch.draw(SKIN, masterSkin.x, masterSkin.y, masterSkin.width, masterSkin.height);
 //        this.high = new Rectangle(usernameX,woodBeamY - WOOD_BUTTON.getHeight() * heightScale - 12,WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
 
         batch.end();
