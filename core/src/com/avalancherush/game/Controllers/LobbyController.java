@@ -44,7 +44,7 @@ public class LobbyController implements EventObserver{
             List<RenderObserver> renderObserverList = new ArrayList<>();
             renderObserverList.add(gamePlayController);
             this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
-            GameThread.getInstance().gameSpeed = BASIC_GAME_SPEED;
+            singlePlayerGameThread.gameSpeed = BASIC_GAME_SPEED;
             singlePlayerGameThread.getGameMap().obstacles = new Queue<>();
             singlePlayerGameThread.getGameMap().powerUps = new Queue<>();
             singlePlayerGameThread.gameScore = 0;

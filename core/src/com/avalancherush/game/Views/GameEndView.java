@@ -11,6 +11,7 @@ import static com.avalancherush.game.Configuration.Textures.MODIFY_BUTTON;
 import com.avalancherush.game.Controllers.GameEndController;
 import com.avalancherush.game.Controllers.SinglePlayerController;
 import com.avalancherush.game.Enums.EventType;
+import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.SinglePlayerGameThread;
@@ -24,24 +25,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class GameEndView extends ScreenAdapter {
+public class GameEndView extends BasicView {
 
-    private GameThread gameThread;
     private GameEndController gameEndController;
     private SinglePlayerController singlePlayerController;
-    private OrthographicCamera orthographicCamera;
-    private SpriteBatch batch;
     private Rectangle homeButton;
     private Rectangle restartButton;
     private BitmapFont scoreFont;
     private BitmapFont gameOverFont;
 
     public GameEndView() {
-        this.gameThread = GameThread.getInstance();
-        this.orthographicCamera = gameThread.getCamera();
         this.gameEndController = new GameEndController();
         this.singlePlayerController = new SinglePlayerController();
-        this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         this.restartButton = new Rectangle(Gdx.graphics.getWidth() * widthScale/3, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         this.scoreFont = BIG_BLACK_FONT;

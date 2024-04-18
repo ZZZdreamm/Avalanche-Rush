@@ -27,10 +27,7 @@ public class GameThread {
     private static GameThread instance;
     private OrthographicCamera camera;
     private FirebaseInterface database;
-    public float gameSpeed;
-
     private JsonEditor jsonInstance;
-
     public String score1Name, score2Name, score3Name;
     public String score1Score, score2Score, score3Score;
 
@@ -43,10 +40,6 @@ public class GameThread {
             instance.setJsonInstance(jsonStr);
         }
         return instance;
-    }
-
-    private GameThread() {
-        this.gameSpeed = BASIC_GAME_SPEED;
     }
 
     public void setCamera(OrthographicCamera inputCamera) {

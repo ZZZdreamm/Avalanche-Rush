@@ -12,6 +12,7 @@ import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 import com.avalancherush.game.Controllers.LobbyController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.FirebaseInterface;
+import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Server;
 import com.avalancherush.game.Singletons.GameThread;
@@ -35,13 +36,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 
-public class LobbyView extends ScreenAdapter {
+public class LobbyView extends BasicView {
     private MultiPlayerGameThread instance;
-    private GameThread gameThread;
     private LobbyController lobbyController;
-    private OrthographicCamera orthographicCamera;
-    private SpriteBatch batch;
-
     private Rectangle playButton;
     private Rectangle homeButton;
     private BitmapFont fontTitle;
@@ -54,10 +51,7 @@ public class LobbyView extends ScreenAdapter {
     private Server server;
 
     public LobbyView() {
-        this.gameThread = GameThread.getInstance();
-        this.orthographicCamera = gameThread.getCamera();
         this.lobbyController = new LobbyController();
-        this.batch = new SpriteBatch();
 
         float buttonX = MyAvalancheRushGame.INSTANCE.getScreenWidth() - HOME_BUTTON.getWidth() * widthScale - 20;
         float buttonY = (MyAvalancheRushGame.INSTANCE.getScreenHeight() - PLAY_BUTTON.getHeight() * heightScale) / 2;

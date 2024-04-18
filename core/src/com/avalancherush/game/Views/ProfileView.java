@@ -17,6 +17,7 @@ import static com.avalancherush.game.Configuration.Textures.TABLE_LOBBY;
 import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.Enums.SkinType;
+import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.Models.JsonEditor;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
@@ -33,12 +34,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 
-public class ProfileView extends ScreenAdapter implements Input.TextInputListener {
-
-    private GameThread gameThread;
+public class ProfileView extends BasicView implements Input.TextInputListener {
     private ProfileController profileController;
-    private OrthographicCamera orthographicCamera;
-    private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
     private Rectangle homeButton;
     private BitmapFont font;
@@ -51,11 +48,8 @@ public class ProfileView extends ScreenAdapter implements Input.TextInputListene
 
 
     public ProfileView() {
-        this.gameThread = GameThread.getInstance();
-        this.orthographicCamera = gameThread.getCamera();
         this.profileController = new ProfileController();
         this.shapeRenderer = new ShapeRenderer();
-        this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         username = gameThread.getJsonIntance().getName();
         this.font = BIG_BLACK_FONT;

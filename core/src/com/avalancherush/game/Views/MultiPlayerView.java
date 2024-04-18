@@ -10,45 +10,32 @@ import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 import com.avalancherush.game.Controllers.MultiPlayerController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.FirebaseInterface;
+import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Server;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.MultiPlayerGameThread;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class MultiPlayerView extends ScreenAdapter {
-
-    private GameThread gameThread;
+public class MultiPlayerView extends BasicView {
     private MultiPlayerController multiPlayerController;
-    private OrthographicCamera orthographicCamera;
-    private SpriteBatch batch;
     private Rectangle joinButton;
     private Rectangle createButton;
     private Rectangle homeButton;
     private BitmapFont fontText;
     private BitmapFont fontTitle;
-
     private MultiPlayerGameThread instance;
-
     Server server;
-
-
     public MultiPlayerView() {
-        this.gameThread = GameThread.getInstance();
-        this.orthographicCamera = gameThread.getCamera();
         this.multiPlayerController = new MultiPlayerController();
-        this.batch = new SpriteBatch();
         this.instance = MultiPlayerGameThread.getInstance();
 
         this.joinButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight() * heightScale) / 2 + 50, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);

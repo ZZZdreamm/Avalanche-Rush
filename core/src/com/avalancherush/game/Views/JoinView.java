@@ -11,6 +11,7 @@ import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 import com.avalancherush.game.Controllers.JoinController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.FirebaseInterface;
+import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Server;
 import com.avalancherush.game.Singletons.GameThread;
@@ -32,12 +33,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 
-public class JoinView extends ScreenAdapter implements Input.TextInputListener {
-
-    private GameThread gameThread;
+public class JoinView extends BasicView implements Input.TextInputListener {
     private JoinController joinController;
-    private OrthographicCamera orthographicCamera;
-    private SpriteBatch batch;
     private Rectangle homeButton, playButton;
     private BitmapFont fontTitle;
     private String code = "";
@@ -49,10 +46,7 @@ public class JoinView extends ScreenAdapter implements Input.TextInputListener {
     private Server server;
 
     public JoinView() {
-        this.gameThread = GameThread.getInstance();
-        this.orthographicCamera = gameThread.getCamera();
         this.joinController = new JoinController();
-        this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         float woodBeamWidth = (150 + 64) * widthScale;
         float totalWidth = woodBeamWidth + PLAY_BUTTON.getWidth() * widthScale;

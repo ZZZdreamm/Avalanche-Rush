@@ -9,6 +9,7 @@ import static com.avalancherush.game.Configuration.Textures.LOST_BUTTON;
 
 import com.avalancherush.game.Controllers.GameEndController;
 import com.avalancherush.game.Enums.EventType;
+import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Server;
 import com.avalancherush.game.Singletons.GameThread;
@@ -23,11 +24,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class GameEndMultiplayerView extends ScreenAdapter {
-    private GameThread gameThread;
+public class GameEndMultiplayerView extends BasicView {
     private GameEndController gameEndController;
-    private OrthographicCamera orthographicCamera;
-    private SpriteBatch batch;
     private Rectangle homeButton;
     private BitmapFont scoreFont;
     private BitmapFont resultFont;
@@ -35,10 +33,7 @@ public class GameEndMultiplayerView extends ScreenAdapter {
     private Server server;
 
     public GameEndMultiplayerView() {
-        this.gameThread = GameThread.getInstance();
-        this.orthographicCamera = gameThread.getCamera();
         this.gameEndController = new GameEndController();
-        this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         this.scoreFont = BIG_BLACK_FONT;
         this.scoreFont.getData().setScale(1 * heightScale);

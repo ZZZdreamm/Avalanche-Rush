@@ -8,6 +8,7 @@ import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.FirebaseInterface;
+import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
@@ -20,14 +21,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class HighestScore  extends ScreenAdapter {
-
-    private GameThread gameThread;
-
-    private OrthographicCamera orthographicCamera;
-
-    private SpriteBatch batch;
-
+public class HighestScore  extends BasicView {
     private FirebaseInterface database;
     private Rectangle highScore1, highScore2, highScore3, backButton;
     int scoreHeight, scoreWidth;
@@ -38,9 +32,6 @@ public class HighestScore  extends ScreenAdapter {
     private BitmapFont fontDraw;
 
     public HighestScore(){
-        this.gameThread = GameThread.getInstance();
-        this.orthographicCamera = gameThread.getCamera();
-        this.batch = new SpriteBatch();
         this.database = gameThread.getDatabase();
         scoreHeight = Gdx.graphics.getHeight()/10;
         scoreWidth = (int)( Gdx.graphics.getWidth()*0.8f);

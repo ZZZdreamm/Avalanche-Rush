@@ -14,6 +14,7 @@ import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 import com.avalancherush.game.Controllers.MainMenuController;
 import com.avalancherush.game.Controllers.SinglePlayerController;
 import com.avalancherush.game.Enums.EventType;
+import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
@@ -28,11 +29,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class MenuView extends ScreenAdapter {
-    private OrthographicCamera orthographicCamera;
-    private GameThread gameThread;
+public class MenuView extends BasicView {
     private MainMenuController mainMenuController;
-    private SpriteBatch batch;
     private Rectangle singlePlayerButton;
     private Rectangle multiPlayerButton;
     private Rectangle tutorialButton;
@@ -42,11 +40,8 @@ public class MenuView extends ScreenAdapter {
     private BitmapFont fontTitle;
 
     public MenuView() {
-        this.gameThread = GameThread.getInstance();
-        this.orthographicCamera = gameThread.getCamera();
         this.mainMenuController = new MainMenuController();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
-        this.batch = new SpriteBatch();
 
         calculateScales();
         this.singlePlayerButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2 + 30, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);

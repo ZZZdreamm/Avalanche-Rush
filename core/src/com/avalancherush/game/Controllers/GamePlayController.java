@@ -74,7 +74,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
             head = gameMap.obstacles.removeFirst();
             Rectangle headRectangle = head.getRectangle();
             if(headRectangle.y > -50){
-                head.getRectangle().y = headRectangle.y - time * gameThread.gameSpeed;
+                head.getRectangle().y = headRectangle.y - time * playerGameThread.gameSpeed;
                 obstacleTemp.addLast(head);
             }
         }
@@ -110,7 +110,7 @@ public class GamePlayController implements EventObserver, RenderObserver {
             head = gameMap.powerUps.removeFirst();
             Rectangle headRectangle = head.getRectangle();
             if(headRectangle.y > -50){
-                head.getRectangle().y = headRectangle.y - time * gameThread.gameSpeed;
+                head.getRectangle().y = headRectangle.y - time * playerGameThread.gameSpeed;
                 powerUpTemp.addLast(head);
             }
         }

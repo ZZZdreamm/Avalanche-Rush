@@ -11,6 +11,7 @@ import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.VOLUME_DOWN_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.VOLUME_UP_BUTTON;
 
+import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Game;
@@ -27,22 +28,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class SettingsView extends ScreenAdapter {
-
-    private GameThread gameThread;
+public class SettingsView extends BasicView {
     private SettingsController settingsController;
-    private OrthographicCamera orthographicCamera;
-    private SpriteBatch batch;
     private Rectangle homeButton;
     private Rectangle volumeUpButton;
     private Rectangle volumeDownButton;
     private BitmapFont fontTitle;
 
     public SettingsView() {
-        this.gameThread = GameThread.getInstance();
-        this.orthographicCamera = gameThread.getCamera();
         this.settingsController = new SettingsController();
-        this.batch = new SpriteBatch();
 
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
         int totalButtonHeight = (int) ((VOLUME_UP_BUTTON.getHeight() + VOLUME_DOWN_BUTTON.getHeight() - 30) * heightScale);

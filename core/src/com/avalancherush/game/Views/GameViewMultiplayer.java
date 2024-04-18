@@ -45,18 +45,14 @@ import java.util.List;
 
 public class GameViewMultiplayer extends RenderNotifier {
     private FirebaseInterface database;
-    private GameThread gameThread;
-    private OrthographicCamera orthographicCamera;
     private MultiPlayerGameThread multiPlayerGameThread;
     Server server;
-    private SpriteBatch batch;
     public int addition, threshold;
     private float laneX[];
     private float scoreboardX, scoreboardY, totaltime;
     private Player player;
 //    private Rectangle menuButton;
     private BitmapFont scoreFont;
-    private SinglePlayerGameThread singlePlayerGameThread;
     private GameMap gameMap;
     private long lastTouchTime;
     private static final long DOUBLE_TAP_TIME_DELTA = 200;
@@ -65,15 +61,11 @@ public class GameViewMultiplayer extends RenderNotifier {
 
 
     public GameViewMultiplayer(Player player, List<EventObserver> eventObserverList, List<RenderObserver> renderObserverList){
-        gameThread = GameThread.getInstance();
         database = gameThread.getDatabase();
-        this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
-        this.gameMap = singlePlayerGameThread.getGameMap();
+        this.gameMap = multiPlayerGameThread.getGameMap();
         multiPlayerGameThread = MultiPlayerGameThread.getInstance();
         server = multiPlayerGameThread.getServer();
-        this.orthographicCamera = GameThread.getInstance().getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
-        this.batch = new SpriteBatch();
         this.scoreFont = BIG_BLACK_FONT;
         this.scoreFont.getData().setScale(0.60f * heightScale);
 
@@ -129,8 +121,8 @@ public class GameViewMultiplayer extends RenderNotifier {
             player.getPowerUps().remove(powerUpToRemove);
         }
         totaltime += elapsedTime;
-        singlePlayerGameThread.gameScore += elapsedTime * 10 * vehicleMultiplier;
-        gameThread.gameSpeed += elapsedTime * 3;
+        multiPlayerGameThread.gameScore += elapsedTime * 10 * vehicleMultiplier;
+        multiPlayerGameThread.gameSpeed += elapsedTime * 3;
         notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -193,10 +185,10 @@ public class GameViewMultiplayer extends RenderNotifier {
         batch.end();
 
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
-            database.setValueToServerDataBase(server.id,"PlayerAScore", String.valueOf(singlePlayerGameThread.gameScore));
+            database.setValueToServerDataBase(server.id,"PlayerAScore", String.valueOf(multiPlayerGameThread.gameScore));
         }
         else{
-            database.setValueToServerDataBase(server.id,"PlayerBScore", String.valueOf(singlePlayerGameThread.gameScore));
+            database.setValueToServerDataBase(server.id,"PlayerBScore", String.valueOf(multiPlayerGameThread.gameScore));
         }
 
     }

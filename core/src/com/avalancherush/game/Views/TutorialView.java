@@ -9,6 +9,8 @@ import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
 import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
 import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
 import static com.avalancherush.game.Configuration.Textures.IMG_TUTORIAL;
+
+import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
@@ -23,25 +25,14 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 
-public class TutorialView extends ScreenAdapter {
-
-    private GameThread gameThread;
+public class TutorialView extends BasicView {
     private TutorialController tutorialController;
-    private OrthographicCamera orthographicCamera;
-    private SpriteBatch batch;
     private Rectangle homeButton;
     private BitmapFont font;
     private BitmapFont fontTitle;
-
-
-
-
     public TutorialView() {
-        this.gameThread = GameThread.getInstance();
-        this.orthographicCamera = gameThread.getCamera();
         this.tutorialController = new TutorialController();
 
-        this.batch = new SpriteBatch();
         this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth() * widthScale, HOME_BUTTON.getHeight() * heightScale);
 
         this.font = BIG_BLACK_FONT;

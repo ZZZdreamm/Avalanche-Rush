@@ -43,11 +43,8 @@ import java.util.List;
 
 
 public class GameViewSinglePlayer extends RenderNotifier {
-    private GameThread gameThread;
     private static SinglePlayerGameThread singlePlayerGameThread;
     private GameMap gameMap;
-    private OrthographicCamera orthographicCamera;
-    private SpriteBatch batch;
     private float scoreboardX, scoreboardY, totaltime;
     private BitmapFont scoreFont;
     private Player player;
@@ -57,12 +54,9 @@ public class GameViewSinglePlayer extends RenderNotifier {
     GlyphLayout scoreText;
 
     public GameViewSinglePlayer(Player player, List<EventObserver> eventObserverList, List<RenderObserver> renderObserverList) {
-        this.gameThread = GameThread.getInstance();
         this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.gameMap = singlePlayerGameThread.getGameMap();
-        this.orthographicCamera = GameThread.getInstance().getCamera();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
-        this.batch = new SpriteBatch();
         this.scoreFont = BIG_BLACK_FONT;
         this.scoreFont.getData().setScale(1.2f * heightScale);
 
@@ -120,7 +114,7 @@ public class GameViewSinglePlayer extends RenderNotifier {
         }
         totaltime += elapsedTime;
         singlePlayerGameThread.gameScore += elapsedTime * 10 * vehicleMultiplier;
-        gameThread.gameSpeed += elapsedTime * 6;
+        singlePlayerGameThread.gameSpeed += elapsedTime * 6;
         notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

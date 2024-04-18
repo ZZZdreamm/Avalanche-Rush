@@ -38,7 +38,7 @@ public class SinglePlayerController implements EventObserver {
         if(eventType == EventType.HOME_BUTTON_CLICK) {
             MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
         } else if (eventType == EventType.GAME_SINGLE_PLAYER_CLICK) {
-            gameThread.gameSpeed = BASIC_GAME_SPEED;
+            singlePlayerGameThread.gameSpeed = BASIC_GAME_SPEED;
             singlePlayerGameThread.getGameMap().obstacles = new Queue<>();
             singlePlayerGameThread.getGameMap().powerUps = new Queue<>();
             singlePlayerGameThread.gameScore = 0;

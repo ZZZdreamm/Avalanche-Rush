@@ -11,6 +11,7 @@ import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.Controllers.GameMenuController;
 import com.avalancherush.game.Enums.EventType;
+import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
@@ -23,12 +24,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class GameMenuView extends ScreenAdapter {
-
-    private OrthographicCamera orthographicCamera;
-    private GameThread gameThread;
+public class GameMenuView extends BasicView {
     private GameMenuController gameMenuController;
-    private SpriteBatch batch;
     private Rectangle resumeButton;
     private Rectangle volumeUpButton;
     private Rectangle volumeDownButton;
@@ -37,9 +34,6 @@ public class GameMenuView extends ScreenAdapter {
     private BitmapFont fontText;
 
     public GameMenuView() {
-        this.gameThread = GameThread.getInstance();
-        this.orthographicCamera = gameThread.getCamera();
-        this.batch = new SpriteBatch();
         this.gameMenuController = new GameMenuController();
 
         this.resumeButton = new Rectangle(((float)MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth() * widthScale) / 2, ((float)MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight() * heightScale) / 2 + 50, WOOD_BUTTON.getWidth() * widthScale, WOOD_BUTTON.getHeight() * heightScale);
