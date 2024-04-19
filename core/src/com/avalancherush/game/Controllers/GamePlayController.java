@@ -32,7 +32,6 @@ import com.badlogic.gdx.utils.Queue;
 
 
 public class GamePlayController implements EventObserver, RenderObserver {
-    private GameThread gameThread;
     private PlayerGameThread playerGameThread;
     private GameMap gameMap;
     private ObstacleFactory obstacleFactory;
@@ -41,7 +40,6 @@ public class GamePlayController implements EventObserver, RenderObserver {
     private int lastTrackObstacleSpawned;
     private int obstaclesThreshold, obstaclesPerPowerUp;
     public GamePlayController(PlayerGameThread playerGameThread){
-        this.gameThread = GameThread.getInstance();
         this.playerGameThread = playerGameThread;
         this.gameMap = playerGameThread.getGameMap();
         this.obstacleFactory = ObstacleFactory.getInstance();

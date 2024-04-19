@@ -62,8 +62,8 @@ public class GameViewMultiplayer extends RenderNotifier {
 
     public GameViewMultiplayer(Player player, List<EventObserver> eventObserverList, List<RenderObserver> renderObserverList){
         database = gameThread.getDatabase();
-        this.gameMap = multiPlayerGameThread.getGameMap();
         multiPlayerGameThread = MultiPlayerGameThread.getInstance();
+        this.gameMap = multiPlayerGameThread.getGameMap();
         server = multiPlayerGameThread.getServer();
         this.orthographicCamera.position.set(new Vector3((float) MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2, (float)MyAvalancheRushGame.INSTANCE.getScreenHeight() / 2,0 ));
         this.scoreFont = BIG_BLACK_FONT;

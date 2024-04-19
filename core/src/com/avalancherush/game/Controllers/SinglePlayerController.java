@@ -25,11 +25,9 @@ import javax.swing.text.View;
 public class SinglePlayerController implements EventObserver {
 
     private static GameViewSinglePlayer gameViewSinglePlayer = null;
-    private GameThread gameThread;
     private SinglePlayerGameThread singlePlayerGameThread;
     private JsonEditor jsonEditor;
     public SinglePlayerController(){
-        this.gameThread = GameThread.getInstance();
         this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.jsonEditor = GameThread.getInstance().getJsonIntance();
     }
