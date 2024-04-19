@@ -43,7 +43,6 @@ public class LobbyView extends BasicView {
     private Rectangle homeButton;
     private BitmapFont fontTitle;
     private FirebaseInterface database;
-
     private float woodBeamY;
     private BitmapFont fontText;
     private String username;

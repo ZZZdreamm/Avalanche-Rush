@@ -45,7 +45,7 @@ import java.util.List;
 public class GameViewSinglePlayer extends RenderNotifier {
     private static SinglePlayerGameThread singlePlayerGameThread;
     private GameMap gameMap;
-    private float scoreboardX, scoreboardY, totaltime;
+    private float scoreboardX, scoreboardY;
     private BitmapFont scoreFont;
     private Player player;
     private Rectangle menuButton;
@@ -67,13 +67,12 @@ public class GameViewSinglePlayer extends RenderNotifier {
         LANES[1] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() / 2);
         LANES[2] = (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() * 5 / 6);
 
-        this.player = player;
-        float playerY = (float)this.player.getTexture().getHeight() * heightScale/2;
+        float playerY = (float)player.getTexture().getHeight() * heightScale/2;
         float playerX = LANES[1] - SINGLE_PLAYER_WIDTH * widthScale/2;
         Rectangle rectangle = new Rectangle(playerX, playerY, SINGLE_PLAYER_WIDTH * widthScale, SINGLE_PLAYER_HEIGHT * heightScale);
-        this.player.setRectangle(rectangle);
-
-        this.totaltime = 0;
+        player.setRectangle(rectangle);
+        singlePlayerGameThread.setPlayer(player);
+        this.player = player;
 
         this.menuButton = new Rectangle(10, MyAvalancheRushGame.INSTANCE.getScreenHeight() - MENU_BUTTON.getHeight() * heightScale - 10, MENU_BUTTON.getWidth() * widthScale, MENU_BUTTON.getHeight() * heightScale);
 
@@ -98,23 +97,6 @@ public class GameViewSinglePlayer extends RenderNotifier {
             notifyObservers(Collections.singletonList(observers.get(1)), EventType.TAKE_UP_SNOWBOARD_POWER_UP);
         }
         float elapsedTime = Gdx.graphics.getDeltaTime();
-        float vehicleMultiplier = 1.0f;
-        List<PowerUp> powerUpsToRemove = new ArrayList<>();
-        for (PowerUp powerUp: player.getPowerUps()){
-            powerUp.setTime(powerUp.getTime() - elapsedTime);
-            if(powerUp.getTime() < 0){
-                powerUpsToRemove.add(powerUp);
-            }
-            if(powerUp.getType() == PowerUpType.SNOWBOARD){
-                vehicleMultiplier = 2.0f;
-            }
-        }
-        for(PowerUp powerUpToRemove: powerUpsToRemove){
-            player.getPowerUps().remove(powerUpToRemove);
-        }
-        totaltime += elapsedTime;
-        singlePlayerGameThread.gameScore += elapsedTime * 10 * vehicleMultiplier;
-        singlePlayerGameThread.gameSpeed += elapsedTime * 6;
         notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

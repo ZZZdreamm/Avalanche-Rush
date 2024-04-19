@@ -30,9 +30,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Queue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class GamePlayController implements EventObserver, RenderObserver {
-    private GameThread gameThread;
     private PlayerGameThread playerGameThread;
     private GameMap gameMap;
     private ObstacleFactory obstacleFactory;
@@ -41,7 +43,6 @@ public class GamePlayController implements EventObserver, RenderObserver {
     private int lastTrackObstacleSpawned;
     private int obstaclesThreshold, obstaclesPerPowerUp;
     public GamePlayController(PlayerGameThread playerGameThread){
-        this.gameThread = GameThread.getInstance();
         this.playerGameThread = playerGameThread;
         this.gameMap = playerGameThread.getGameMap();
         this.obstacleFactory = ObstacleFactory.getInstance();
@@ -58,6 +59,15 @@ public class GamePlayController implements EventObserver, RenderObserver {
     }
     @Override
     public void notifyRender(float elapsedTime) {
+        float vehicleMultiplier = 1.0f;
+        for (PowerUp powerUp: playerGameThread.getPlayer().getPowerUps()){
+            if(powerUp.getType() == PowerUpType.SNOWBOARD){
+                vehicleMultiplier = 2.0f;
+                break;
+            }
+        }
+        playerGameThread.gameScore += elapsedTime * 10 * vehicleMultiplier;
+        playerGameThread.gameSpeed += elapsedTime * 6;
         generateObstacle(elapsedTime);
         generatePowerUp(elapsedTime);
     }

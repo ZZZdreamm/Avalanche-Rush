@@ -4,6 +4,7 @@ import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Interfaces.EventObserver;
+import com.avalancherush.game.Interfaces.RenderObserver;
 import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.Models.PowerUp;
 import com.badlogic.gdx.utils.Timer;
@@ -19,7 +20,10 @@ import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER_JUMPIN
 import static com.avalancherush.game.Configuration.Textures.SKIN;
 import static com.avalancherush.game.Configuration.Textures.SKIN_JUMP;
 
-public class PlayerController implements EventObserver {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlayerController implements RenderObserver, EventObserver {
     private PowerUpFactory powerUpFactory;
     private Player player;
     public PlayerController() {
@@ -80,5 +84,23 @@ public class PlayerController implements EventObserver {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    @Override
+    public void notifyRender(float elapsedTime) {
+        updatePlayersPowerUps(elapsedTime);
+    }
+
+    private void updatePlayersPowerUps(float elapsedTime){
+        List<PowerUp> powerUpsToRemove = new ArrayList<>();
+        for (PowerUp powerUp: player.getPowerUps()){
+            powerUp.setTime(powerUp.getTime() - elapsedTime);
+            if(powerUp.getTime() < 0){
+                powerUpsToRemove.add(powerUp);
+            }
+        }
+        for(PowerUp powerUpToRemove: powerUpsToRemove){
+            player.getPowerUps().remove(powerUpToRemove);
+        }
     }
 }
