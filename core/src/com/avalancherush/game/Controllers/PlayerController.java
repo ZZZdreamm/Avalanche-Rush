@@ -4,6 +4,7 @@ import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Interfaces.EventObserver;
+import com.avalancherush.game.Interfaces.PlayerGameThread;
 import com.avalancherush.game.Interfaces.RenderObserver;
 import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.Models.PowerUp;
@@ -25,9 +26,11 @@ import java.util.List;
 
 public class PlayerController implements RenderObserver, EventObserver {
     private PowerUpFactory powerUpFactory;
+    private PlayerGameThread playerGameThread;
     private Player player;
-    public PlayerController() {
+    public PlayerController(PlayerGameThread playerGameThread) {
         this.powerUpFactory = PowerUpFactory.getInstance();
+        this.playerGameThread = playerGameThread;
     }
 
     @Override
@@ -35,7 +38,6 @@ public class PlayerController implements RenderObserver, EventObserver {
         switch (eventType){
             case SLIDED_UP: {
                 player.setJumping(true);
-//                Texture textureBeforeJump = player.getTexture();
                 player.setTexture(player.getSkin() == SkinType.BASIC ? SINGLE_PLAYER_JUMPING : SKIN_JUMP);
                 Timer.schedule(new Timer.Task() {
                     @Override
@@ -59,6 +61,39 @@ public class PlayerController implements RenderObserver, EventObserver {
                     break;
                 }
             }
+        }
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    @Override
+    public void notifyRender(float elapsedTime) {
+        PowerUpType catchedPowerUpType = checkGettingPowerUp();
+        if(catchedPowerUpType == PowerUpType.HELMET){
+            playerTakesPowerUp(EventType.TAKE_UP_HELMET_POWER_UP);
+        }else if(catchedPowerUpType == PowerUpType.SNOWBOARD){
+            playerTakesPowerUp(EventType.TAKE_UP_SNOWBOARD_POWER_UP);
+        }
+        updatePlayersPowerUps(elapsedTime);
+    }
+
+    private void updatePlayersPowerUps(float elapsedTime){
+        List<PowerUp> powerUpsToRemove = new ArrayList<>();
+        for (PowerUp powerUp: player.getPowerUps()){
+            powerUp.setTime(powerUp.getTime() - elapsedTime);
+            if(powerUp.getTime() < 0){
+                powerUpsToRemove.add(powerUp);
+            }
+        }
+        for(PowerUp powerUpToRemove: powerUpsToRemove){
+            player.getPowerUps().remove(powerUpToRemove);
+        }
+    }
+
+    private void playerTakesPowerUp(EventType eventType){
+        switch (eventType){
             case TAKE_UP_HELMET_POWER_UP: {
                 for (PowerUp takenPowerUp: player.getPowerUps()){
                     if(takenPowerUp.getType() == PowerUpType.HELMET){
@@ -82,25 +117,13 @@ public class PlayerController implements RenderObserver, EventObserver {
         }
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    @Override
-    public void notifyRender(float elapsedTime) {
-        updatePlayersPowerUps(elapsedTime);
-    }
-
-    private void updatePlayersPowerUps(float elapsedTime){
-        List<PowerUp> powerUpsToRemove = new ArrayList<>();
-        for (PowerUp powerUp: player.getPowerUps()){
-            powerUp.setTime(powerUp.getTime() - elapsedTime);
-            if(powerUp.getTime() < 0){
-                powerUpsToRemove.add(powerUp);
+    private PowerUpType checkGettingPowerUp(){
+        for(PowerUp powerUp: playerGameThread.getGameMap().powerUps){
+            if(playerGameThread.getPlayer().collides(powerUp.getRectangle())){
+                playerGameThread.getGameMap().powerUps.removeValue(powerUp, true);
+                return powerUp.getType();
             }
         }
-        for(PowerUp powerUpToRemove: powerUpsToRemove){
-            player.getPowerUps().remove(powerUpToRemove);
-        }
+        return null;
     }
 }

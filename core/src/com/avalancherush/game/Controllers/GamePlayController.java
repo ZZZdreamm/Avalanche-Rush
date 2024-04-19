@@ -145,4 +145,5 @@ public class GamePlayController implements EventObserver, RenderObserver {
         gameMap.powerUps = powerUpTemp;
     }
 
+
 }

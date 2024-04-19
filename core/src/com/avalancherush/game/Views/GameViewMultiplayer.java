@@ -97,12 +97,6 @@ public class GameViewMultiplayer extends RenderNotifier {
             MyAvalancheRushGame.INSTANCE.getMusicGame().pause();
             MyAvalancheRushGame.INSTANCE.getMusicMenu().play();
         }
-        PowerUpType catchedPowerUpType = checkGettingPowerUp();
-        if(catchedPowerUpType == PowerUpType.HELMET){
-            notifyObservers(Collections.singletonList(observers.get(1)), EventType.TAKE_UP_HELMET_POWER_UP);
-        }else if(catchedPowerUpType == PowerUpType.SNOWBOARD){
-            notifyObservers(Collections.singletonList(observers.get(1)), EventType.TAKE_UP_SNOWBOARD_POWER_UP);
-        }
         float elapsedTime = Gdx.graphics.getDeltaTime();
         notifyRenderObservers(renderObservers, elapsedTime);
         Gdx.gl.glClearColor(1,1,1,1);

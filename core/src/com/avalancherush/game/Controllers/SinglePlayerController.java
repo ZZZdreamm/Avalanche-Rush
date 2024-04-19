@@ -41,7 +41,7 @@ public class SinglePlayerController implements EventObserver {
             singlePlayerGameThread.getGameMap().powerUps = new Queue<>();
             singlePlayerGameThread.gameScore = 0;
             GamePlayController gamePlayController = new GamePlayController(SinglePlayerGameThread.getInstance());
-            PlayerController playerController = new PlayerController();
+            PlayerController playerController = new PlayerController(SinglePlayerGameThread.getInstance());
             Player player = new Player();
             player.setTrack(2);
             player.setSkin(jsonEditor.getSkin() == "BASIC" ? SkinType.BASIC : SkinType.MASTER);
@@ -51,6 +51,7 @@ public class SinglePlayerController implements EventObserver {
             eventObserverList.add(playerController);
             List<RenderObserver> renderObserverList = new ArrayList<>();
             renderObserverList.add(gamePlayController);
+            renderObserverList.add(playerController);
             gameViewSinglePlayer = new GameViewSinglePlayer(player, eventObserverList, renderObserverList);
 
             MyAvalancheRushGame.INSTANCE.setScreen(gameViewSinglePlayer);

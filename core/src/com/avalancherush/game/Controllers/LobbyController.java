@@ -33,7 +33,7 @@ public class LobbyController implements EventObserver{
             MyAvalancheRushGame.INSTANCE.getMusicMenu().pause();
             MyAvalancheRushGame.INSTANCE.getMusicGame().play();
             GamePlayController gamePlayController = new GamePlayController(MultiPlayerGameThread.getInstance());
-            PlayerController playerController = new PlayerController();
+            PlayerController playerController = new PlayerController(MultiPlayerGameThread.getInstance());
             Player player = new Player();
             player.setTrack(2);
             player.setSkin(jsonEditor.getSkin() == "BASIC" ? SkinType.BASIC : SkinType.MASTER);
@@ -43,6 +43,7 @@ public class LobbyController implements EventObserver{
             eventObserverList.add(playerController);
             List<RenderObserver> renderObserverList = new ArrayList<>();
             renderObserverList.add(gamePlayController);
+            renderObserverList.add(playerController);
             this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
             singlePlayerGameThread.gameSpeed = BASIC_GAME_SPEED;
             singlePlayerGameThread.getGameMap().obstacles = new Queue<>();
