@@ -11,7 +11,6 @@ import static com.avalancherush.game.Globals.Textures.LINE;
 import static com.avalancherush.game.Globals.Textures.MENU_BUTTON;
 import static com.avalancherush.game.Globals.Textures.SCOREBOARD;
 import static com.avalancherush.game.Globals.Textures.X2_SPEED;
-import static com.badlogic.gdx.math.MathUtils.random;
 
 import com.avalancherush.game.Globals.Textures;
 import com.avalancherush.game.Enums.EventType;
@@ -94,12 +93,6 @@ public class GameViewSinglePlayer extends RenderNotifier {
         batch.begin();
         batch.draw(LINE, (float) MyAvalancheRushGame.INSTANCE.getScreenWidth() /3, 0, LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
         batch.draw(LINE, (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() * 2) /3, 0, LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
-//        for(Obstacle obstacle: gameMap.obstacles){
-//            obstacle.draw(batch);
-//        }
-//        for (PowerUp powerUp: gameMap.powerUps){
-//            powerUp.draw(batch);
-//        }
         gameMap.draw(batch);
         player.draw(batch);
 
@@ -196,15 +189,5 @@ public class GameViewSinglePlayer extends RenderNotifier {
         }
         return false;
     }
-//    public PowerUpType checkGettingPowerUp(){
-//        for(PowerUp powerUp: gameMap.powerUps){
-//            if(player.collides(powerUp.getRectangle())){
-//                gameMap.powerUps.removeValue(powerUp, true);
-//                return powerUp.getType();
-//            }
-//        }
-//        return null;
-//    }
-
 }
 

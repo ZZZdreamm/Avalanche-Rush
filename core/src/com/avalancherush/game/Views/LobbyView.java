@@ -60,7 +60,7 @@ public class LobbyView extends BasicView {
         fontTitle.getData().setScale(3f * heightScale);
 
         fontText = BIG_BLACK_FONT;
-        fontText.getData().setScale(1.0f * heightScale);
+        fontText.getData().setScale(1 * heightScale);
 
 
         this.database = gameThread.getDatabase();

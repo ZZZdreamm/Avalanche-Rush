@@ -2,7 +2,6 @@ package com.avalancherush.game.Models;
 
 import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Interfaces.Collidable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class PowerUp extends Collidable {
 

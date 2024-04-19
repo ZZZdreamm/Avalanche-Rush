@@ -1,24 +1,11 @@
 package com.avalancherush.game;
 
-import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Views.MenuView;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.Queue;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
-
 public class MyAvalancheRushGame extends Game {
 
 	public static MyAvalancheRushGame INSTANCE;

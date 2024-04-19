@@ -2,11 +2,10 @@ package com.avalancherush.game.Models;
 
 import com.avalancherush.game.Enums.ObstacleType;
 import com.avalancherush.game.Interfaces.Collidable;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Obstacle extends Collidable {
     private ObstacleType type;
-    private int track; // new thing - on which track is this obstacle
+    private int track; // which track is this obstacle
     private boolean jumpable;
 
     public Obstacle(){

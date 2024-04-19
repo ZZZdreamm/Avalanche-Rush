@@ -57,7 +57,6 @@ public class GameThread {
     public void setData(String name, String skin) {
         FileHandle file = Gdx.files.local("assets/data.json");
         Json json = new Json();
-//            FileHandle file = Gdx.files.local("data.json");
         instance.getJsonIntance().setName(name);
         instance.getJsonIntance().setSkin(skin);
         System.out.println(json.prettyPrint(instance.jsonInstance));

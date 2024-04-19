@@ -26,7 +26,4 @@ public abstract class Drawable {
     public void setTexture(Texture texture) {
         this.texture = texture;
     }
-    //    void update(){
-//
-//    };
 }

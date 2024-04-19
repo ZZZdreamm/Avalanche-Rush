@@ -43,18 +43,6 @@ public class MultiPlayerView extends BasicView {
 
         this.fontText = BIG_BLACK_FONT;
         this.fontText.getData().setScale(1.2f * heightScale);
-
-        /*
-        this.joinButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, (MyAvalancheRushGame.INSTANCE.getScreenHeight() - WOOD_BUTTON.getHeight()) / 2 + 50, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
-        this.createButton = new Rectangle((MyAvalancheRushGame.INSTANCE.getScreenWidth() - WOOD_BUTTON.getWidth()) / 2, joinButton.y - WOOD_BUTTON.getHeight() - 20, WOOD_BUTTON.getWidth(), WOOD_BUTTON.getHeight());
-        this.homeButton = new Rectangle(50, 50, HOME_BUTTON.getWidth(), HOME_BUTTON.getHeight());
-
-        fontText = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontText.getData().setScale(0.9f);
-
-        fontTitle = new BitmapFont(Gdx.files.internal("font2.fnt"));
-        fontTitle.getData().setScale(1f);
-         */
     }
 
     @Override

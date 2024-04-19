@@ -74,11 +74,6 @@ public class GameViewMultiplayer extends RenderNotifier {
         player.setRectangle(rectangle);
         multiPlayerGameThread.setPlayer(player);
         this.player = player;
-
-
-
-//        this.menuButton = new Rectangle(10, MyAvalancheRushGame.INSTANCE.getScreenHeight() - MENU_BUTTON.getHeight() - 10, MENU_BUTTON.getWidth(), MENU_BUTTON.getHeight());
-
         this.observers = eventObserverList;
         this.renderObservers = renderObserverList;
     }
@@ -100,12 +95,6 @@ public class GameViewMultiplayer extends RenderNotifier {
         batch.begin();
         batch.draw(LINE, (float) MyAvalancheRushGame.INSTANCE.getScreenWidth() /3, 0 , LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
         batch.draw(LINE, (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() * 2) /3, 0 , LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
-//        for(Obstacle obstacle: gameMap.obstacles){
-//            obstacle.draw(batch);
-//        }
-//        for (PowerUp powerUp: gameMap.powerUps){
-//            powerUp.draw(batch);
-//        }
         gameMap.draw(batch);
         player.draw(batch);
 
@@ -122,8 +111,6 @@ public class GameViewMultiplayer extends RenderNotifier {
             }
 
             float timePercentage = takenPowerUp.getTime() / POWER_UP_HELMET_TIME;
-//           POWER_UP_BAR_1.getWidth()
-//            POWER_UP_BAR_1.getHeight()
             if (timePercentage <= 0.25){
                 batch.draw(Textures.POWER_UP_BAR_1, 10, yOffset, MyAvalancheRushGame.INSTANCE.getScreenWidth()/8  , MyAvalancheRushGame.INSTANCE.getScreenWidth()/20);
             }
@@ -152,7 +139,6 @@ public class GameViewMultiplayer extends RenderNotifier {
         }
         scoreFont.draw(batch,scoreYou,scoreboardX+scoreboardWidth/2 - scoreYou.width/2,scoreboardY + scoreboardHeight/2 + scoreYou.height/2);
         scoreFont.draw(batch, scoreFriend,scoreboardX+scoreboardWidth/2 - scoreFriend.width/2,scoreboardY + scoreFriend.height/2 - scoreboardHeight/2 - 5 );
-//        batch.draw(MENU_BUTTON, menuButton.x, menuButton.y);
         batch.end();
 
         if(server.CurrentPlayer.equalsIgnoreCase("PlayerA")){
@@ -188,11 +174,6 @@ public class GameViewMultiplayer extends RenderNotifier {
                     notifyObservers(Collections.singletonList(observers.get(1)), EventType.SLIDED_UP);
                 }
                 lastTouchTime = currentTime;
-
-//                if (menuButton.contains(touchPos.x, touchPos.y)) {
-//                    notifyObservers(observers, EventType.GAME_MENU_BUTTON);
-//                    return true;
-//                }
                 return true;
             }
 

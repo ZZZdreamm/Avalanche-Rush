@@ -86,7 +86,6 @@ public class JoinView extends BasicView implements Input.TextInputListener {
         float insertCodeX = woodBeamX + (woodBeamWidth - insertCodeLayout.width) / 2;
         float insertCodeY = woodBeamY + (74 * heightScale + insertCodeLayout.height) / 2;
         fontText.draw(batch, insertCodeLayout, insertCodeX, insertCodeY);
-        //fontText.draw(batch, "Insert code: " + code, CodeX - 30 * widthScale, woodBeamY + 50 * heightScale);
         batch.draw(HOME_BUTTON, homeButton.x, homeButton.y, homeButton.width, homeButton.height);
         batch.draw(PLAY_BUTTON, playButton.x, playButton.y, playButton.width, 74 * heightScale);
 
