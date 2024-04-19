@@ -1,4 +1,4 @@
-package com.avalancherush.game.Configuration;
+package com.avalancherush.game.Globals;
 
 import com.badlogic.gdx.Gdx;
 

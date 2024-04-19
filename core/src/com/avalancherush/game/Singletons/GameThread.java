@@ -1,26 +1,14 @@
 package com.avalancherush.game.Singletons;
 
 
-import static com.avalancherush.game.Configuration.GlobalVariables.BASIC_GAME_SPEED;
-
 import com.avalancherush.game.FirebaseInterface;
 
 import com.avalancherush.game.Models.JsonEditor;
-import com.avalancherush.game.Models.Obstacle;
-import com.avalancherush.game.Models.PowerUp;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.Queue;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.logging.FileHandler;
 
 
 public class GameThread {

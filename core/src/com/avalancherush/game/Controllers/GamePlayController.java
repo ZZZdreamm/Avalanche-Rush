@@ -1,15 +1,13 @@
 package com.avalancherush.game.Controllers;
 
-import static com.avalancherush.game.Configuration.GlobalVariables.BASIC_GAME_SPEED;
-import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_ROCK_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_TREE_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_SNOWBOARD_TIME;
-import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
-import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
-import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
+import static com.avalancherush.game.Globals.GlobalVariables.BASIC_GAME_SPEED;
+import static com.avalancherush.game.Globals.GlobalVariables.LANES;
+import static com.avalancherush.game.Globals.GlobalVariables.OBSTACLE_HEIGHT;
+import static com.avalancherush.game.Globals.GlobalVariables.OBSTACLE_ROCK_WIDTH;
+import static com.avalancherush.game.Globals.GlobalVariables.OBSTACLE_TREE_WIDTH;
+import static com.avalancherush.game.Globals.GlobalVariables.SINGLE_PLAYER_HEIGHT;
+import static com.avalancherush.game.Globals.GlobalVariables.heightScale;
+import static com.avalancherush.game.Globals.GlobalVariables.widthScale;
 import static com.badlogic.gdx.math.MathUtils.random;
 
 import com.avalancherush.game.Enums.EventType;
@@ -22,17 +20,11 @@ import com.avalancherush.game.Models.GameMap;
 import com.avalancherush.game.Models.Obstacle;
 import com.avalancherush.game.Models.PowerUp;
 import com.avalancherush.game.MyAvalancheRushGame;
-import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.ObstacleFactory;
 import com.avalancherush.game.Singletons.PowerUpFactory;
-import com.avalancherush.game.Singletons.SinglePlayerGameThread;
 import com.avalancherush.game.Views.GameMenuView;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Queue;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class GamePlayController implements EventObserver, RenderObserver {

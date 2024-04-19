@@ -1,18 +1,18 @@
 package com.avalancherush.game.Views;
 
-import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
-import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
-import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_HEIGHT;
-import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
-import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
-import static com.avalancherush.game.Configuration.Textures.LINE;
-import static com.avalancherush.game.Configuration.Textures.SCOREBOARD;
-import static com.avalancherush.game.Configuration.Textures.X2_SPEED;
+import static com.avalancherush.game.Globals.Fonts.BIG_BLACK_FONT;
+import static com.avalancherush.game.Globals.GlobalVariables.LANES;
+import static com.avalancherush.game.Globals.GlobalVariables.POWER_UP_HELMET_TIME;
+import static com.avalancherush.game.Globals.GlobalVariables.SINGLE_PLAYER_HEIGHT;
+import static com.avalancherush.game.Globals.GlobalVariables.SINGLE_PLAYER_WIDTH;
+import static com.avalancherush.game.Globals.GlobalVariables.heightScale;
+import static com.avalancherush.game.Globals.GlobalVariables.widthScale;
+import static com.avalancherush.game.Globals.Textures.LINE;
+import static com.avalancherush.game.Globals.Textures.SCOREBOARD;
+import static com.avalancherush.game.Globals.Textures.X2_SPEED;
 import static com.badlogic.gdx.math.MathUtils.random;
 
-import com.avalancherush.game.Configuration.Textures;
+import com.avalancherush.game.Globals.Textures;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.ObstacleType;
 import com.avalancherush.game.Enums.PowerUpType;
@@ -26,20 +26,15 @@ import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.Models.PowerUp;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Server;
-import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.MultiPlayerGameThread;
-import com.avalancherush.game.Singletons.SinglePlayerGameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

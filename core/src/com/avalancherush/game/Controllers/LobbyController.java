@@ -1,7 +1,5 @@
 package com.avalancherush.game.Controllers;
 
-import static com.avalancherush.game.Configuration.GlobalVariables.BASIC_GAME_SPEED;
-
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Interfaces.EventObserver;
@@ -11,10 +9,8 @@ import com.avalancherush.game.Models.Player;
 import com.avalancherush.game.MyAvalancheRushGame;
 import com.avalancherush.game.Singletons.GameThread;
 import com.avalancherush.game.Singletons.MultiPlayerGameThread;
-import com.avalancherush.game.Singletons.SinglePlayerGameThread;
 import com.avalancherush.game.Views.GameViewMultiplayer;
 import com.avalancherush.game.Views.MenuView;
-import com.badlogic.gdx.utils.Queue;
 
 import java.util.ArrayList;
 import java.util.List;

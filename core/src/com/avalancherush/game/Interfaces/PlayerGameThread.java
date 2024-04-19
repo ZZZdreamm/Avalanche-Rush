@@ -1,8 +1,7 @@
 package com.avalancherush.game.Interfaces;
 
-import static com.avalancherush.game.Configuration.GlobalVariables.BASIC_GAME_SPEED;
+import static com.avalancherush.game.Globals.GlobalVariables.BASIC_GAME_SPEED;
 
-import com.avalancherush.game.Configuration.GlobalVariables;
 import com.avalancherush.game.Models.GameMap;
 import com.avalancherush.game.Models.Player;
 

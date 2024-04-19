@@ -1,31 +1,22 @@
 package com.avalancherush.game.Views;
 
-import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
-import static com.avalancherush.game.Configuration.GlobalVariables.BASE_HEIGHT;
-import static com.avalancherush.game.Configuration.GlobalVariables.BASE_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.calculateScales;
-import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
-import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
-import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
-import static com.avalancherush.game.Configuration.Textures.PROFILE_BUTTON;
-import static com.avalancherush.game.Configuration.Textures.SETTINGS_BUTTON;
-import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
+import static com.avalancherush.game.Globals.Fonts.BIG_BLACK_FONT;
+import static com.avalancherush.game.Globals.GlobalVariables.calculateScales;
+import static com.avalancherush.game.Globals.GlobalVariables.heightScale;
+import static com.avalancherush.game.Globals.GlobalVariables.widthScale;
+import static com.avalancherush.game.Globals.Textures.BACKGROUND;
+import static com.avalancherush.game.Globals.Textures.PROFILE_BUTTON;
+import static com.avalancherush.game.Globals.Textures.SETTINGS_BUTTON;
+import static com.avalancherush.game.Globals.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.Controllers.MainMenuController;
-import com.avalancherush.game.Controllers.SinglePlayerController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
-import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 

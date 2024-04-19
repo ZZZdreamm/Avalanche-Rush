@@ -1,10 +1,8 @@
 package com.avalancherush.game.Models;
 
-import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
-import static com.avalancherush.game.Configuration.Textures.SKIN;
+import static com.avalancherush.game.Globals.Textures.SINGLE_PLAYER;
+import static com.avalancherush.game.Globals.Textures.SKIN;
 
-import com.avalancherush.game.Configuration.Textures;
-import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Interfaces.Collidable;
 

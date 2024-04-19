@@ -1,26 +1,22 @@
 package com.avalancherush.game.Views;
 
-import static com.avalancherush.game.Configuration.Fonts.BIG_BLACK_FONT;
-import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
-import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
-import static com.avalancherush.game.Configuration.Textures.BACKGROUND;
-import static com.avalancherush.game.Configuration.Textures.HOME_BUTTON;
-import static com.avalancherush.game.Configuration.Textures.VOLUME_DOWN_BUTTON;
-import static com.avalancherush.game.Configuration.Textures.VOLUME_UP_BUTTON;
-import static com.avalancherush.game.Configuration.Textures.WOOD_BUTTON;
+import static com.avalancherush.game.Globals.Fonts.BIG_BLACK_FONT;
+import static com.avalancherush.game.Globals.GlobalVariables.heightScale;
+import static com.avalancherush.game.Globals.GlobalVariables.widthScale;
+import static com.avalancherush.game.Globals.Textures.BACKGROUND;
+import static com.avalancherush.game.Globals.Textures.HOME_BUTTON;
+import static com.avalancherush.game.Globals.Textures.VOLUME_DOWN_BUTTON;
+import static com.avalancherush.game.Globals.Textures.VOLUME_UP_BUTTON;
+import static com.avalancherush.game.Globals.Textures.WOOD_BUTTON;
 
 import com.avalancherush.game.Controllers.GameMenuController;
 import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Interfaces.BasicView;
 import com.avalancherush.game.MyAvalancheRushGame;
-import com.avalancherush.game.Singletons.GameThread;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 

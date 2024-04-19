@@ -12,14 +12,14 @@ import com.badlogic.gdx.utils.Timer;
 
 import com.avalancherush.game.Singletons.PowerUpFactory;
 
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_SNOWBOARD_TIME;
-import static com.avalancherush.game.Configuration.GlobalVariables.SINGLE_PLAYER_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
-import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER;
-import static com.avalancherush.game.Configuration.Textures.SINGLE_PLAYER_JUMPING;
-import static com.avalancherush.game.Configuration.Textures.SKIN;
-import static com.avalancherush.game.Configuration.Textures.SKIN_JUMP;
+import static com.avalancherush.game.Globals.GlobalVariables.POWER_UP_HELMET_TIME;
+import static com.avalancherush.game.Globals.GlobalVariables.POWER_UP_SNOWBOARD_TIME;
+import static com.avalancherush.game.Globals.GlobalVariables.SINGLE_PLAYER_WIDTH;
+import static com.avalancherush.game.Globals.GlobalVariables.LANES;
+import static com.avalancherush.game.Globals.Textures.SINGLE_PLAYER;
+import static com.avalancherush.game.Globals.Textures.SINGLE_PLAYER_JUMPING;
+import static com.avalancherush.game.Globals.Textures.SKIN;
+import static com.avalancherush.game.Globals.Textures.SKIN_JUMP;
 
 import java.util.ArrayList;
 import java.util.List;

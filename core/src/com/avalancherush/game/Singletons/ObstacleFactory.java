@@ -1,16 +1,15 @@
 package com.avalancherush.game.Singletons;
 
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_ROCK_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_TREE_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
-import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
+import static com.avalancherush.game.Globals.GlobalVariables.OBSTACLE_HEIGHT;
+import static com.avalancherush.game.Globals.GlobalVariables.OBSTACLE_ROCK_WIDTH;
+import static com.avalancherush.game.Globals.GlobalVariables.OBSTACLE_TREE_WIDTH;
+import static com.avalancherush.game.Globals.GlobalVariables.heightScale;
+import static com.avalancherush.game.Globals.GlobalVariables.widthScale;
 
-import com.avalancherush.game.Configuration.Textures;
+import com.avalancherush.game.Globals.Textures;
 import com.avalancherush.game.Enums.ObstacleType;
 import com.avalancherush.game.Models.Obstacle;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class ObstacleFactory {
     private static ObstacleFactory instance;

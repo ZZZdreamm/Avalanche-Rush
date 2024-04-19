@@ -1,13 +1,13 @@
 package com.avalancherush.game.Singletons;
 
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HEIGHT;
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_HELMET_TIME;
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_SNOWBOARD_TIME;
-import static com.avalancherush.game.Configuration.GlobalVariables.POWER_UP_WIDTH;
-import static com.avalancherush.game.Configuration.GlobalVariables.heightScale;
-import static com.avalancherush.game.Configuration.GlobalVariables.widthScale;
+import static com.avalancherush.game.Globals.GlobalVariables.POWER_UP_HEIGHT;
+import static com.avalancherush.game.Globals.GlobalVariables.POWER_UP_HELMET_TIME;
+import static com.avalancherush.game.Globals.GlobalVariables.POWER_UP_SNOWBOARD_TIME;
+import static com.avalancherush.game.Globals.GlobalVariables.POWER_UP_WIDTH;
+import static com.avalancherush.game.Globals.GlobalVariables.heightScale;
+import static com.avalancherush.game.Globals.GlobalVariables.widthScale;
 
-import com.avalancherush.game.Configuration.Textures;
+import com.avalancherush.game.Globals.Textures;
 import com.avalancherush.game.Enums.PowerUpType;
 import com.avalancherush.game.Models.PowerUp;
 import com.badlogic.gdx.math.Rectangle;
