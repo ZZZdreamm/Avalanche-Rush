@@ -1,6 +1,6 @@
 package com.avalancherush.game.Controllers;
 
-Chaimport com.avalancherush.game.Enums.EventType;
+import com.avalancherush.game.Enums.EventType;
 import com.avalancherush.game.Enums.SkinType;
 import com.avalancherush.game.Interfaces.EventObserver;
 import com.avalancherush.game.Interfaces.RenderObserver;
