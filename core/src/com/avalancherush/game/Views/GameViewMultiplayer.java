@@ -105,12 +105,13 @@ public class GameViewMultiplayer extends RenderNotifier {
         batch.begin();
         batch.draw(LINE, (float) MyAvalancheRushGame.INSTANCE.getScreenWidth() /3, 0 , LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
         batch.draw(LINE, (float) (MyAvalancheRushGame.INSTANCE.getScreenWidth() * 2) /3, 0 , LINE.getWidth() * widthScale, MyAvalancheRushGame.INSTANCE.getScreenHeight());
-        for(Obstacle obstacle: gameMap.obstacles){
-            obstacle.draw(batch);
-        }
-        for (PowerUp powerUp: gameMap.powerUps){
-            powerUp.draw(batch);
-        }
+//        for(Obstacle obstacle: gameMap.obstacles){
+//            obstacle.draw(batch);
+//        }
+//        for (PowerUp powerUp: gameMap.powerUps){
+//            powerUp.draw(batch);
+//        }
+        gameMap.draw(batch);
         player.draw(batch);
 
         for (int i = 0; i < player.getPowerUps().size(); i++) {

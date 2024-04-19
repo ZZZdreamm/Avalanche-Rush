@@ -25,10 +25,8 @@ import javax.swing.text.View;
 public class SinglePlayerController implements EventObserver {
 
     private static GameViewSinglePlayer gameViewSinglePlayer = null;
-    private SinglePlayerGameThread singlePlayerGameThread;
     private JsonEditor jsonEditor;
     public SinglePlayerController(){
-        this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
         this.jsonEditor = GameThread.getInstance().getJsonIntance();
     }
     @Override
@@ -36,10 +34,6 @@ public class SinglePlayerController implements EventObserver {
         if(eventType == EventType.HOME_BUTTON_CLICK) {
             MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
         } else if (eventType == EventType.GAME_SINGLE_PLAYER_CLICK) {
-            singlePlayerGameThread.gameSpeed = BASIC_GAME_SPEED;
-            singlePlayerGameThread.getGameMap().obstacles = new Queue<>();
-            singlePlayerGameThread.getGameMap().powerUps = new Queue<>();
-            singlePlayerGameThread.gameScore = 0;
             GamePlayController gamePlayController = new GamePlayController(SinglePlayerGameThread.getInstance());
             PlayerController playerController = new PlayerController(SinglePlayerGameThread.getInstance());
             Player player = new Player();

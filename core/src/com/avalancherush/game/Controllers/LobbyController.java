@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LobbyController implements EventObserver{
-    private SinglePlayerGameThread singlePlayerGameThread;
     private JsonEditor jsonEditor;
     public LobbyController(){
         this.jsonEditor = GameThread.getInstance().getJsonIntance();
@@ -44,11 +43,6 @@ public class LobbyController implements EventObserver{
             List<RenderObserver> renderObserverList = new ArrayList<>();
             renderObserverList.add(gamePlayController);
             renderObserverList.add(playerController);
-            this.singlePlayerGameThread = SinglePlayerGameThread.getInstance();
-            singlePlayerGameThread.gameSpeed = BASIC_GAME_SPEED;
-            singlePlayerGameThread.getGameMap().obstacles = new Queue<>();
-            singlePlayerGameThread.getGameMap().powerUps = new Queue<>();
-            singlePlayerGameThread.gameScore = 0;
             MyAvalancheRushGame.INSTANCE.setScreen(new GameViewMultiplayer(player, eventObserverList, renderObserverList));
         }
     }

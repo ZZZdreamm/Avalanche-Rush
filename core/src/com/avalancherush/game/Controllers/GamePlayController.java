@@ -1,5 +1,6 @@
 package com.avalancherush.game.Controllers;
 
+import static com.avalancherush.game.Configuration.GlobalVariables.BASIC_GAME_SPEED;
 import static com.avalancherush.game.Configuration.GlobalVariables.LANES;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_HEIGHT;
 import static com.avalancherush.game.Configuration.GlobalVariables.OBSTACLE_ROCK_WIDTH;
@@ -44,6 +45,10 @@ public class GamePlayController implements EventObserver, RenderObserver {
     private int obstaclesThreshold, obstaclesPerPowerUp;
     public GamePlayController(PlayerGameThread playerGameThread){
         this.playerGameThread = playerGameThread;
+        playerGameThread.gameSpeed = BASIC_GAME_SPEED;
+        playerGameThread.getGameMap().obstacles = new Queue<>();
+        playerGameThread.getGameMap().powerUps = new Queue<>();
+        playerGameThread.gameScore = 0;
         this.gameMap = playerGameThread.getGameMap();
         this.obstacleFactory = ObstacleFactory.getInstance();
         this.powerUpFactory = PowerUpFactory.getInstance();

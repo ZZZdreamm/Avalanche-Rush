@@ -11,7 +11,6 @@ public class GameEndController implements EventObserver {
     public void notify(EventType eventType, Object... object) {
         if(eventType == EventType.HOME_BUTTON_CLICK) {
             MyAvalancheRushGame.INSTANCE.setScreen(new MenuView());
-
         }
     }
 }
