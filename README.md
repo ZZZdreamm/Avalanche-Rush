@@ -3,9 +3,11 @@
 Avalanche rush is an endless runner game, where the player has to flee from an avalanche while avoiding obstacles, it is inspired by the well-known game "Subway Surfers" but with the addition of a multiplayer mode.
 
 As with Subway Surfers, there are obstacles which must be avoided (trees) by moving in the three different lanes thanks to the tapping function or jumped through the double tap function (rocks), power ups, such as the helmet (allowing you to hit an obstacle without dying) and the snowboard (doubles the score that is obtained for a limited time), all this to try to get the highest possible score.
+![Single Player](assets/singleplayer.png)
 
 The multiplayer mode shares the same game mechanics as the single player, however allowing you to challenge a friend, through the creation of a game lobby with a unique code, to see who gets the highest score.
-Score sharing occurs through a real-time multiplayer function provided by FireBase Database
+Score sharing occurs through a real-time multiplayer function provided by FireBase Database.
+![Multiplayer](assets/multiplayer.png)
 
 ## Contributors
 * Alicja Jonczyk
