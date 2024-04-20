@@ -9,7 +9,25 @@ Avalanche rush is an endless runner game, where the player has to flee from an a
 * Margaux Xu
 * Gagan Gupta
 * Nicolò Costa
-* Nico Hannoun
 
 ## License
 This project is available under a closed license. All rights reserved.
+
+## Requirements
+Android Studio with an emulator / android device
+
+## Installation
+### APK
+From the GitHub folder download the APK and install it on your device
+
+
+### Android Studio
+Download and open the latest version of Android Studio. Now import the project by copying the link from the GitHub folder and pasting it into “Get from VCS -> URL”
+![Import_project](assets/importproject.png)
+
+Press the green triangle button to run the game
+![Run_game](assets/rungame.png)
+
+Now the game should run on the default Android Studio emulator, but if you want you can add one of your own by going to "Menu -> Tools -> Device Manager" or connect your Android device to the computer and play it from there
+![Add_Device](assets/adddevice.png)
+
